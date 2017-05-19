@@ -79,8 +79,23 @@ class DbHandler {
     /**
      * Initialize User Settings
      ****/
-    public function initUserSettings($uid) {
-        $query = "INSERT INTO user_settings (uid) VALUES(".$uid.")";
+    public function initTableRow($table,$column,$value) {
+        $query = "INSERT INTO " . $table . " (".$column.") VALUES(".$value.")";
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+
+        if ($r) {
+            $new_row_id = $this->conn->insert_id;
+            return $new_row_id;
+            } else {
+            return NULL;
+        }
+    }
+
+     /**
+     * Initialize Proforma Table Row with Default Values
+     ****/
+    public function initProformaTableRow($value) {
+        $query = "INSERT INTO `proforma` (`pid`,`commission_percent`, `tca`, `selling_costs_percent`, `buyer_percent`, `apr`, `months`, `fees`, `opening_points`, `tetakawi_share_percent`,`other_costs`,`jeremy_pocket`,`codrin_pocket`) VALUES (" . $value . ", 3, 750, 1, 1, 9, 6, 990, 2, 27.5,0,0,0)";
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
 
         if ($r) {
@@ -108,6 +123,11 @@ class DbHandler {
 
     public function changeSettings($uid,$where,$column,$visible,$table) {
         $query = "UPDATE " . $table . " SET `" . $column . "`='" . $visible . "' WHERE ". $where . " = " . $uid;
+        return $this->conn->query($query) or die($this->conn->error.__LINE__);
+    }
+
+    public function changeProforma($column,$value,$table) {
+        $query = "UPDATE " . $table . " SET `" . $column . "`='" . $value . "' WHERE 1";
         return $this->conn->query($query) or die($this->conn->error.__LINE__);
     }
 

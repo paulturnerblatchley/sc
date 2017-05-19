@@ -11,7 +11,12 @@ app.config(
             })
             .state('dashboard', {
                 url: '/dashboard',
-                template: '<dashboard></dashboard>'
+                template: '<dashboard></dashboard>',
+                resolve: {
+                    getDefaultSettings: ['proforma', function(proforma) {
+                      return proforma.getDefaultSettings('defaultProForma');
+                    }]
+                }
             })
             .state('add-user', {
                 url: '/add-user',
@@ -92,7 +97,18 @@ app.config(
              /* -- Pro Forma -- */
             .state('properties.property.proforma', {
                 url: '/proforma',
-                template: '<pro-forma></pro-forma>'
+                template: '<pro-forma></pro-forma>',
+                resolve: {
+                    getDefaultSettings: ['proforma', function(proforma) {
+                      return proforma.getDefaultSettings('defaultProForma');
+                    }],
+                    getPurchaseCosts: ['proforma', function(proforma) {
+                      return proforma.getPurchaseCosts('purchaseCosts');
+                    }],
+                    getProforma: ['proforma', function(proforma) {
+                      return proforma.getProforma('proforma');
+                    }]
+                }
             })
             /* -- Bids -- */
             .state('properties.property.bids', {

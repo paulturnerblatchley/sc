@@ -15,7 +15,7 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, $rootScope, auth, uiGridConstants, $sessionStorage, $state) {
+        controller: function($scope, $rootScope, auth, uiGridConstants, $sessionStorage, $state, proforma) {
         	$scope.user = $sessionStorage.user;
             $scope.hideColumn = function(col,uid) {
 
@@ -106,6 +106,26 @@ app.component(
                     $state.go('login');
                 });
             };
+
+            $scope.prodef = proforma.defaults;
+
+            for (i in $scope.prodef) {
+            	var temp = $scope.prodef[i];
+            	delete $scope.prodef[i];
+            	i = i.replace(/_/g, " ");
+            	$scope.prodef[i] = temp;
+            }
+
+            $scope.changeProformaDefault = function(k,v) {
+            	var change = {};
+            	change.column = k.replace(/[ ]/g, "_");
+            	change.value = v;
+            	auth.post('changeProformaDefaults', {
+            		change: change
+            	}).then(function(results) {
+            		// Do Nothing
+            	})
+            }
         }
 	}
 ); 

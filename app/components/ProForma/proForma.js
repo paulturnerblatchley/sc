@@ -9,7 +9,7 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, auth, $http, singleproperty) {
+        controller: function($scope, auth, $http, singleproperty, proforma) {
             // Get Property Info
         	$scope.s = singleproperty.property;
 
@@ -27,6 +27,20 @@ app.component(
                 other: [],
                 total: 0
             };
+
+            for (i = 0; i < proforma.purchaseCosts.length; i++) {
+                if (proforma.purchaseCosts[i].pid == $scope.s.pid) {
+                    if (proforma.purchaseCosts[i].category == 'escrow') {
+                        $scope.proforma.purchase_closing_costs.escrow.push(proforma.purchaseCosts[i]);
+                    } else if (proforma.purchaseCosts[i].category == 'title') {
+                        $scope.proforma.purchase_closing_costs.title.push(proforma.purchaseCosts[i]);
+                    } else if (proforma.purchaseCosts[i].category == 'prorations') {
+                        $scope.proforma.purchase_closing_costs.prorations.push(proforma.purchaseCosts[i]);
+                    } else {
+                        $scope.proforma.purchase_closing_costs.other.push(proforma.purchaseCosts[i]);
+                    }
+                }
+            }
 
             function calculateTotalPurchaseCosts() {
                 $scope.proforma.purchase_closing_costs.total = 0;
@@ -52,32 +66,53 @@ app.component(
                 }
             }
 
+            calculateTotalPurchaseCosts();
+
             if ($scope.proforma.purchase_closing_costs.total == 0) {
                 $scope.proforma.purchase_closing_costs.total = $scope.proforma.buy_target * .02;
-            } else {
-                calculateTotalPurchaseCosts()
             }
             
-            // Set Defaults
-            $scope.proforma.loan_amount = $scope.proforma.arv * .7;
-            $scope.proforma.apr = 9;
-            $scope.proforma.months = 6;
-            $scope.proforma.fees = 990;
-            $scope.proforma.opening_points = 2;
-            $scope.proforma.other_costs = 0;
-            $scope.proforma.selling_costs_percent = 1;
-            $scope.proforma.buyer_percent = 1;
-            $scope.proforma.tc = 250;
-            $scope.proforma.accounting = 500;
-            $scope.proforma.tca = $scope.proforma.tc + $scope.proforma.accounting;
-            $scope.proforma.commision_percent = 3;
+
             $scope.proforma.profit_share = 100;
-            $scope.proforma.jeremy_pocket = 0;
-            $scope.proforma.codrin_pocket = 0;
-            $scope.proforma.tetakawi_share_percent = 27.50;
+
+            for(i = 0; i < proforma.proforma.length; i ++) {
+                if (proforma.proforma[i].pid == $scope.s.pid) {
+                    for (j in proforma.proforma[i]) {
+                        $scope.proforma[j] = proforma.proforma[i][j];
+                    }
+                } else {
+                    // Set Defaults
+                    $scope.default = proforma.defaults;
+                    $scope.proforma.loan_amount = $scope.proforma.arv * .7;
+                    $scope.proforma.apr = $scope.default.apr;
+                    $scope.proforma.months = $scope.default.months;
+                    $scope.proforma.fees = $scope.default.fees;
+                    $scope.proforma.opening_points = $scope.default.opening_points;
+                    $scope.proforma.other_costs = 0;
+                    $scope.proforma.selling_costs_percent = $scope.default.selling_closing_costs_percent;
+                    $scope.proforma.buyer_percent = $scope.default.buyers_contribution;
+                    $scope.proforma.tc = $scope.default.tc;
+                    $scope.proforma.accounting = $scope.default.accounting;
+                    $scope.proforma.tca = ($scope.proforma.tc*1) + ($scope.proforma.accounting*1);
+                    $scope.proforma.commission_percent = $scope.default.commission;
+                    $scope.proforma.jeremy_pocket = 0;
+                    $scope.proforma.codrin_pocket = 0;
+                    $scope.proforma.tetakawi_share_percent = $scope.default.tetakawi_share;
+                }
+            }
 
             $scope.addItem = function(item) {
+                var cost = {};
                 for ( i in item ) {
+                    cost.pid = $scope.s.pid; 
+                    cost.category = i;
+                    cost.description = item[i].description;
+                    cost.cost = item[i].cost;
+                    auth.post('addPurchaseCost', {
+                        cost: cost
+                    }).then(function(results) {
+                        auth.toast(results);
+                    });
                     $scope.proforma.purchase_closing_costs[i].push({
                         description: item[i].description,
                         cost: item[i].cost.replace(/[$, ]/g, "")
@@ -101,6 +136,26 @@ app.component(
                     $("footer").css("margin-top", "200px");
                 }
             };
+
+            $scope.changePropValue = function(k,v) {
+                var change = {};
+                change.pid = $scope.s.pid;
+                change.column = k;
+                change.value = v;
+                auth.post('changePropValue', {
+                    change: change
+                });
+            }
+
+            $scope.changeProforma = function(k,v) {
+                var change = {};
+                change.pid = $scope.s.pid;
+                change.column = k;
+                change.value = v;
+                auth.post('changeProforma', {
+                    change: change
+                });
+            }
 
         }
 	}

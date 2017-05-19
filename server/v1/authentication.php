@@ -82,7 +82,7 @@ $app->post('/signUp', function() use ($app) {
         $tabble_name = "users";
         $column_names = array('phone', 'name', 'email', 'password', 'user_role', 'entity', 'contractor_type');
         $result = $db->insertIntoTable($r->customer, $column_names, $tabble_name);
-        $db->initUserSettings($result);
+        $db->initTableRow('user_settings', 'uid', $result);
         if ($result != NULL) {
             $response["status"] = "success";
             $response["message"] = "User account created successfully";
@@ -186,6 +186,114 @@ $app->post('/changeSettings', function() use ($app) {
     } else {
         $response["status"] = "error";
         $response["message"] = "Couldn't change setting. Please refresh and try again.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/defaultProForma', function() use ($app) {
+  $db = new DbHandler();
+  $table = "proforma_defaults";
+  $defaults = $db->getTable($table);
+  echoResponse(200, $defaults);
+});
+
+$app->post('/changeProformaDefaults', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "proforma_defaults";
+    $column = $r->change->column;
+    $value = $r->change->value;
+    $result = $db->changeProforma($column, $value, $table);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Setting changed.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't change setting. Please refresh and try again.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/purchaseCosts', function() use ($app) {
+  $db = new DbHandler();
+  $table = "purchase_closing_costs";
+  $costs = $db->getTable($table);
+  echoResponse(200, $costs);
+});
+
+$app->post('/addPurchaseCost', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "purchase_closing_costs";
+    $category = $r->cost->category;
+    $cost = $r->cost->cost;
+    $description = $r->cost->description;
+    $pid= $r->cost->pid;
+    $column_names = array('category', 'cost', 'description', 'pid');
+    $result = $db->insertIntoTable($r->cost, $column_names, $table);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Item Added.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't add item. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/changePropValue', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "properties";
+    $pid = $r->change->pid;
+    $column = $r->change->column;
+    $value = $r->change->value;
+    $result = $db->updateRow($table, $column, $value, 'pid', $pid);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Property Updated.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Update Property. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/proforma', function() use ($app) {
+  $db = new DbHandler();
+  $table = "proforma";
+  $proforma = $db->getTable($table);
+  echoResponse(200, $proforma);
+});
+
+$app->post('/changeProforma', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "proforma";
+    $pid = $r->change->pid;
+    $column = $r->change->column;
+    $value = $r->change->value;
+    $isRowExists = $db->getOneRecord("select " . $column . " from " . $table . " where pid='" . $pid . "'");
+    if($isRowExists) {
+        $result = $db->updateRow($table, $column, $value, 'pid', $pid);
+    } else {
+        $db->initProformaTableRow($pid);
+        $result = $db->updateRow($table, $column, $value, 'pid', $pid);
+    }    
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Property Updated.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Update Property. Please try again later.";
         echoResponse(201, $response);
     }
 });

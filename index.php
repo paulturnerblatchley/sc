@@ -90,6 +90,7 @@
     <script src="app/components/Rehabs/ganttData.js"></script>
     <script src="app/components/Agents/agentFactory.js"></script>
     <script src="app/shared/comments/commentsFactory.js"></script>
+    <script src="app/components/ProForma/proFormaFactory.js"></script>
     <!-- endinject -->
 
     <!-- inject-shared:js -->

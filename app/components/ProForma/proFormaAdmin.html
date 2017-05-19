@@ -10,17 +10,17 @@
         <tbody class="pre-sales-costs">
           <tr>
             <td colspan="2" class="static"><p>Purchase Price</p></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.buy_target"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.buy_target" ng-change="changePropValue('purchase_cost',proforma.buy_target)"/></td>
           </tr>
           <tr>
             <td class="static"><p>Purchase Closing Costs <i class="glyphicon glyphicon-plus" ng-click="togglePurchaseCosts()"></i></p></td> 
             <td class="static"><p>{{((proforma.purchase_closing_costs.total/proforma.arv) * 100).toFixed(1)}}%</p></td>
-            <td class="static"><p>${{proforma.purchase_closing_costs.total}}</p></td>
+            <td class="static"><p>${{(proforma.purchase_closing_costs.total).toFixed(0)}}</p></td>
           </tr>
           <tr>
             <td class="static"><p>Rehab Estimate</p></td> 
-            <td class="static"><p>{{((proforma.rehab_estimate/proforma.arv).toFixed(2)) * 100}}%</p></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.rehab_estimate"/></td>
+            <td class="static"><p>{{(((proforma.rehab_estimate/proforma.arv).toFixed(2)) * 100).toFixed(2)}}%</p></td> 
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.rehab_estimate" ng-change="changePropValue('rehab_estimate',proforma.rehab_estimate)"/></td>
           </tr>
           <tr>
             <td class="static"><p>Financing</p></td> 
@@ -30,54 +30,53 @@
           <tr>
             <td class="static"><p>Other</p></td>
             <td class="static"><p>{{((proforma.other_costs/proforma.arv)*100).toFixed(2)}}%</p></td>
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.other_costs"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.other_costs" ng-change="changeProforma('other_costs',proforma.other_costs)"/></td>
           </tr>
           <tr class="info">
             <td colspan="2"><h5>Pre-Sales Costs</h5></td> 
-            <td><p>${{proforma.pre_sale_costs = (proforma.buy_target*1) + (proforma.purchase_closing_costs.total*1) + (proforma.rehab_estimate*1) + (proforma.total_finance*1) + (proforma.other_costs*1)}}</p></td>
+            <td><p>${{proforma.pre_sale_costs = ((proforma.buy_target*1) + (proforma.purchase_closing_costs.total*1) + (proforma.rehab_estimate*1) + (proforma.total_finance*1) + (proforma.other_costs*1)).toFixed(0)}}</p></td>
           </tr>
         </tbody>
         <tbody class="sales-costs">
           <tr>
             <td class="static"><p>Selling Closing Costs</p></td>
-            <td><input class="invisible-form" type="text" format="number" ng-model="proforma.selling_costs_percent"/>%</td>
+            <td><input class="invisible-form" type="text" format="number" ng-model="proforma.selling_costs_percent" ng-change="changeProforma('selling_costs_percent',proforma.selling_costs_percent)"/>%</td>
             <td class="static"><p>${{proforma.selling_costs = ((proforma.selling_costs_percent/100)*proforma.arv).toFixed(0)}}</p></td>
           </tr>
           <tr>
             <td class="static"><p>Buyer's Contribution</p></td>  
-             <td><input class="invisible-form" type="text" format="number" ng-model="proforma.buyer_percent"/>%</td>
+             <td><input class="invisible-form" type="text" format="number" ng-model="proforma.buyer_percent" ng-change="changeProforma('buyer_percent',proforma.buyer_percent)"/>%</td>
             <td class="static"><p>${{proforma.buyer_contribution = ((proforma.buyer_percent/100)*proforma.arv).toFixed(0)}}</p></td>
           </tr>
           <tr>
             <td class="static"><p>TC/Accounting</p></td> 
             <td class="static"><p>{{((proforma.tca/proforma.arv)*100).toFixed(1)}}%</p></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.tca"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.tca" ng-change="changeProforma('tca',proforma.tca)"/></td>
           </tr>
           <tr>
-            <td class="static"><p>Commisions</p></td>  
-             <td><input class="invisible-form" type="text" format="number" ng-model="proforma.commision_percent"/>%</td>
-            <td class="static"><p>${{proforma.commision = ((proforma.commision_percent/100)*proforma.arv).toFixed(0)}}</p></td>
+            <td class="static"><p>Commissions</p></td>  
+             <td><input class="invisible-form" type="text" format="number" ng-model="proforma.commission_percent" ng-change="changeProforma('commission_percent',proforma.commission_percent)"/>%</td>
+            <td class="static"><p>${{proforma.commission = ((proforma.commission_percent/100)*proforma.arv).toFixed(0)}}</p></td>
           </tr>
           <tr class="info">
             <td colspan="2"><h5>Sales Costs</h5></td> 
-            <td><p>${{proforma.sales_costs = (proforma.selling_costs*1) + (proforma.buyer_contribution*1) + (proforma.tca*1) + (proforma.commision*1)}}</p></td>
+            <td><p>${{proforma.sales_costs = ((proforma.selling_costs*1) + (proforma.buyer_contribution*1) + (proforma.tca*1) + (proforma.commission*1)).toFixed(0)}}</p></td>
           </tr>
         </tbody>
         <tbody class="total-costs">
           <tr class="info">
             <td><h5>EST COSTS</h5></td> 
             <td><p>{{((proforma.est_cost/proforma.arv)*100).toFixed(1)}}% </p></td>
-            <td><p>${{proforma.est_cost = (proforma.pre_sale_costs*1) + (proforma.sales_costs*1)}}</p></td>
+            <td><p>${{proforma.est_cost = ((proforma.pre_sale_costs*1) + (proforma.sales_costs*1)).toFixed(0)}}</p></td>
           </tr>
         </tbody>
         <tbody>
           <tr>
             <td class="success" colspan="2"><h5>VALUE</h5></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.arv"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.arv" ng-change="changePropValue('arv',proforma.arv)"/></td>
           </tr>
         </tbody>
       </table>
-      
     </div>
     <div class="col-sm-5">
       <table class="table table-bordered">
@@ -89,7 +88,7 @@
         <tbody>
           <tr>
             <td class="static" colspan="2"><p>Loan Amount</p></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.loan_amount"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.loan_amount" ng-change="changeProforma('loan_amount',proforma.loan_amount)"/></td>
           </tr>
           <tr class="static">
             <td colspan="2"><p>LTV</p></td> 
@@ -97,25 +96,25 @@
           </tr>
           <tr>
             <td class="static" colspan="2"><p>APR (%)</p></td> 
-            <td><input class="invisible-form" type="text" ng-model="proforma.apr"/>%</td>
+            <td><input class="invisible-form" type="text" ng-model="proforma.apr" ng-change="changeProforma('apr',proforma.apr)"/>%</td>
           </tr>
           <tr>
             <td class="static"><p>Months</p></td> 
-            <td><input class="invisible-form" type="text" ng-model="proforma.months"/></td>
+            <td><input class="invisible-form" type="text" ng-model="proforma.months" ng-change="changeProforma('months',proforma.months)"/></td>
             <td class="static" format="number"><p>${{proforma.interest = (((proforma.loan_amount*(proforma.apr/100))/12)*proforma.months).toFixed(0)}}</p></td>
           </tr>
           <tr>
             <td class="static" colspan="2"><p>Fees</p></td> 
-            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.fees"/></td>
+            <td>$<input class="invisible-form" type="text" format="number" ng-model="proforma.fees" ng-change="changeProforma('fees',proforma.fees)"/></td>
           </tr>
           <tr>
             <td class="static"><p>Opening Points (%)</p></td> 
-            <td><input class="invisible-form" type="text" ng-model="proforma.opening_points"/>%</td>
-            <td class="static"><p>${{proforma.open_points_cost = proforma.loan_amount*(proforma.opening_points/100)}}</p></td>
+            <td><input class="invisible-form" type="text" ng-model="proforma.opening_points" ng-change="changeProforma('opening_points',proforma.opening_points)"/>%</td>
+            <td class="static"><p>${{proforma.open_points_cost = (proforma.loan_amount*(proforma.opening_points/100)).toFixed(0)}}</p></td>
           </tr>
           <tr class="info">
             <td colspan="2"><p>Total Financials</p></td> 
-            <td><p>${{proforma.total_finance = ((proforma.interest*1) + (proforma.fees*1) + (proforma.open_points_cost*1))}}</p></td>
+            <td><p>${{proforma.total_finance = (((proforma.interest*1) + (proforma.fees*1) + (proforma.open_points_cost*1))).toFixed(0)}}</p></td>
           </tr>
         </tbody>
       </table>
@@ -128,19 +127,19 @@
         <tbody>
           <tr class="static">
             <td><p>Out Of Pocket</p></td> 
-            <td><p>${{proforma.pocket = (proforma.pre_sale_costs*1) - (proforma.loan_amount*1)}}</p></td>
+            <td><p>${{proforma.pocket = ((proforma.pre_sale_costs*1) - (proforma.loan_amount*1)).toFixed(0)}}</p></td>
           </tr>
           <tr>
             <td class="static"><p>Jeremy</p></td> 
-            <td><input class="invisible-form" type="text" ng-model="proforma.jeremy_pocket"/></td>
+            <td><input class="invisible-form" type="text" ng-model="proforma.jeremy_pocket" ng-change="changeProforma('jeremy_pocket',proforma.jeremy_pocket)"/></td>
           </tr>
           <tr>
             <td class="static"><p>Codrin</p></td> 
-            <td><input class="invisible-form" type="text" ng-model="proforma.codrin_pocket"/></td>
+            <td><input class="invisible-form" type="text" ng-model="proforma.codrin_pocket" ng-change="changeProforma('codrin_pocket',proforma.codrin_pocket)"/></td>
           </tr>
           <tr class="static">
             <td><p>Tetakawi</p></td> 
-            <td><p>${{ proforma.tetakawi_pocket = (proforma.pocket*1) - (proforma.jeremy_pocket*1) - (proforma.codrin_pocket*1)}}</p></td>
+            <td><p>${{ proforma.tetakawi_pocket = ((proforma.pocket*1) - (proforma.jeremy_pocket*1) - (proforma.codrin_pocket*1)).toFixed(0)}}</p></td>
           </tr>
         </tbody>
       </table>
@@ -155,7 +154,7 @@
             <td class="Purchase">
               <h5>{{((proforma.profit/proforma.arv)*100).toFixed(2)}}%</h5></td>
             <td class="Purchase">
-              <h5>${{proforma.profit = (proforma.arv*1) - (proforma.est_cost*1)}}</h5></td>
+              <h5>${{proforma.profit = ((proforma.arv*1) - (proforma.est_cost*1)).toFixed(0)}}</h5></td>
               <td><h5>Invested</h5></td>
               <td><h5>Annualized ROI</h5></td>
           </tr>
@@ -170,7 +169,7 @@
           </tr>
           <tr class="static">
             <td><p>Jeremy</p></td> 
-            <td><p>{{proforma.jeremy_percent = ((proforma.profit_share*1) - (proforma.tetakawi_share_percent*1))/2}}%</p></td>
+            <td><p>{{proforma.jeremy_percent = (((proforma.profit_share*1) - (proforma.tetakawi_share_percent*1))/2).toFixed(2)}}%</p></td>
             <td><p>${{proforma.jeremy_profit = ((proforma.profit*1) * (proforma.jeremy_percent/100)).toFixed(0)}}</p></td>
             <td class="static"><p>${{proforma.jeremy_pocket}}</p></td>
             <td class="static"><p>{{((((proforma.jeremy_profit*1)/(proforma.jeremy_pocket*1))*(12/(proforma.months*1)))*100).toFixed(2)}}%</p></td>

@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="form-group col-sm-2 edit-property-btn pull-right">
+	    <button class="btn btn-primary pull-right" ui-sref="properties.property.email">
+	     Create V-Flyer
+	    </button>
+	</div>
+  	<div class="info-table col-sm-8">
+	  <div class="section-header">
+	    <h4><i ng-click="toggle($event)" id="t3-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listing Information</h4>
+	  </div>
+	  <div>
+	    <table id="t3-toggle-table" class="list-details table table-bordered">
+	      <tbody>
+	        <tr>
+	          <td class="col-xs-4">Listed?</td> 
+	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.is_listed"/></td>
+	        </tr>
+	        <tr>
+	          <td class="col-xs-4">Listing Date</td> 
+	          <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.listing_date"/></td>
+	        </tr>
+	        <tr>
+	          <td class="col-xs-4">Listing Price</td> 
+	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price"/></td>
+	        </tr>
+	        <tr>
+	          <td class="col-xs-4">Escrow Price</td> 
+	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price"/></td>
+	        </tr>
+	        <tr>
+	          <td class="col-xs-4">Sale Close Date</td> 
+	          <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.sale_close_date"/></td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </div>    
+	</div>
+</div>

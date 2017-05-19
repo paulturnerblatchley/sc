@@ -1,0 +1,235 @@
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a ui-sref="properties">Properties</a>
+        </li>
+        <li>
+            <a ui-sref="properties.property.dashboard">{{s.address}}</a>
+        </li>
+        <li class="active">Create Email</li>
+    </ul>
+</div>
+<div id="form-loading">
+</div>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 emailer">
+                <div class="page-header">
+                    <h3>
+                        Create a Virtual Flyer for this Property
+                    </h3>
+                </div>
+                <form name="newPropertyForm" class="form-horizontal" role="form" latlng="obj">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h4>Subject</h4>
+                            <div class="form-group">
+                                <input class="col-sm-12 form-control" ng-model="email.subject"  focus>
+                            </div>
+                            <h4>Email Content</h4>
+                            <div class="form-group">
+                                <textarea class="col-sm-12 form-control" rows="10" cols="50" ng-model="email.content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="contact_name">Contact Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Name" name="contact_name" ng-model="email.contact_name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="contact_number">Contact Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Number" name="contact_number" ng-model="email.contact_number"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="contact_name">Contact Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Email" name="contact_email" ng-model="email.contact_email"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="commission">Licensed Agent Commission</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Commission" name="commission" ng-model="email.commission"/>
+                                </div>
+                            </div>
+                            <h4>Attributes</h4>
+                            <div class="form-group">
+                                <h5>Appliances</h5>
+                                <ul class="amenity-list">
+                                    <li ng-repeat="appliance in s.appliances track by $index">{{appliance}}</li>
+                                </ul>
+                                <input id="appliance" type="text" ng-model="appliance" class="form-control">
+                                <button class="btn btn-primary" ng-click="addAppliance(appliance)">Add Appliance...</button>
+                            </div>
+                            <div class="form-group">
+                                <h5>Interior Amenities</h5>
+                                <ul class="amenity-list">
+                                    <li ng-repeat="interior in s.interior track by $index">{{interior}}</li>
+                                </ul>
+                                <input id="interior" type="text" ng-model="interior" class="form-control">
+                                <button class="btn btn-primary" ng-click="addInterior(interior)">Add Amenity...</button>
+                            </div>
+                            <div class="form-group">
+                                <h5>Exterior Amenities</h5>
+                                <ul class="amenity-list">
+                                    <li ng-repeat="exterior in s.exterior track by $index">{{exterior}}</li>
+                                </ul>
+                                <input id="exterior" type="text" ng-model="exterior" class="form-control">
+                                <button class="btn btn-primary" ng-click="addExterior(exterior)">Add Amenity...</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <h4>Property Details</h4>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="address">Listing Price</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Price" name="list_price" ng-model="s.list_price"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="property_type">Property Type</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="property_type" ng-model="s.property_type"/>
+                                        <option value="SFR">SFR</option>
+                                        <option value="Condo">Condo</option>
+                                        <option value="Duplex">Duplex</option>
+                                        <option value="Triplex">Triplex</option>
+                                        <option value="Fourplex">Fourplex</option>
+                                        <option value="MFR">MFR</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="address">Address</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Address" name="address" ng-model="s.address" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="city">City</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="city" placeholder="City" ng-model="s.city" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="zip">ZIP</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="zip" placeholder="ZIP" ng-model="s.zip" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="county">County</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="county" ng-model="s.county"/>
+                                        <option value="SB">SB</option>
+                                        <option value="RIV">RIV</option>
+                                        <option value="LA">LA</option>
+                                        <option value="OC">OC</option>
+                                        <option value="SD">SD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="school_district">School District</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="School District" name="school_district" ng-model="s.school_district"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="year_built">Year Built</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="year_built" placeholder="Year Built" ng-model="s.year_built"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="sqft">Square Footage</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="sqft" placeholder="Sq Ft" ng-model="s.sqft"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="lotsize">Lot Size</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Lot Size" name="lotsize" ng-model="s.lotsize"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="beds">Bedrooms</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Beds" name="beds" ng-model="s.beds" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="baths">Bathrooms</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Baths" name="baths" ng-model="s.baths"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="parking_spaces">Parking Spaces</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Parking Spaces" name="parking_spaces" ng-model="s.parking_spaces"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="agent_name">Agent Name</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Agent Name" name="agent_name" ng-model="s.agent_name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="broker">Broker</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" placeholder="Broker" name="broker" ng-model="s.broker"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="listdesc">Description</label>
+                                <div class="col-sm-9">
+                                  <textarea rows="4" cols="50" class="form-control" name="listdesc" ng-model="s.listdesc"></textarea>
+                                </div>
+                            </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Recepients</h4>
+                            <div class="agent-list table-responsive">
+                                <table class="table table-striped header-fixed">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="agent in agents">
+                                            <td>{{agent.first_name}} {{agent.last_name}}</td>
+                                            <td>{{agent.email}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button id="form-submit-button" type="submit" class="btn btn-lg btn-primary pull-right"  data-ng-disabled="newPropertyForm.$invalid" ng-click="createEmail(email,s,agents)">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->
+<app-footer></app-footer>

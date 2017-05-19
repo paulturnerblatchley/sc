@@ -1,0 +1,52 @@
+<app-header></app-header>
+<!-- Dashboard Template -->
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li class="active">Dashboard</li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="container">
+        <div class="row view-settings">
+            <div class="col-sm-9">
+            </div>
+            <div class="col-sm-3">
+                <div id="user-box" class="user-box">
+                    <div>
+                        <div>
+                        <h4>{{user.name}}</h4>
+                        <ul>
+                            <li>Email: {{user.email}}</li>
+                            <li>Phone: {{user.phone}}</li>
+                        </ul>
+                        <p><a ui-sref="add-user"><button class="btn btn-primary">Add a New User</button></a></p>
+                        <p><button class="btn btn-secondary" ng-click="logout()">Logout</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+            </div>
+            <div class="settings col-sm-3">
+                <h3 class="page-header">Settings</h3>
+                <div class="row" ng-repeat="column in columns">
+                    <div class="col-xs-9">
+                        <h5>{{column.displayName}}</h5>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="onoffswitch pull-right">
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch{{$index}}" checked ng-model="column.visible" ng-change="hideColumn(column,user.uid)" >
+                            <label class="onoffswitch-label" for="myonoffswitch{{$index}}">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

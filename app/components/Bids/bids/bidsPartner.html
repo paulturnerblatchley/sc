@@ -1,0 +1,84 @@
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li><a ng-href="#!/properties/{{s.pid}}">{{s.address}}</a></li>
+    <li class="active">Bids</li>
+  </ul>
+</div>
+<div class="page-content bids">
+  <div class="container">
+  <div class="page-header clearfix">
+    <h1 class="col-xs-10">{{s.address}}</h1>
+  </div>
+    <div class="row">
+      <div class="col-sm-12">
+  			<h3>Submitted Bids</h3>
+        <div class="row" ng-show="submitted">
+          <p>There are currently no bid submissions for this property.</p>
+        </div>
+        <div ng-hide="submitted" class="table-responsive">
+          <table class="table table-striped header-fixed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Labor Costs</th>
+                <th>Material Costs</th>
+                <th>Total Costs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="bid in submitted" ng-click="viewBidDetails(bid.id)">
+                <td>{{bid.name}}</td>
+                <td>{{bid.company}}</td>
+                <td>{{bid.email}}</td>
+                <td>{{bid.phone}}</td>
+                <td>{{bid.labor_costs}}</td>
+                <td>{{bid.material_costs}}</td>
+                <td>{{bid.total_costs}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  		</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Open Bids</h3>
+        <div class="row" ng-show="open">
+          <p>There are currently no open bids for this property.</p>
+        </div>
+        <div ng-hide="open" class="table-responsive">
+          <table class="table table-striped header-fixed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Labor Costs</th>
+                <th>Material Costs</th>
+                <th>Total Costs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="bid in open" ng-click="viewBidDetails(open.id)">
+                <td>{{bid.name}}</td>
+                <td>{{bid.company}}</td>
+                <td>{{bid.email}}</td>
+                <td>{{bid.phone}}</td>
+                <td>{{bid.labor_costs}}</td>
+                <td>{{bid.material_costs}}</td>
+                <td>{{bid.total_costs}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+<app-footer></app-footer>

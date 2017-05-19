@@ -1,0 +1,133 @@
+<!-- Email Template -->
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a ui-sref="properties">Properties</a>
+        </li>
+        <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
+        <li><a ui-sref="properties.property.email">Create Email</a></li>
+        <li class="active">Confirm</li>
+    </ul>
+</div>
+<div id="form-loading">
+</div>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 emailer">
+                <div class="page-header">
+                    <h3>
+                        Confirm Email
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-5">
+            <div class="row">
+                <h4 class="col-xs-2">From:</h4>
+                <div class="col-xs-10">
+                    <h6>{{email.from}}</h6>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <h4 class="col-xs-2">To:</h4>
+                <div class="col-xs-10">
+                    <h6 ng-repeat="agent in email.to">{{agent.email}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+<div style="font-family:Helvetica,Arial,sans-serif">
+    <h2>{{email.subject}}</h2>
+
+    <p>Hi &lt;&lt;Agent's First Name&gt;&gt;,</p>
+    <p  style="padding: 20px 0 0; white-space: pre-wrap;">{{email.content}}</p>
+    <!-- Top Image -->
+    <div style="width: 100%;height:auto;max-height:350px;overflow:hidden; margin-top: 20px;">
+        <img style="width: 100%; height: auto;margin-top:-80px;" src="http://www.structuredcapital.net/server/v1/uploads/{{email.property.images[0]}}">
+    </div>
+    <!-- Listing Desc -->
+     <div style="padding: 20px 0">
+        <h1 style="font-weight:300;">PRE-MLS Listing!</h1>
+        <h2 style="padding:10px 0">
+            {{email.property.address}}<br>
+            {{email.property.city}}, CA, {{email.property.zip}}<br>
+        </h2>
+        <h3 style="padding:10px 0">Listing Price: {{email.property.list_price}}</h3>
+        <h4 style="padding:10px 0">Licensed Agent Commission: {{email.commission}}</h4>
+        <p style="max-width:550px">{{email.property.listdesc}}</p>
+    </div>
+    <hr>
+    <div style="padding: 12px 0">
+        <h1>Features</h1>
+        <p style="max-width:550px">
+            <ul style="line-height: 1.5">
+                <li><b style="font-weight:bold">Beds:</b> {{email.property.beds}}</li>
+                <li><b style="font-weight:bold">Parking Spaces:</b> {{email.property.parking_spaces}}</li>
+                <li><b style="font-weight:bold">Subdivision:</b> {{email.property.county}}</li>
+                <li><b style="font-weight:bold">Square Footage:</b> {{email.property.sqft}}</li>
+                <li><b style="font-weight:bold">Agent Name: </b> {{email.property.agent_name}}</li>
+                <li><b style="font-weight:bold">Baths:</b> {{email.property.baths}}</li>
+                <li><b style="font-weight:bold">Year Built:</b> {{email.property.year_built}}</li>
+                <li><b style="font-weight:bold">Lot Size: </b>{{email.property.lotsize}}</li>
+                <li><b style="font-weight:bold">School District:</b> {{email.property.school_district}}</li>  
+                <li><b style="font-weight:bold">Broker:</b> {{email.property.broker}}</li>
+            </ul>
+        </p>
+    </div>
+    <hr>
+     <div style="padding: 12px 0">
+        <h1>Attributes</h1>
+        <h4>Appliances</h4>
+        <ul style="list-style: circle inside; padding: 5px;">
+            <li ng-repeat="appliance in email.property.appliances track by $index">{{appliance}}</li>
+        </ul>
+        <h4>Interior Amenities</h4>
+        <ul style="list-style: circle inside; padding: 5px;">
+            <li ng-repeat="interior in email.property.interior track by $index">{{interior}}</li>
+        </ul>
+        <h4>Exterior Amenities</h4>
+        <ul style="list-style: circle inside; padding: 5px;">
+            <li ng-repeat="exterior in email.property.exterior track by $index">{{exterior}}</li>
+        </ul>
+    </div>
+    <hr>
+     <div style="padding: 12px 0">
+        <h1>Photos</h1>
+        <div class="display: flex">
+            <img style="width: 33%;height:auto;" ng-repeat="image in email.property.images" src="http://structuredcapital.net/server/v1/uploads/{{image}}">
+        </div>
+    </div>
+    <hr>
+     <div style="padding: 12px 0">
+        <h1>Contact Information</h1>
+        <p style="padding: 5px 0;">{{email.contact_name}}</p>
+        <p style="padding: 5px 0;">{{email.contact_number}}</p>
+        <p style="padding: 5px 0;">{{email.contact_email}}</p>
+    </div>
+</div> 
+</div>
+        </div>
+        <div class="row">
+			<div class="form-group">
+                <div class="col-sm-6">
+                    <button id="form-submit-button" type="submit" class="btn btn-lg btn-danger pull-left"  data-ng-disabled="newPropertyForm.$invalid" ng-click="goBack()">
+                        Back
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button id="form-submit-button" type="submit" class="btn btn-lg btn-primary pull-right"  data-ng-disabled="newPropertyForm.$invalid" ng-click="send(email)">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->
+<app-footer></app-footer>

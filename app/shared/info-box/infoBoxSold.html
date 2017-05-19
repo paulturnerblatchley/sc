@@ -1,0 +1,11 @@
+<i id="info-box-switch" ng-click="toggleInfoBox()" class="glyphicon glyphicon-circle-arrow-right flip"></i>
+<div id="info-box" class="add-info">
+	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
+	    <div class="row">
+	    	<h4>Sold Details: {{property.address}}</h4>
+	    </div>
+        <a ng-click="linkToSingle(property)">
+		   <button class="btn btn-primary">View Property</button>
+        </a>
+	</div>
+</div>

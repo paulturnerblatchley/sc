@@ -1,0 +1,32 @@
+<a class="comments-fullscreen" ng-click="toggleComments()"><i class="glyphicon glyphicon-fullscreen"></i></a>
+<div class="comments">
+  <div class="single-comment" ng-repeat="comment in comments">
+    <div class="meta">
+      <p class="author">{{comment.username}}</p>
+      <p class="time">{{comment.created}}</p>
+    </div>
+    <p class="comment">{{comment.comment}}</p>
+  </div>
+</div>
+<form name="newCommentForm" class="form-horizontal comment-box" role="form">
+  <div class="form-group">
+    <div class="comment-box clearfix">
+      <textarea rows="2" cols="50" placeholder="Add A Comment" class="col-xs-9" name="comment" ng-model="newcomment.comment" required></textarea>
+      <button id="form-submit-button" type="submit" class="col-xs-3 btn btn-lg btn-primary" ng-click="newComment(newcomment)" data-ng-disabled="newCommentForm.$invalid">
+        Post
+      </button>
+    </div>
+  </div>
+</form>
+<div id="lightbox">
+  <div class="comments">
+  <i ng-click="toggleComments()" class="glyphicon glyphicon-remove-sign"></i>
+    <div class="single-comment" ng-repeat="comment in comments">
+      <div class="meta">
+        <p class="author">{{comment.username}}</p>
+        <p class="time">{{comment.created}}</p>
+      </div>
+      <p class="comment">{{comment.comment}}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<app-header></app-header>
+<div class="page-content">
+	<div class="container">
+		<div class="page-header">
+			<h1>Agents Enrolled</h1>
+		</div>
+      <br>
+		<div class="agent-list table-responsive">
+			<table class="table table-striped header-fixed">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>BRE License No.</th>
+						<th>MLS ID</th>
+						<th>Early Showings?</th>
+						<th>Open House?</th>
+						<th>San Bernardino</th>
+						<th>Riverside</th>
+						<th>Los Angeles</th>
+						<th>San Diego</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="agent in agents">
+						<td>{{agent.first_name}} {{agent.last_name}}</td>
+						<td>{{agent.email}}</td>
+						<td>{{agent.phone}}</td>
+						<td>{{agent.bre}}</td>
+						<td>{{agent.mls_id}}</td>
+						<td>{{agent.early_showing}}</td>
+						<td>{{agent.open_house}}</td>
+						<td><i ng-show="agent.sb == 1" class="glyphicon glyphicon-ok"></i></td>
+						<td><i ng-show="agent.riv == 1" class="glyphicon glyphicon-ok"></i></td>
+						<td><i ng-show="agent.la == 1" class="glyphicon glyphicon-ok"></i></td>
+						<td><i ng-show="agent.sd == 1" class="glyphicon glyphicon-ok"></i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,92 @@
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
+    <li><a ui-sref="properties.property.bids">Bids</a></li>
+    <li class="active">New Bid</li>
+  </ul>
+</div>
+<div class="page-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+  		  <div class="page-header clearfix">
+    			 <h1>New Bid</h1>
+           <h4>{{s.address}}</h4>
+        </div>
+        <div class="row">
+          <form name="newBidForm" class="form-horizontal new-bid-form" role="form">
+            <div class="category-group">
+              <div class="form-group">
+                  <label class="col-sm-2 control-label no-padding-right" for="category">Category<p><a ng-click="showNewCategoryBox()">Add New Category...</a></p></label>
+                  <div class="col-sm-4">
+                      <select class="form-control" name="category" ng-model="bid.category.cat_name"/>
+                          <option ng-repeat="category in categories" value="{{category.cat_name}}">
+                            {{category.cat_name}}
+                          </option>
+                      </select>
+                  </div>
+              </div>
+              <div id="addCategoryBox" class="form-group">
+                <label class="col-sm-2 control-label no-padding-right" for="category">Category Name</label>
+                  <div class="col-sm-2">
+                      <input class="form-control" type="text" placeholder="Category" ng-model="newcategory">
+                  </div>
+                  <button class="col-sm-1 btn btn-primary" ng-click="addCategory(newcategory)">Add</button>
+              </div>
+              <div id="addTaskBox" class="form-group">
+                <label class="col-sm-2 control-label no-padding-right" for="task">Task Name</label>
+                  <div class="col-sm-2">
+                      <input class="form-control" type="text" placeholder="Task" ng-model="newtask.task_name">
+                  </div>
+                  <div class="col-sm-2">
+                      <input class="form-control" type="text" placeholder="Units" ng-model="newtask.units">
+                  </div>
+                  <button class="col-sm-1 btn btn-primary" ng-click="addTask(newtask)">Add</button>
+              </div>
+            </div>
+            <div class="tasks-group">
+              <label class="col-sm-2 control-label no-padding-right" for="category">Tasks<p><a ng-click="showNewTaskBox()">Add New Task...</a></p></label>
+              <div class="task-list col-sm-5">
+                <div class="form-control">
+                  <div class="search-tasks">
+                    <input type="text" ng-model="searchTasks" class="col-xs-12" placeholder="Search...">
+                  </div>
+                  <ul class="all-tasks">
+                      <li ui-draggable="true" drag="task" 
+                      on-drop-success="dropSuccessHandler($event,$index,task)"
+                      ng-repeat="task in tasks | filter:searchTasks">
+                          {{task.task_name}} ({{task.task_units}})
+                      </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="task-list task-collector col-sm-5">
+                <div class="form-control">
+                  <ul>
+                      <li ui-draggable="true" drag="task" 
+                      on-drop-success="dropSuccessHandler($event,$index,task)"
+                      ng-repeat="task in bid.tasks track by $index">
+                      <p class="col-xs-6">{{task.task_name}}</p> <p class="col-xs-6"><input type="text" ng-model="task.qty" placeholder="Quantity" class="qty col-xs-6"> ({{task.task_units}})</p><i class="glyphicon glyphicon-remove-sign pull-right" ng-click="removeTask($index,task)"></i>
+                      <input type="text" ng-model="task.desc" placeholder="Describe the task..." class="col-xs-12">
+                      </li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <button id="form-submit-button" type="submit" class="width-35 pull-left col-sm-3 btn btn-lg btn-primary"  data-ng-disabled="newPropertyForm.$invalid" ng-click="createBid(bid)">
+                        Create
+                    </button>
+                </div>
+            </div>
+            </fieldset>
+        </form>
+        </div>
+  		</div>
+  </div>
+</div>
+</div>
+<app-footer></app-footer>

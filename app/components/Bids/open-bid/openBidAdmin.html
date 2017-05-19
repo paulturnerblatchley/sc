@@ -1,0 +1,45 @@
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
+    <li><a ui-sref="properties.property.bids">Bids</a></li>
+    <li class="active">Open Bid #{{b.bid_id}}</li>
+  </ul>
+</div>
+<div class="page-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+  		  <div class="page-header clearfix">
+    			 <h1>Open Bid #{{b.bid_id}}</h1>
+           <h4 class="col-xs-3">{{s.address}}</h4><h4 class="col-xs-3">Category: {{b.cat_name}}</h4>
+        </div>
+  		</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Tasks</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="task in b.tasks">
+              <td>{{task.task_name}}</td>
+              <td>{{task.description}}</td>
+              <td>{{task.qty}}</td>
+              <td>{{task.task_units}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

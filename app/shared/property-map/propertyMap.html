@@ -1,0 +1,142 @@
+<ng-map 
+    id="property-map" 
+    class="prop-map" 
+    zoom-to-include-markers="auto" 
+    zoom="12" 
+    center="34.1422725,-117.30587750000001" 
+    default-style="false" 
+    styles='[
+        {   "featureType": "water",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"color": "#d3d3d3"}
+            ]
+        }, 
+        {   "featureType": "transit",
+            "stylers": [
+                {"color": "#808080"},
+                {"visibility": "off"}
+            ]
+        },
+        {   "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {"visibility": "on"},
+                {"color": "#b3b3b3"}
+            ]
+        },
+        {   "featureType": "road.highway",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"color": "#ffffff"}
+            ]
+        },
+        {   "featureType": "road.local",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"visibility": "on"},
+                {"color": "#ffffff"},
+                {"weight": 1.8}
+            ]
+        },
+        {   "featureType": "road.local",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {"color": "#d7d7d7"}
+            ]
+        },
+        {   "featureType": "poi",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"visibility": "on"},
+                {"color": "#ebebeb" }
+            ]
+        },
+        {   "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+                {"color": "#a7a7a7"}
+            ]
+        },
+        {   "featureType": "road.arterial",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"color": "#ffffff"}
+            ]
+        },
+        {   "featureType": "road.arterial",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "color": "#ffffff"}
+            ]
+        },
+        {"featureType": "landscape",
+            "elementType": "geometry.fill",
+            "stylers": [
+                { "visibility": "on" },
+                {"color": "#efefef"}
+            ]
+        },
+        {   "featureType": "road",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {"color": "#696969"}
+            ]
+        },
+        {   "featureType": "administrative",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {"visibility": "on"},
+                {"color": "#737373"}
+            ]
+        },
+        {   "featureType": "poi",
+            "elementType": "labels.icon",
+            "stylers": [
+                {"visibility": "off"}
+            ]
+        },
+        {   "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+                {"visibility": "off"}
+            ]
+        },
+        {   "featureType": "road.arterial",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {"color": "#d6d6d6"}
+            ]
+        },
+        {   "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+                {"visibility": "on"}
+            ]
+        },
+        {   "featureType": "poi",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {"color": "#dadada"}
+            ]
+        }
+    ]'
+>
+    <marker 
+        id="pin{{property.pid}}" 
+        ng-repeat="property in properties" 
+        position="{{property.latlng}}" 
+        on-click="showDetails(property.pid,property.latlng)" 
+        icon="{
+            url:'../assets/img/map-pin_{{property.phase}}.png',
+            scaledSize:[20,32],
+            origin: [0,0],
+            anchor: [0,32]
+        }"
+        animation="DROP">
+    </marker>
+</ng-map>
+<div class="hide-map">
+    <i id="hide-map-switch" ng-click="hideMap()" class="glyphicon glyphicon-circle-arrow-up"></i>
+    <i id="reset" ng-click="reset()" class="glyphicon glyphicon-refresh"></i>
+</div>

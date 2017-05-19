@@ -1,0 +1,16 @@
+<div class="progress-box row clearfix" ng-repeat="(key,value) in progress">
+  <h3>{{value.label}}</h3>
+  <div class="checkbox col-sm-2" ng-repeat="(k,v) in value.tasks">
+      <label class="checkbox">
+      <input type="checkbox" name="v.label" ng-change="saveEscrowChanges(s.pid,key,k,v,v.status)" ng-model="v.status"> {{v.label}}
+    </label>
+    <div class="task-date" ng-show="v.date">
+      <input type="date" name="task.date" ng-model="v.date" ng-change="saveEscrowChanges(s.pid,key,k,v,v.date)">
+    </div>
+    <div class="home-inspect" ng-show="v.inspection">
+      <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="yes" ng-model="v.inspection"> Yes 
+      <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="no" ng-model="v.inspection"> No 
+    </div>
+  </div>
+  <hr class="col-xs-12">
+</div>

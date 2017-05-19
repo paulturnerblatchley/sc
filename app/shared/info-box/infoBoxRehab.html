@@ -1,0 +1,31 @@
+<i id="info-box-switch" ng-click="toggleInfoBox()" class="glyphicon glyphicon-circle-arrow-right flip"></i>
+<div id="info-box" class="add-info">
+	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
+	    <div class="row">
+	    <h4>Rehab Details: {{property.address}}</h4>
+		   <div class="col-sm-5 rehab-titles">
+			  <ul>
+				<li>Purchase Cost:</li>
+				<li>Purchase Date:</li>
+				<li>Entity Vesting:</li>
+				<li>Lender:</li>
+				<li>Rehab Estimate:</li>
+				<li>ARV:</li>
+			  </ul>
+		   </div>
+		   <div class="col-sm-7">
+			  <ul>
+				<li>{{property.purchase_cost || 'Not Defined'}}</li>
+				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
+				<li>{{property.entity_vesting || 'Not Defined'}}</li>
+				<li>{{property.lender || 'Not Defined'}}</li>
+				<li>{{property.rehab_estimate || 'Not Defined'}}</li>
+                <li>{{property.arv || 'Not Defined'}}</li>
+			  </ul>
+		   </div>
+	    </div>
+        <a ng-click="linkToSingle(property)">
+		   <button class="btn btn-primary">View Rehab Details</button>
+        </a>
+	</div>
+</div>

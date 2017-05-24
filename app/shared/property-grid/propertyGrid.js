@@ -32,6 +32,7 @@ app.component(
 			            return '';
 			        }
 			    };
+
 			    
 			    // set columns based on user settings
 			    if ($sessionStorage.user.settings) {

@@ -633,6 +633,65 @@ $app->get('/getOffers', function() use ($app) {
     echoResponse(200, $offers);
 });
 
+$app->post('/newOffer', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "offers";
+    $pid = $r->offer->pid;
+    $buyer = $r->offer->buyer;
+    $financing = $r->offer->financing;
+    $closing = $r->offer->closing;
+    $deposit = $r->offer->deposit;
+    $offer_price = $r->offer->offer_price;
+    $comp = $r->offer->comp;
+    $ccnr = $r->offer->ccnr;
+    $counter = $r->offer->counter;
+    $title = $r->offer->title;
+    $escrow = $r->offer->escrow;
+    $termite = $r->offer->termite;
+    $nhd = $r->offer->nhd;
+    $septic = $r->offer->septic;
+    $retrofit = $r->offer->retrofit;
+    $co_fees = $r->offer->co_fees;
+    $city_fees = $r->offer->city_fees;
+    $fico = $r->offer->fico;
+    $pof = $r->offer->pof;
+    $other_terms = $r->offer->other_terms;
+    $notes = $r->offer->notes;
+    $column_names = array('pid', 'buyer', 'financing', 'closing', 'deposit', 'offer_price', 'comp', 'ccnr', 'counter', 'title', 'escrow', 'termite', 'nhd', 'septic', 'retrofit', 'co_fees', 'city_fees', 'fico', 'pof', 'other_terms', 'notes');
+    $result = $db->insertIntoTable($r->offer, $column_names, $table);
+    if ($result) {
+        $response["status"] = "success";
+        $response["message"] = "New Offer inputted successfully";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Failed to input offer. Please try again";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/offerStatus', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "offers";
+    $id = $r->status->id;
+    $column = "accept";
+    $value = $r->status->status;
+    $result = $db->updateRow($table, $column, $value, 'offer_id', $id);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Offer Status Changed.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Change Offer Status. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
 /*
 * ESCROW
 ******/

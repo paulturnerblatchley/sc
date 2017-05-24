@@ -11,8 +11,16 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, auth, $http, singleproperty) {
+        controller: function($scope, auth, $http, singleproperty, $state) {
         	$scope.s = singleproperty.property;
+
+            $scope.newOffer = function() {
+                $state.go("listings.new-offer", {pid: $scope.s.pid});
+            }
+
+            $scope.seeOffers = function() {
+                $state.go("listings.offers", {pid: $scope.s.pid});
+            }
     
         }
 	}

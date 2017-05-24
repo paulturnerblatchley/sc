@@ -1,46 +1,56 @@
 <app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li><a ui-sref="listings">Listings</a></li>
+        <li><a ng-click="goToProperty()">{{s.address}}</a></li>
+        <li class="active">Offers</li>
+    </ul>
+</div>
 <div class="page-content">
 	<div class="page-header row">
 		<h1 class="col-sm-6">Offers for {{s.address}}</h1>
 		<h4 class="col-sm-6">Commission: {{proforma.commission}}%</h4>
 	</div>
   <br>
-	<div ng-show="offers" class="offers table-responsive row">
-		<table class="table table-striped header-fixed">
+	<div ng-hide="offers == null || offers.length == 0" class="offers table-responsive row">
+		<table class="table table-striped header-fixed table-hover">
 			<thead>
 				<tr>
-					<th ng-repeat="(k,v) in offers[0]">{{k}}</th>
+					<th><p class="small-caps">#</p></th>
+					<th ng-repeat="column in columns  track by $index"><p class="small-caps">{{column}}</p></th>
 				</tr>
 			</thead>
 			<tbody>
-				<!--tr ng-repeat="offer in offers">
+				<tr ng-right-click="getOfferId(offer.offer_id)" menu-items="menuItems" ng-repeat="offer in offers track by $index" class="{{offer.accept}}">
+					<td>{{$index + 1}}</td>
 					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-					<td>{{offer.buyer}}</td>
-				</tr-->
+					<td>{{offer.financing}}</td>
+					<td>{{offer.closing}}</td>
+					<td>{{offer.deposit}}</td>
+					<td>{{offer.offer_price}}</td>
+					<td>{{offer.comp}}</td>
+					<td>{{offer.commission}}</td>
+					<td>{{offer.ccnr}}</td>
+					<td>{{offer.counter}}</td>
+					<td>{{offer.net_offer}}</td>
+					<td>{{offer.title}}</td>
+					<td>{{offer.escrow}}</td>
+					<td>{{offer.termite}}</td>
+					<td>{{offer.nhd}}</td>
+					<td>{{offer.septic}}</td>
+					<td>{{offer.retrofit}}</td>
+					<td>{{offer.co_fees}}</td>
+					<td>{{offer.city_fees}}</td>
+					<td>{{offer.fico}}</td>
+					<td>{{offer.pof}}</td>
+					<td>{{offer.other_terms}}</td>
+					<td>{{offer.notes}}</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div ng-hide="offers">
-		<h4>There are currently no offers on this property.</h4>
+	<div class="row" ng-show="offers == null || offers.length == 0">
+		<h4 class="col-sm-6 col-sm-offset-1">There are currently no offers on this property.</h4>
 	</div>
 </div>
 <app-footer></app-footer>

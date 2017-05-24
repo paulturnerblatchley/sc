@@ -12,12 +12,13 @@
  * -- Properties Viewer
  * -- Property Displays
  * -- Property Dashboard
+ * -- New Property
  * -- ProForma
  * -- Bids
  * -- Gantt Chart
  * -- Rehab Tables
+ * -- Listings
  * -- Escrows
- * -- New Property
  * -- V Flyer
  * -- Comments
  * -- Map
@@ -842,6 +843,35 @@ view-property .btn {
  }
 
 /*
+ * NEW PROPERTY
+ ****/
+#loading {
+ 	display: none;
+ 	position: fixed;
+ 	width: 100%;
+ 	height: 100%;
+ 	top: 0;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	z-index: 1200;
+ 	background: rgb(255,255,255) url("../img/loading.gif") center center no-repeat;
+ 	background-size: 10%;
+ }
+
+ .radio {
+ 	width: auto;
+ 	display: inline;
+	line-height: .1;
+	margin-top: -1px;
+	vertical-align: middle;
+}
+
+ .radio-option {
+ 	padding: 10px;
+ }
+
+/*
 * PROFORMA
 *****/
 .proforma table {
@@ -1031,6 +1061,13 @@ th {
 }
 
 /*
+ * LISTINGS
+ ****/
+offers .page-header h4 {
+	line-height: 28.8px;
+}
+
+/*
  * ESCROWS
  ****/
 .progress-box {
@@ -1048,35 +1085,6 @@ th {
 .progress-box hr {
 	margin-bottom: 0;
 }
-
- /*
- * NEW PROPERTY
- ****/
-#loading {
- 	display: none;
- 	position: fixed;
- 	width: 100%;
- 	height: 100%;
- 	top: 0;
- 	bottom: 0;
- 	left: 0;
- 	right: 0;
- 	z-index: 1200;
- 	background: rgb(255,255,255) url("../img/loading.gif") center center no-repeat;
- 	background-size: 10%;
- }
-
- .radio {
- 	width: auto;
- 	display: inline;
-	line-height: .1;
-	margin-top: -1px;
-	vertical-align: middle;
-}
-
- .radio-option {
- 	padding: 10px;
- }
 
  /*
   *	VFLYER

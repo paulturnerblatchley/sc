@@ -622,6 +622,21 @@ $app->post('/bids', function() use ($app) {
     }
 });
 
+/*
+* LISTINGS
+******/
+
+$app->get('/getOffers', function() use ($app) {
+    $db = new DbHandler();
+    $table = "offers";
+    $offers = $db->getTable($table);
+    echoResponse(200, $offers);
+});
+
+/*
+* ESCROW
+******/
+
 $app->post('/escrow', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());

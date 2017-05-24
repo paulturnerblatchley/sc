@@ -1,0 +1,46 @@
+<app-header></app-header>
+<div class="page-content">
+	<div class="page-header row">
+		<h1 class="col-sm-6">Offers for {{s.address}}</h1>
+		<h4 class="col-sm-6">Commission: {{proforma.commission}}%</h4>
+	</div>
+  <br>
+	<div ng-show="offers" class="offers table-responsive row">
+		<table class="table table-striped header-fixed">
+			<thead>
+				<tr>
+					<th ng-repeat="(k,v) in offers[0]">{{k}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--tr ng-repeat="offer in offers">
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+					<td>{{offer.buyer}}</td>
+				</tr-->
+			</tbody>
+		</table>
+	</div>
+	<div ng-hide="offers">
+		<h4>There are currently no offers on this property.</h4>
+	</div>
+</div>
+<app-footer></app-footer>

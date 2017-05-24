@@ -242,6 +242,49 @@ app.config(
                     }]
                 }
             })
+            .state('listings.new-offer', {
+                url: '/{pid}/new-offer',
+                views: {'@': {
+                    template: '<new-offer></new-offer>'
+                }},
+                params: {
+                    pid: null
+                },
+                resolve: {
+                    pid: ['$stateParams', function($stateParams){
+                        $r = $stateParams.pid;
+                    }],
+                    getSingleProperty: ['singleproperty', function(singleproperty) {
+                      return singleproperty.get('properties', $r);
+                    }]
+                }
+            })
+            .state('listings.offers', {
+                url: '/{pid}/offers',
+                views: {'@': {
+                    template: '<offers></offers>'
+                }},
+                params: {
+                    pid: null
+                },
+                resolve: {
+                    pid: ['$stateParams', function($stateParams){
+                        $r = $stateParams.pid;
+                    }],
+                    getSingleProperty: ['singleproperty', function(singleproperty) {
+                      return singleproperty.get('properties', $r);
+                    }],
+                    getOfferss: ['offers', function(offers) {
+                      return offers.getOffers('getOffers', $r);
+                    }],
+                    getDefaultSettings: ['proforma', function(proforma) {
+                      return proforma.getDefaultSettings('defaultProForma');
+                    }],
+                    getProforma: ['proforma', function(proforma) {
+                      return proforma.getProforma('proforma');
+                    }]
+                }
+            })
             // ESCROW STATES
             .state('escrows', {
                 url: '/escrows',

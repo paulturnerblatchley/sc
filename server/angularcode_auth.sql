@@ -543,3 +543,35 @@ CREATE TABLE IF NOT EXISTS `escrow_day23` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`escrow_id`) REFERENCES escrow(escrow_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `offers`
+--
+
+CREATE TABLE IF NOT EXISTS `offers` (
+  `offer_id` int(10) NOT NULL AUTO_INCREMENT,
+  `pid` int(10) NOT NULL,
+  `buyer` varchar(25) NOT NULL,
+  `financing` varchar(25) NOT NULL,
+  `closing` varchar(25) NOT NULL,
+  `deposit` int(12) NOT NULL,
+  `offer_price` int(12) NOT NULL,
+  `comp` varchar(25) NOT NULL,
+  `ccnr` int(12) NOT NULL,
+  `counter` int(12) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `escrow` varchar(25) NOT NULL,
+  `termite` varchar(25) NOT NULL,
+  `nhd` varchar(25) NOT NULL,
+  `septic` varchar(25) NOT NULL,
+  `retrofit` varchar(25) NOT NULL,
+  `co_fees` varchar(25) NOT NULL,
+  `city_fees` varchar(25) NOT NULL,
+  `fico` varchar(25) NOT NULL,
+  `pof` varchar(25) NOT NULL,
+  `other_terms` varchar(25) NOT NULL,
+  `notes` varchar(25) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`offer_id`),
+  FOREIGN KEY (`pid`) REFERENCES properties(pid)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -91,6 +91,7 @@
     <script src="app/components/Agents/agentFactory.js"></script>
     <script src="app/shared/comments/commentsFactory.js"></script>
     <script src="app/components/ProForma/proFormaFactory.js"></script>
+    <script src="app/components/Listings/offers/offersFactory.js"></script>
     <!-- endinject -->
 
     <!-- inject-shared:js -->
@@ -130,6 +131,8 @@
     <!-- Listing Pages -->
     <script src="app/components/Listings/listings/listings.js"></script>
     <script src="app/components/Listings/view-listing/viewListing.js"></script>
+    <script src="app/components/Listings/new-offer/newOffer.js"></script>
+    <script src="app/components/Listings/offers/offers.js"></script>
     <!-- Escrow Pages -->
     <script src="app/components/Escrows/escrows/escrows.js"></script>
     <script src="app/components/Escrows/manage-escrow/manageEscrow.js"></script>

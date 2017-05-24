@@ -4,7 +4,8 @@
         <li>
             <a ui-sref="properties">Properties</a>
         </li>
-        <li class="active">Create A Property</li>
+        <li>{{s.address}}</li>
+        <li class="active">New Offer</li>
     </ul>
 </div>
 <div class="page-content">
@@ -15,7 +16,7 @@
                     <div class="widget-body">
                         <div class="widget-main">
                             <h4>
-                                Create a New Property
+                                Create a New Offer
                             </h4>
                             <br/>
                             <form name="newPropertyForm" class="form-horizontal" role="form" ng-submit="newProperty(newproperty)" latlng="obj">

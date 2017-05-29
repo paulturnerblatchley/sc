@@ -131,6 +131,9 @@ $app->post('/properties', function() use ($app) {
     $lockbox_combo = $r->property->lockbox_combo;
     $alarm_code = $r->property->alarm_code;
     $asset_manager = $r->property->asset_manager;
+    $supervisor = $r->property->supervisor;
+    $permits = $r->property->permits;
+    $estimated_completion = $r->property->estimated_completion;
     $purchase_close_date = $r->property->purchase_close_date;
     $purchase_cost = $r->property->purchase_cost;
     $entity_vesting = $r->property->entity_vesting;
@@ -146,7 +149,7 @@ $app->post('/properties', function() use ($app) {
     $isPropertyExists = $db->getOneRecord("select 1 from properties where address='$address'");
     if(!$isPropertyExists){
         $tabble_name = "properties";
-        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
+        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'supervisor', 'permits', 'estimated_completion', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
         $result = $db->insertIntoTable($r->property, $column_names, $tabble_name);
         $db->initRehabTable($result);
         if (count($images)) {
@@ -357,6 +360,9 @@ $app->post('/editProperty', function() use ($app) {
     'lockbox_combo' => $r->property->lockbox_combo,
     'alarm_code' => $r->property->alarm_code,
     'asset_manager' => $r->property->asset_manager,
+    'supervisor' => $r->property->supervisor,
+    'permits' => $r->property->permits,
+    'estimated_completion' => $r->property->estimated_completion,
     'purchase_close_date' => $r->property->purchase_close_date,
     'purchase_cost' => $r->property->purchase_cost,
     'entity_vesting' => $r->property->entity_vesting,

@@ -30,44 +30,49 @@ app.factory("properties", ['$http',
                   o.properties[i].images = images[id];
                 }
             });
-            for(var i=0; i<results.data.length;i++) {
 
+            function convertDate(x) {
+              if (x == "0000-00-00") {
+                return "";
+              } else {
+                var d = x.split("-");
+                return d[1] + "/" + d[2] + "/" + d[0];
+              }
+            } 
+
+            function convertPurchaseDate(x) {
+              if (x == "0000-00-00") {
+                o.properties[i].fha = "N/A";
+                o.properties[i].dsp = "N/A";
+                return "";
+              } else {
+                // ADD FHA DATE
+                var dat = new Date(x),
+                    d = new Date(dat.setDate(dat.getDate() + 90)),
+                    dd = d.getDate(),
+                    mm = d.getMonth() + 1,
+                    yyyy = d.getFullYear(),
+                    fha = mm + '/' + dd + '/' + yyyy;
+                o.properties[i].fha = fha;
+                // CALCULATE DSP
+                var oneDay = 24*60*60*1000,
+                    firstDate = new Date(x),
+                    secondDate = new Date();
+                o.properties[i].dsp = (Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))).toFixed(0);
+                // return formatted date
+                d = x.split("-");
+                return d[1] + "/" + d[2] + "/" + d[0];
+              }
+            }
+            
+            for(var i=0; i<results.data.length;i++) {
               o.properties[i].purchase_cost = o.properties[i].purchase_cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
               o.properties[i].pid = parseInt(results.data[i].pid);
               o.properties[i].pool_spa = (o.properties[i].pool_spa === 0) ? "No" : "Yes";
               o.properties[i].is_listed = (o.properties[i].is_listed === 0) ? "No" : "Yes";
-
-              function convertDate(x) {
-                if (x == "0000-00-00") {
-                  return "";
-                } else {
-                  var d = x.split("-");
-                  return d[1] + "/" + d[2] + "/" + d[0];
-                }
-              } 
-
-              function convertPurchaseDate(x) {
-                if (x == "0000-00-00") {
-                  o.properties[i].fha = "N/A";
-                  return "";
-                } else {
-                  // ADD FHA DATE
-                  var dat = new Date(x),
-                      d = new Date(dat.setDate(dat.getDate() + 90)),
-                      dd = d.getDate(),
-                      mm = d.getMonth() + 1,
-                      yyyy = d.getFullYear(),
-                      fha = mm + '/' + dd + '/' + yyyy;
-                  o.properties[i].fha = fha;
-                  d = x.split("-");
-                  return d[1] + "/" + d[2] + "/" + d[0];
-                }
-              }
-
               o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);
               o.properties[i].sale_close_date = convertDate(o.properties[i].sale_close_date);
-
             }
 
             // Push All Properties to Admin

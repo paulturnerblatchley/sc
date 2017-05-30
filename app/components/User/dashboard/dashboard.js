@@ -57,6 +57,11 @@ app.component(
 	                        { value: 'Withdrawn', label: 'Withdrawn' },
 	                    ]
 	            }, headerCellClass: $scope.highlightFilteredHeader }, 
+<<<<<<< HEAD
+=======
+	            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
+	            { field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'date', width: '6%', enableFiltering: true}, 
+>>>>>>> d442568b7c04d7cebc1819b12bd79bcc990912f6
 	            { field: 'status', displayName: 'Status', visible: $sessionStorage.user.settings[0]["status"],
 	                filter: {
 	                    type: uiGridConstants.filter.SELECT,
@@ -101,7 +106,10 @@ app.component(
 	            { field: 'occupancy', displayName: 'Occ.', visible: $sessionStorage.user.settings[0]["occupancy"] }, 
 	            { field: 'lockbox_combo', displayName: 'Lockbox', visible: $sessionStorage.user.settings[0]["lockbox_combo"] }, 
 	            { field: 'alarm_code', displayName: 'Alarm', visible: $sessionStorage.user.settings[0]["alarm_code"]}, 
-	            { field: 'asset_manager', displayName: 'Manager', visible: $sessionStorage.user.settings[0]["asset_manager"] }
+	            { field: 'asset_manager', displayName: 'Manager', visible: $sessionStorage.user.settings[0]["asset_manager"] },
+			            { field: 'supervisor', displayName: 'Supervisor', visible: $sessionStorage.user.settings[0]["supervisor"] },
+			            { field: 'permits', displayName: 'Permits', visible: $sessionStorage.user.settings[0]["permits"] },
+			            { field: 'estimated_completion', displayName: 'Est. Completion', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
 	        ];  
             
             $scope.logout = function () {

@@ -131,6 +131,9 @@ $app->post('/properties', function() use ($app) {
     $lockbox_combo = $r->property->lockbox_combo;
     $alarm_code = $r->property->alarm_code;
     $asset_manager = $r->property->asset_manager;
+    $supervisor = $r->property->supervisor;
+    $permits = $r->property->permits;
+    $estimated_completion = $r->property->estimated_completion;
     $purchase_close_date = $r->property->purchase_close_date;
     $purchase_cost = $r->property->purchase_cost;
     $entity_vesting = $r->property->entity_vesting;
@@ -146,7 +149,7 @@ $app->post('/properties', function() use ($app) {
     $isPropertyExists = $db->getOneRecord("select 1 from properties where address='$address'");
     if(!$isPropertyExists){
         $tabble_name = "properties";
-        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
+        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'supervisor', 'permits', 'estimated_completion', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
         $result = $db->insertIntoTable($r->property, $column_names, $tabble_name);
         $db->initRehabTable($result);
         if (count($images)) {
@@ -357,6 +360,9 @@ $app->post('/editProperty', function() use ($app) {
     'lockbox_combo' => $r->property->lockbox_combo,
     'alarm_code' => $r->property->alarm_code,
     'asset_manager' => $r->property->asset_manager,
+    'supervisor' => $r->property->supervisor,
+    'permits' => $r->property->permits,
+    'estimated_completion' => $r->property->estimated_completion,
     'purchase_close_date' => $r->property->purchase_close_date,
     'purchase_cost' => $r->property->purchase_cost,
     'entity_vesting' => $r->property->entity_vesting,
@@ -633,6 +639,65 @@ $app->get('/getOffers', function() use ($app) {
     echoResponse(200, $offers);
 });
 
+$app->post('/newOffer', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "offers";
+    $pid = $r->offer->pid;
+    $buyer = $r->offer->buyer;
+    $financing = $r->offer->financing;
+    $closing = $r->offer->closing;
+    $deposit = $r->offer->deposit;
+    $offer_price = $r->offer->offer_price;
+    $comp = $r->offer->comp;
+    $ccnr = $r->offer->ccnr;
+    $counter = $r->offer->counter;
+    $title = $r->offer->title;
+    $escrow = $r->offer->escrow;
+    $termite = $r->offer->termite;
+    $nhd = $r->offer->nhd;
+    $septic = $r->offer->septic;
+    $retrofit = $r->offer->retrofit;
+    $co_fees = $r->offer->co_fees;
+    $city_fees = $r->offer->city_fees;
+    $fico = $r->offer->fico;
+    $pof = $r->offer->pof;
+    $other_terms = $r->offer->other_terms;
+    $notes = $r->offer->notes;
+    $column_names = array('pid', 'buyer', 'financing', 'closing', 'deposit', 'offer_price', 'comp', 'ccnr', 'counter', 'title', 'escrow', 'termite', 'nhd', 'septic', 'retrofit', 'co_fees', 'city_fees', 'fico', 'pof', 'other_terms', 'notes');
+    $result = $db->insertIntoTable($r->offer, $column_names, $table);
+    if ($result) {
+        $response["status"] = "success";
+        $response["message"] = "New Offer inputted successfully";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Failed to input offer. Please try again";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/offerStatus', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "offers";
+    $id = $r->status->id;
+    $column = "accept";
+    $value = $r->status->status;
+    $result = $db->updateRow($table, $column, $value, 'offer_id', $id);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Offer Status Changed.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Change Offer Status. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
 /*
 * ESCROW
 ******/
@@ -889,4 +954,29 @@ $app->post('/sendEmail', function() use ($app) {
     }
 });
 
+$app->post('/zillow', function() use ($app) {
+    $r = json_decode($app->request->getBody());
+    $address = $r->property->address;
+    $zip = $r->property->zip;
+    // Set your return content type
+    header('Content-type: application/xml');
+
+    // Website url to open
+    $url = 'http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz196hp4ep24r_3xvfc&address=' . $address . '&citystatezip=' . $zip;
+    $url = preg_replace("/ /", "%20", $url);
+
+
+    // Get that website's content
+    $handle = fopen($url, "r");
+
+    // If there is something, read and return
+    if ($handle) {
+        while (!feof($handle)) {
+            $buffer = fgets($handle, 4096);
+            echo $buffer;
+        }
+        fclose($handle);
+    }
+
+});
 ?>

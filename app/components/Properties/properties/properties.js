@@ -3,7 +3,7 @@ app.component(
 	{
 		bindings: {},
 	    templateUrl: 'app/components/Properties/properties/properties.html',
-	    controller: function($scope, $rootScope, $sessionStorage, properties, categories, bids) {
+	    controller: function($scope, $rootScope, $sessionStorage, properties, categories, bids, $http) {
 	    	
             $scope.categories = categories.categories;
             switch ($sessionStorage.user.user_role) {
@@ -44,7 +44,7 @@ app.component(
                 default:
                     $scope.properties = {};
                     break
-            }   
+            }  
 	    }
 	}
 ); 

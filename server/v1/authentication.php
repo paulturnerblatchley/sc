@@ -954,4 +954,29 @@ $app->post('/sendEmail', function() use ($app) {
     }
 });
 
+$app->post('/zillow', function() use ($app) {
+    $r = json_decode($app->request->getBody());
+    $address = $r->property->address;
+    $zip = $r->property->zip;
+    // Set your return content type
+    header('Content-type: application/xml');
+
+    // Website url to open
+    $url = 'http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz196hp4ep24r_3xvfc&address=' . $address . '&citystatezip=' . $zip;
+    $url = preg_replace("/ /", "%20", $url);
+
+
+    // Get that website's content
+    $handle = fopen($url, "r");
+
+    // If there is something, read and return
+    if ($handle) {
+        while (!feof($handle)) {
+            $buffer = fgets($handle, 4096);
+            echo $buffer;
+        }
+        fclose($handle);
+    }
+
+});
 ?>

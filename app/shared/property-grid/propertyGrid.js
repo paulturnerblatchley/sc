@@ -8,9 +8,6 @@ app.component(
         controller: function($scope, $rootScope, $state, $location, properties, uiGridConstants, localStorageService, $timeout, $sessionStorage) {
         	this.$onInit = function() {
         		$scope.tableData = this.tableData;
-			    for ( i in $scope.tableData) {
-			        $scope.tableData[i]["#"] = parseInt(i) + 1;
-			    }
 
 			    if($state.current.name == "properties") {
 			        setTimeout( function() {
@@ -73,8 +70,8 @@ app.component(
 			                        { value: 'Bid', label: 'Bid' }
 			                    ]
 			            }, headerCellClass: $scope.highlightFilteredHeader },
-	            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
-	            { field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
+	            		{ field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
+	            		{ field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
 			            { field: 'property_type', displayName: 'Type', visible: $sessionStorage.user.settings[0]["property_type"],
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,
@@ -103,9 +100,11 @@ app.component(
 			            { field: 'asset_manager', displayName: 'Manager', visible: $sessionStorage.user.settings[0]["asset_manager"] },
 			            { field: 'supervisor', displayName: 'Supervisor', visible: $sessionStorage.user.settings[0]["supervisor"] },
 			            { field: 'permits', displayName: 'Permits', visible: $sessionStorage.user.settings[0]["permits"] },
+			            { field: 'purchase_cost', displayName: 'Purchase Price', visible: $sessionStorage.user.settings[0]["purchase_cost"] },
+			            { field: 'rehab_estimate', displayName: 'Rehab Estimate', visible: $sessionStorage.user.settings[0]["rehab_estimate"] },
+			            { field: 'arv', displayName: 'ARV', visible: $sessionStorage.user.settings[0]["arv"] },
 			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
-			        ];  
-			        
+			        ];  			        
 			        
 			        $scope.gridOptions = {
 			            data: $scope.tableData,
@@ -123,12 +122,10 @@ app.component(
 			                // Setup events so we're notified when grid state changes.
 			                $scope.gridApi.colMovable.on.columnPositionChanged($scope, saveState);
 			                $scope.gridApi.colResizable.on.columnSizeChanged($scope, saveState);
-			                $scope.gridApi.core.on.columnVisibilityChanged($scope, saveState);
-			                $scope.gridApi.core.on.filterChanged($scope, saveState);
-			                $scope.gridApi.core.on.sortChanged($scope, saveState);
+			                $scope.gridApi.core.on.filterChanged($scope, numberAfterSort);
+			                $scope.gridApi.core.on.sortChanged($scope, numberAfterSort);
 
 			                // Restore previously saved state.
-
 			                restoreState();
 
 			                gridApi.selection.on.rowSelectionChanged($scope,function(row){
@@ -197,6 +194,15 @@ app.component(
 			            }
 			        };
 
+			        function numberAfterSort() {
+			        	setTimeout(function() {
+			        		var rows = $scope.gridApi.core.getVisibleRows();
+			        		for (i = 0; i < rows.length; i++) {
+			        			rows[i].entity["#"] = i + 1;
+			        		}
+		        		}, 50);
+			        };
+
 			        function saveState() {
 			            var state = $scope.gridApi.saveState.save();
 			            state.selection = [];
@@ -238,6 +244,7 @@ app.component(
 			    $scope.toggleFiltering = function(){
 			        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
 			        $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
+			        var map     =  $(".property-viewer ng-map");
 			        if ($scope.gridOptions.enableFiltering) {
 			            setTimeout( function() {
 			                var scrollTop     =  $(window).scrollTop(),

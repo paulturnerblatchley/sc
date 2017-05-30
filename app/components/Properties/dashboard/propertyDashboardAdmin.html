@@ -1,25 +1,29 @@
 <form name="propertyUpdate" class="form-horizontal" >
   <div class="row status-controls">      
-    <p class="col-sm-3
-    ">
+    <p class="col-sm-3">
+      <select class="invisible-form" name="phase" ng-model="s.phase"/>
+          <option value="Acquisition">Acquisition</option>
+          <option value="Holdover">Holdover</option>
+          <option value="Rehab">Rehab</option>
+          <option value="Listed">Listed</option>
+          <option value="Sale Escrow">Sale Escrow</option>
+          <option value="Sold">Sold</option>
+          <option value="Withdrawn">Withdrawn</option>
+      </select>
+    </p>
+    <p class="col-sm-3">
       <select class="invisible-form" name="status" ng-model="s.status"/>
           <option value="Active">Active</option>
           <option value="Hold">Hold</option>
           <option value="Closed">Closed</option>
-      </select>
-    </p>
-    <p class="col-sm-3">
-      <select class="invisible-form" name="phase" ng-model="s.phase"/>
-          <option value="Purchase">Purchase</option>
+          <option value="Contract">Contract</option>
+          <option value="Purchased">Purchased</option>
           <option value="Relocation">Relocation</option>
-          <option value="Bid">Bid</option>
           <option value="Eviction">Eviction</option>
+          <option value="$-4-Keys">$-4-Keys</option>
+          <option value="Architectural">Architectural</option>
           <option value="Plan Check">Plan Check</option>
-          <option value="Rehab">Rehab</option>
-          <option value="Listed">Listed</option>
-          <option value="Hold">Hold</option>
-          <option value="Escrow">Escrow</option>
-          <option value="Sold">Sold</option>
+          <option value="Bid">Bid</option>
       </select>
     </p>
     <p class="col-sm-3">

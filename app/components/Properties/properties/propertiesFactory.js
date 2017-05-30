@@ -47,22 +47,29 @@ app.factory("properties", ['$http',
               } 
 
               function convertPurchaseDate(x) {
-                if (x == "0000-00-00") {
-                  o.properties[i].fha = "N/A";
-                  return "";
-                } else {
-                  // ADD FHA DATE
-                  var dat = new Date(x),
-                      d = new Date(dat.setDate(dat.getDate() + 90)),
-                      dd = d.getDate(),
-                      mm = d.getMonth() + 1,
-                      yyyy = d.getFullYear(),
-                      fha = mm + '/' + dd + '/' + yyyy;
-                  o.properties[i].fha = fha;
-                  d = x.split("-");
-                  return d[1] + "/" + d[2] + "/" + d[0];
-                }
+              if (x == "0000-00-00") {
+                o.properties[i].fha = "N/A";
+                o.properties[i].dsp = "N/A";
+                return "";
+              } else {
+                // ADD FHA DATE
+                var dat = new Date(x),
+                    d = new Date(dat.setDate(dat.getDate() + 90)),
+                    dd = d.getDate(),
+                    mm = d.getMonth() + 1,
+                    yyyy = d.getFullYear(),
+                    fha = mm + '/' + dd + '/' + yyyy;
+                o.properties[i].fha = fha;
+                // CALCULATE DSP
+                var oneDay = 24*60*60*1000,
+                    firstDate = new Date(x),
+                    secondDate = new Date();
+                o.properties[i].dsp = (Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))).toFixed(0);
+                // return formatted date
+                d = x.split("-");
+                return d[1] + "/" + d[2] + "/" + d[0];
               }
+            }
 
               o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);

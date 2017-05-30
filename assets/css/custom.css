@@ -569,47 +569,53 @@ ul.simple-post-list {
 	font-size: 24px;
 }
 
+/*
+ * PHASES
+ ******/
 /* -- Map Pin Colors -- */
-.Sold {
-	background-color: #C8C8C8!important;
+.Acquisition {
+	background-color: #78FF78!important;
 }
 
-.Relocation {
-	background-color: #50B4FF!important;
-}
-
-.Hold {
-	background-color: #111!important;
-	color: #fff;
+.Holdover {
+	background-color: #FF6464!important;
 }
 
 .Rehab {
 	background-color: #9988FF!important;
 }
 
-.Purchase {
-	background-color: #78FF78!important;
-}
-
-.Plan {
-	background-color: #FF96FF!important;
-}
-
 .Listed {
-	background-color: #FF6464!important;
-}
-
-.Bid {
 	background-color: #00FFFF!important;
 }
 
-.Eviction {
+.Sale /*Escrow*/ {
+	background-color: #FFFF64!important;
+}
+
+.Sold {
 	background-color: #FF9632!important;
 }
 
-.Escrow {
-	background-color: #FFFF64!important;
+.Withdrawn {
+	background-color: #C8C8C8!important;
 }
+
+/* - Extra Pins
+	.Relocation {
+		background-color: #50B4FF!important;
+	}
+
+	.Hold {
+		background-color: #111!important;
+		color: #fff;
+	}
+
+	.Plan {
+		background-color: #FF96FF!important;
+	}
+*/
+
 
 /* -- Property Table -- */
 .grid {

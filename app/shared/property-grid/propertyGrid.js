@@ -46,28 +46,34 @@ app.component(
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,
 			                    selectOptions: [ 
-			                        { value: 'Purchase', label: 'Purchase' }, 
-			                        { value: 'Relocation', label: 'Relocation' },
-			                        { value: 'Bid', label: 'Bid' }, 
-			                        { value: 'Eviction', label: 'Eviction'}, 
-			                        { value: 'Plan Check', label: 'Plan Check' }, 
+			                        { value: 'Acquisition', label: 'Acquisition' }, 
+			                        { value: 'Holdover', label: 'Holdover' }, 
 			                        { value: 'Rehab', label: 'Rehab' }, 
 			                        { value: 'Listed', label: 'Listed' },
-			                        { value: 'Hold', label: 'Hold' },
-			                        { value: 'Escrow', label: 'Escrow' },
-			                        { value: 'Sold', label: 'Sold' } 
+			                        { value: 'Sale Escrow', label: 'Sale Escrow' },
+			                        { value: 'Sold', label: 'Sold' },
+			                        { value: 'Withdrawn', label: 'Withdrawn' },
 			                    ]
 			            }, headerCellClass: $scope.highlightFilteredHeader }, 
-			            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
 			            { field: 'status', displayName: 'Status', visible: $sessionStorage.user.settings[0]["status"],
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,
 			                    selectOptions: [ 
 			                        { value: 'Active', label: 'Active' }, 
 			                        { value: 'Hold', label: 'Hold' }, 
-			                        { value: 'Closed', label: 'Closed'}
+			                        { value: 'Closed', label: 'Closed'},
+			                        { value: 'Contract', label: 'Contract' }, 
+			                        { value: 'Purchased', label: 'Purchased' }, 
+			                        { value: 'Relocation', label: 'Relocation'},
+			                        { value: 'Eviction', label: 'Eviction' }, 
+			                        { value: '$-4-Keys', label: '$-4-Keys' }, 
+			                        { value: 'Architectural', label: 'Architectural'},
+			                        { value: 'Plan Check', label: 'Plan Check' }, 
+			                        { value: 'Bid', label: 'Bid' }
 			                    ]
-			            }, headerCellClass: $scope.highlightFilteredHeader }, 
+			            }, headerCellClass: $scope.highlightFilteredHeader },
+	            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
+	            { field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
 			            { field: 'property_type', displayName: 'Type', visible: $sessionStorage.user.settings[0]["property_type"],
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,

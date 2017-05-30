@@ -56,11 +56,6 @@ app.component(
 			                        { value: 'Withdrawn', label: 'Withdrawn' },
 			                    ]
 			            }, headerCellClass: $scope.highlightFilteredHeader }, 
-<<<<<<< HEAD
-=======
-			            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
-			            { field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
->>>>>>> d442568b7c04d7cebc1819b12bd79bcc990912f6
 			            { field: 'status', displayName: 'Status', visible: $sessionStorage.user.settings[0]["status"],
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,

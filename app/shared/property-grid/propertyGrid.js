@@ -98,7 +98,7 @@ app.component(
 			            { field: 'asset_manager', displayName: 'Manager', visible: $sessionStorage.user.settings[0]["asset_manager"] },
 			            { field: 'supervisor', displayName: 'Supervisor', visible: $sessionStorage.user.settings[0]["supervisor"] },
 			            { field: 'permits', displayName: 'Permits', visible: $sessionStorage.user.settings[0]["permits"] },
-			            { field: 'estimated_completion', displayName: 'Est. Completion', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
+			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
 			        ];  
 			        
 			        

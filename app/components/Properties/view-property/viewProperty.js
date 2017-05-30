@@ -15,7 +15,7 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, singleproperty, auth, $state, Data) {
+        controller: function($scope, singleproperty, auth, $state, Data, $http) {
             $(".nav-tabs li").removeClass("active");
             if ($state.current.url == "/escrow") {
                 $("#escrow").addClass("active");

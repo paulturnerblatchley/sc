@@ -51,7 +51,7 @@ app.component(
             }
 
             for (i = 0; i < $scope.offers.length; i++) {
-                $scope.offers[i].commission = (($scope.offers[i].offer_price*1) * (($scope.proforma.commission/100)+0.0025)).toFixed(0);
+                $scope.offers[i].commission = (($scope.offers[i].offer_price*1) * ($scope.proforma.commission/100)).toFixed(0);
                 $scope.offers[i].net_offer = (($scope.offers[i].offer_price*1) - ($scope.offers[i].commission*1) -($scope.offers[i].ccnr*1) + ($scope.offers[i].counter*1)).toFixed(0);
                 $scope.offers[i].commission = "$" + $scope.offers[i].commission.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                 $scope.offers[i].net_offer = "$" + $scope.offers[i].net_offer.replace(/(\d)(?=(\d{3})+$)/g, '$1,');

@@ -94,7 +94,7 @@ app.component(
 			            { field: 'baths', displayName: 'BA', visible: $sessionStorage.user.settings[0]["baths"], displayName: 'BA', width: '3%'  }, 
 			            { field: 'year_built', displayName: 'Year', visible: $sessionStorage.user.settings[0]["year_built"], width: '4%' }, 
 			            { field: 'pool_spa', displayName: 'Pool/Spa', visible: $sessionStorage.user.settings[0]["pool_spa"], width: '5%' }, 
-			            { field: 'occupancy', displayName: 'Occ.', visible: $sessionStorage.user.settings[0]["occupancy"] }, 
+			            { field: 'occupancy', displayName: 'Occ.', visible: $sessionStorage.user.settings[0]["occupancy"] },  
 			            { field: 'lockbox_combo', displayName: 'Lockbox', visible: $sessionStorage.user.settings[0]["lockbox_combo"] }, 
 			            { field: 'alarm_code', displayName: 'Alarm', visible: $sessionStorage.user.settings[0]["alarm_code"]}, 
 			            { field: 'asset_manager', displayName: 'Manager', visible: $sessionStorage.user.settings[0]["asset_manager"] },
@@ -103,7 +103,8 @@ app.component(
 			            { field: 'purchase_cost', displayName: 'Purchase Price', visible: $sessionStorage.user.settings[0]["purchase_cost"] },
 			            { field: 'rehab_estimate', displayName: 'Rehab Estimate', visible: $sessionStorage.user.settings[0]["rehab_estimate"] },
 			            { field: 'arv', displayName: 'ARV', visible: $sessionStorage.user.settings[0]["arv"] },
-			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
+			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] },
+			            { field: 'est_possession', displayName: 'Est. Poss.', visible: $sessionStorage.user.settings[0]["est_possession"] }
 			        ];  			        
 			        
 			        $scope.gridOptions = {

@@ -68,11 +68,12 @@ app.factory("properties", ['$http',
             for(var i=0; i<results.data.length;i++) {
               o.properties[i].purchase_cost = o.properties[i].purchase_cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
               o.properties[i].pid = parseInt(results.data[i].pid);
-              o.properties[i].pool_spa = (o.properties[i].pool_spa === 0) ? "No" : "Yes";
-              o.properties[i].is_listed = (o.properties[i].is_listed === 0) ? "No" : "Yes";
+              o.properties[i].pool_spa = (o.properties[i].pool_spa == 0) ? "No" : "Yes";
+              o.properties[i].is_listed = (o.properties[i].is_listed == 0) ? "No" : "Yes";
               o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);
               o.properties[i].sale_close_date = convertDate(o.properties[i].sale_close_date);
+              o.properties[i].est_possession = convertDate(o.properties[i].est_possession);
             }
 
             // Push All Properties to Admin

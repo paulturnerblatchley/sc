@@ -18,7 +18,7 @@ app.component(
         controller: function($scope, $rootScope, auth, uiGridConstants, $sessionStorage, $state, proforma) {
         	$scope.user = $sessionStorage.user;
             $scope.hideColumn = function(col,uid) {
-
+            	console.log(col);
 	            var change = {};
 	            change.uid = uid;
 	            change.field = col.field;
@@ -74,8 +74,8 @@ app.component(
 			                        { value: 'Bid', label: 'Bid' }
 			                    ]
 			            }, headerCellClass: $scope.highlightFilteredHeader },
-	            { field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
-	            { field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
+	            		{ field: 'fha', displayName: 'FHA', visible: $sessionStorage.user.settings[0]["fha"], type: 'date', width: '6%', enableFiltering: true}, 
+	            		{ field: 'dsp', displayName: 'DSP', visible: $sessionStorage.user.settings[0]["dsp"], type: 'number', width: '6%', enableFiltering: true}, 
 			            { field: 'property_type', displayName: 'Type', visible: $sessionStorage.user.settings[0]["property_type"],
 			                filter: {
 			                    type: uiGridConstants.filter.SELECT,
@@ -107,7 +107,8 @@ app.component(
 			            { field: 'purchase_cost', displayName: 'Purchase Price', visible: $sessionStorage.user.settings[0]["purchase_cost"] },
 			            { field: 'rehab_estimate', displayName: 'Rehab Estimate', visible: $sessionStorage.user.settings[0]["rehab_estimate"] },
 			            { field: 'arv', displayName: 'ARV', visible: $sessionStorage.user.settings[0]["arv"] },
-			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] }
+			            { field: 'estimated_completion', displayName: 'Est. Completion', type: 'date', visible: $sessionStorage.user.settings[0]["estimated_completion"] },
+			            { field: 'est_possession', displayName: 'Est. Poss.', visible: $sessionStorage.user.settings[0]["est_possession"] }
 			        ];  
             
             $scope.logout = function () {

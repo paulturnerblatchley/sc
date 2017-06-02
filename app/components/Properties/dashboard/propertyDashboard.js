@@ -112,6 +112,20 @@ app.component(
                   });
                 }
             };
+
+            $scope.toggle = function(event) {
+                var t = $(event.target);
+                var id = t[0].id;
+                if (t.hasClass("glyphicon-minus")) {
+                    $("#" + id + "-table").addClass("collapse");
+                    t.removeClass("glyphicon-minus");
+                    t.addClass("glyphicon-plus");
+                } else {
+                    $("#" + id + "-table").removeClass("collapse");
+                    t.removeClass("glyphicon-plus");
+                    t.addClass("glyphicon-minus");
+                }
+            }
         }
 	}
 ); 

@@ -47,16 +47,26 @@ app.component(
 		    };
 
 		    $scope.toggleComments = function() {
-		        var lb = $("#lightbox");
-		        if (lb.css("display") == "block") {
-		            lb.css("display", "none");
-		            $("html,body").css("height","unset");
-		            $("footer").css("margin-top", "0px");
-		        } else {
-		            lb.css("display", "block");
-		            $("html,body").css("height","100%");
-		            $("footer").css("margin-top", "200px");
-		        }
+		    	if ($('html, body').css("overflow") != "hidden") {
+		    		$('html, body').animate({
+			            scrollTop : 0
+			        }, 5);
+		    		$('html, body').css("overflow", "hidden");
+		    	} else {
+		    		$('html, body').css("overflow", "auto");
+		    	}
+		        setTimeout(function() {
+		        	var lb = $("#lightbox");
+			        if (lb.css("display") == "block") {
+			            lb.css("display", "none");
+			            $("html,body").css("height","unset");
+			            $("footer").css("margin-top", "0px");
+			        } else {
+			            lb.css("display", "block");
+			            $("html,body").css("height","100%");
+			            $("footer").css("margin-top", "200px");
+			        }
+		        },15);
 		    };
 		}
 	}

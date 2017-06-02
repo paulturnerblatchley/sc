@@ -373,7 +373,13 @@ $app->post('/editProperty', function() use ($app) {
     'listing_date' => $r->property->listing_date,
     'list_price' => $r->property->list_price,
     'escrow_price' => $r->property->escrow_price,
-    'sale_close_date' => $r->property->sale_close_date
+    'sale_close_date' => $r->property->sale_close_date,
+    'est_possession' => $r->property->est_possession,
+    'holdover_status' => $r->property->holdover_status,
+    'notice_date' => $r->property->notice_date,
+    'rehab_start' => $r->property->rehab_start,
+    'offer_accept' => $r->property->offer_accept,
+    'sale_price' => $r->property->sale_price
   );
   foreach ($column_names as $key => $value) {
     $result = $db->updateRow($tabble_name, $key, $value, 'pid', $pid);

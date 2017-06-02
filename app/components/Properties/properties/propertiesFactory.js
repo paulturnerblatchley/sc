@@ -64,6 +64,11 @@ app.factory("properties", ['$http',
                 return d[1] + "/" + d[2] + "/" + d[0];
               }
             }
+            function convertCash(x) {
+              x = x.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              x = "$" + x;
+              return x;
+            }
             
             for(var i=0; i<results.data.length;i++) {
               o.properties[i].purchase_cost = o.properties[i].purchase_cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
@@ -74,6 +79,10 @@ app.factory("properties", ['$http',
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);
               o.properties[i].sale_close_date = convertDate(o.properties[i].sale_close_date);
               o.properties[i].est_possession = convertDate(o.properties[i].est_possession);
+              o.properties[i].rehab_start = convertDate(o.properties[i].rehab_start);
+              o.properties[i].est_completion = convertDate(o.properties[i].est_completion);
+              o.properties[i].rehab_estimate = convertCash(o.properties[i].rehab_estimate);
+              o.properties[i].arv = convertCash(o.properties[i].arv);
             }
 
             // Push All Properties to Admin

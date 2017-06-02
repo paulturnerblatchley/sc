@@ -9,6 +9,10 @@ app.component(
         	this.$onInit = function() {
         		$scope.tableData = this.tableData;
 
+        		for (i = 0; i < $scope.tableData.length; i++) {
+        			$scope.tableData[i]["#"] = i + 1;
+        		}
+
 			    if($state.current.name == "properties") {
 			        setTimeout( function() {
 			            var scrollTop     = $(window).scrollTop(),

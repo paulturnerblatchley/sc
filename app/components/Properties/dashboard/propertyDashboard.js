@@ -16,8 +16,9 @@ app.component(
             else               return 'app/components/User/login/login.html'
         },
         controller: function($scope, singleproperty, auth, $state, Data) {
+            $('.table>tbody>tr>td>input').parent().css('background-color', '#fff');
+            $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
             $scope.s = singleproperty.property;
-            console.log($scope.s);
             $scope.updateProperty = function(s) {
                 $("#form-loading").css("display", "block");
                 var f = document.getElementById('file').files;
@@ -32,16 +33,24 @@ app.component(
                 } else {
                     s.images = null;
                 }
-                if (s.pool_spa == "Yes" || s.pool_spa == "yes" || s.pool_spa == "Y" || s.pool_spa == "y") {
-                    s.pool_spa = 1;
-                } else {
-                    s.pool_spa = 0;
+
+                s.pool_spa = (s.pool_spa == "Yes") ? 1 : 0;
+                s.is_listed = (s.is_listed == "Yes") ? 1 : 0;
+
+                function removeCash(x) {
+                  x = x.replace(/\B(?=(\d{3})+(?!\d))/g, "");
+                  if (x.indexOf('$') == 0) {
+                    x = x.slice(1);
+                  }
+                  return x;
                 }
-                if (s.is_listed == "Yes" || s.is_listed == "yes" || s.is_listed == "Y" || s.is_listed == "y") {
-                    s.is_listed = 1;
-                } else {
-                    s.is_listed = 0;
-                }
+
+                s.purchase_cost = removeCash(s.purchase_cost);
+                s.arv = removeCash(s.arv);
+                s.list_price = removeCash(s.list_price);
+                s.sale_price = removeCash(s.sale_price);
+                s.escrow_price = removeCash(s.escrow_price);
+
                 var geocoder = new google.maps.Geocoder(),
                     a = s.address + ", " + s.city + ", CA " + s.zip,
                     latitude,
@@ -72,6 +81,7 @@ app.component(
             };
 
             $scope.uploadFile = function() {
+                $("#form-loading").css("display", "block");
                 if ($scope.myFile) {
                     var files = [];
                     for (i=0;i<$scope.myFile.length;i++) {

@@ -2,25 +2,25 @@
 <div id="info-box" class="add-info">
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
-	    	<h4>Sold Details: {{property.address}}</h4>
+	    	<h4>Holdover Details: {{property.address}}</h4>
 	    	<div class="col-sm-5 infobox-titles">
 			  <ul>
-				<li>Purchase Date:</li>
-				<li>Sale Date:</li>
-				<li>Purchase Price:</li>
-				<li>ARV:</li>
-				<li>Sale Price:</li>
-				<li>Ownership Length:</li>
+				<li>Purchase Date</li>
+				<li>Occupancy Status</li>
+				<li>Status</li>
+				<li>Notice Date:</li>
+				<li>Est. Poss.</li>
+				<li>County</li>
 			  </ul>
 		   </div>
 		   <div class="col-sm-7">
 			  <ul>
-				<li>{{property.purchase_date || 'Not Defined'}}</li>
-				<li>{{property.sale_date || 'Not Defined'}}</li>
-				<li>{{property.purchase_cost || 'Not Defined'}}</li>
-				<li>{{property.arv || 'Not Defined'}}</li>
-				<li>{{property.sale_price || 'Not Defined'}}</li>
-                <li>{{property.length_of_own || 'Not Defined'}}</li>
+				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
+				<li>{{property.occupancy || 'Not Defined'}}</li>
+				<li>{{property.status || 'Not Defined'}}</li>
+				<li>{{property.notice_date || 'Not Defined'}}</li>
+				<li>{{property.est_possession || 'Not Defined'}}</li>
+                <li>{{property.county || 'Not Defined'}}</li>
 			  </ul>
 		   </div>
 	    </div>

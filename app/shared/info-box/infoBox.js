@@ -16,36 +16,27 @@ app.component(
 			    for (i = 0; i < $scope.properties.length; i++){
 			      if($scope.properties[i].pid == data) {
 			      	var phase = $scope.properties[i].phase;
-			        // Purchase
-		            if (phase == 'Purchase') {
-		            	$scope.template = 'app/shared/info-box/infoBoxPurchase.html'
-		            // Relocation
-		            } else if (phase == 'Relocation') {
-		            	$scope.template = 'app/shared/info-box/infoBoxRelocation.html'
-	            	// Bid
-		            } else if (phase == 'Bid') {
-		            	$scope.template = 'app/shared/info-box/infoBoxBid.html'
-		            // Eviction
-		            } else if (phase == 'Eviction') {
-		            	$scope.template = 'app/shared/info-box/infoBoxEviction.html'
-	            	// Plan Check
-		            } else if (phase == 'Plan Check') {
-		            	$scope.template = 'app/shared/info-box/infoBoxPlanCheck.html'
+			        // Aquisition
+		            if (phase == 'Acquisition') {
+		            	$scope.template = 'app/shared/info-box/infoBoxAcquisition.html'
+		            // Holdover
+		            } else if (phase == 'Holdover') {
+		            	$scope.template = 'app/shared/info-box/infoBoxHoldover.html'
 	            	// Rehab
 		            } else if (phase == 'Rehab') {
 		            	$scope.template = 'app/shared/info-box/infoBoxRehab.html'
 	            	// Listed
 		            } else if (phase == 'Listed') {
 		            	$scope.template = 'app/shared/info-box/infoBoxListing.html'
-	            	// Hold
-		            } else if (phase == 'Hold') {
-		            	$scope.template = 'app/shared/info-box/infoBoxHold.html'
 	            	// Escrow
-		            } else if (phase == 'Escrow') {
+		            } else if (phase == 'Sale Escrow') {
 		            	$scope.template = 'app/shared/info-box/infoBoxEscrow.html'
 					// Sold
 		            } else if (phase == 'Sold') {
 		            	$scope.template = 'app/shared/info-box/infoBoxSold.html'
+	            	// Default
+		            } else if (phase == 'Withdrawn') {
+		            	$scope.template = 'app/shared/info-box/infoBoxWithdrawn.html'
 	            	// Default
 		            } else  {
 		            	$scope.template = 'app/shared/info-box/infoBoxDefault.html'

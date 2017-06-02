@@ -3,6 +3,26 @@
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    	<h4>Listing Details: {{property.address}}</h4>
+	    	<div class="col-sm-5 infobox-titles">
+			  <ul>
+				<li>Purchase Date:</li>
+				<li>DSP:</li>
+				<li>FHA:</li>
+				<li>Listing Date:</li>
+				<li>Listing Price:</li>
+				<li>DOM:</li>
+			  </ul>
+		   </div>
+		   <div class="col-sm-7">
+			  <ul>
+				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
+				<li>{{property.dsp || 'Not Defined'}}</li>
+				<li>{{property.fha || 'Not Defined'}}</li>
+				<li>{{property.listing_date || 'Not Defined'}}</li>
+				<li>{{property.list_price || 'Not Defined'}}</li>
+                <li>{{property.dom || 'Not Defined'}}</li>
+			  </ul>
+		   </div>
 	    </div>
         <a ng-click="linkToSingle(property)">
 		   <button class="btn btn-primary">View Listing</button>

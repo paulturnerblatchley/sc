@@ -17,7 +17,7 @@ app.component(
         },
         controller: function($scope, singleproperty, auth, $state, Data) {
             $scope.s = singleproperty.property;
-            
+            console.log($scope.s);
             $scope.updateProperty = function(s) {
                 $("#form-loading").css("display", "block");
                 var f = document.getElementById('file').files;

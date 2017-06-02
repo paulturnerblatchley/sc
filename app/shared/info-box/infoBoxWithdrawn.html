@@ -2,10 +2,10 @@
 <div id="info-box" class="add-info">
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
-	    	<h4>Hold Details: {{property.address}}</h4>
+	    	<h4>{{property.address}} has been withdrawn</h4>
 	    </div>
         <a ng-click="linkToSingle(property)">
-		   <button class="btn btn-primary">View Property</button>
+		   <button class="btn btn-primary">View Property Details</button>
         </a>
 	</div>
 </div>

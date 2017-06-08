@@ -1,6 +1,27 @@
 app.factory("escrow", ['$http',
   function($http) {
       var o = {
+        forms: {
+          "escrow": 0,
+          "home liberty": 0,
+          "ad": 0,
+          "bia": 0,
+          "sbsa": 0,
+          "ac": 0,
+          "fvac": 0,
+          "tds": 0,
+          "sbq": 0,
+          "hid": 0,
+          "cmd": 0,
+          "fld": 0,
+          "eq": 0,
+          "whsd": 0,
+          "wcmd": 0,
+          "wfa": 0,
+          "dbd": 0,
+          "selling avid": 0,
+          "listing avid": 0
+        },
         progress: {
           "day01" : {
             label: "Day 1",
@@ -98,6 +119,11 @@ app.factory("escrow", ['$http',
                 label: "Send Contingency Removal (Inspections & Appraisal) ",
                 status: false,
                 date: true
+              },
+              "send_acknowledge" : {
+                label: "Acknowledgement Received",
+                status: false,
+                date: true
               }
             }
           },
@@ -106,6 +132,11 @@ app.factory("escrow", ['$http',
             tasks: {
               "loan_contingency" : {
                 label: "Loan Contingency Removal",
+                status: false,
+                date: true
+              },
+              "loan_acknowledge" : {
+                label: "Acknowledgement Received",
                 status: false,
                 date: true
               }
@@ -126,8 +157,11 @@ app.factory("escrow", ['$http',
 
       o.getEscrowProgress = function(q, pid) {
         return $http.get(serviceBase + q).then(function(results) {
+          // Loop Through All
           for(i = 0; i < results.data.length; i++) {
+            // Filter by PID
             if (results.data[i].pid == pid) {
+              // Check Column Names
               for (j in results.data[i]) {
                 if (j == "home_inspect") {
                   o.progress["day03"].tasks["ask_home_inspect"].inspection = results.data[i][j];
@@ -152,6 +186,19 @@ app.factory("escrow", ['$http',
                   }
                 } 
               }
+            } 
+          }
+        });
+      };
+
+      o.getEscrowForms = function(q, pid) {
+        return $http.get(serviceBase + q).then(function(results) {
+          for(i = 0; i < results.data.length; i++) {
+            if (results.data[i].pid == pid) {
+              for(j in results.data[i]) {
+                var x = j.replace("_", " ");
+                o.forms[x] = (results.data[i][j] == "1") ? true : false;
+              }  
             }
           }
         });

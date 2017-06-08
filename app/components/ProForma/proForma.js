@@ -10,6 +10,12 @@ app.component(
             else               return 'app/components/User/login/login.html'
         },
         controller: function($scope, auth, $http, singleproperty, proforma) {
+            $('.table>tbody>tr>td>.invisible-form').parent().css({
+                'background-color': '#fff',
+                'padding': '0',
+                'height': '100%'
+            });
+            $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
             // Get Property Info
         	$scope.s = singleproperty.property;
             $scope.proforma = {};
@@ -27,6 +33,14 @@ app.component(
                 total: 0
             };
 
+            $scope.proforma.selling_closing_costs = {
+                escrow: [],
+                title: [],
+                prorations: [],
+                other: [],
+                total: 0
+            };
+
             for (i = 0; i < proforma.purchaseCosts.length; i++) {
                 if (proforma.purchaseCosts[i].pid == $scope.s.pid) {
                     if (proforma.purchaseCosts[i].category == 'escrow') {
@@ -37,6 +51,20 @@ app.component(
                         $scope.proforma.purchase_closing_costs.prorations.push(proforma.purchaseCosts[i]);
                     } else {
                         $scope.proforma.purchase_closing_costs.other.push(proforma.purchaseCosts[i]);
+                    }
+                }
+            }
+
+            for (i = 0; i < proforma.sellingCosts.length; i++) {
+                if (proforma.sellingCosts[i].pid == $scope.s.pid) {
+                    if (proforma.sellingCosts[i].category == 'escrow') {
+                        $scope.proforma.selling_closing_costs.escrow.push(proforma.sellingCosts[i]);
+                    } else if (proforma.sellingCosts[i].category == 'title') {
+                        $scope.proforma.selling_closing_costs.title.push(proforma.sellingCosts[i]);
+                    } else if (proforma.sellingCosts[i].category == 'prorations') {
+                        $scope.proforma.selling_closing_costs.prorations.push(proforma.sellingCosts[i]);
+                    } else {
+                        $scope.proforma.selling_closing_costs.other.push(proforma.sellingCosts[i]);
                     }
                 }
             }
@@ -65,12 +93,40 @@ app.component(
                 }
             }
 
+            function calculateTotalSellingCosts() {
+                $scope.proforma.selling_closing_costs.total = 0;
+                
+                for (i = 0; i < $scope.proforma.selling_closing_costs.escrow.length; i++) {
+                    $scope.proforma.selling_closing_costs.escrow[i].cost = $scope.proforma.selling_closing_costs.escrow[i].cost * 1;
+                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.escrow[i].cost;
+                }
+
+                for (i = 0; i < $scope.proforma.selling_closing_costs.title.length; i++) {
+                    $scope.proforma.selling_closing_costs.title[i].cost = $scope.proforma.selling_closing_costs.title[i].cost * 1;
+                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.title[i].cost;
+                }
+
+                for (i = 0; i < $scope.proforma.selling_closing_costs.prorations.length; i++) {
+                    $scope.proforma.selling_closing_costs.prorations[i].cost = $scope.proforma.selling_closing_costs.prorations[i].cost * 1;
+                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.prorations[i].cost;
+                }
+
+                for (i = 0; i < $scope.proforma.selling_closing_costs.other.length; i++) {
+                    $scope.proforma.selling_closing_costs.other[i].cost = $scope.proforma.selling_closing_costs.other[i].cost * 1;
+                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.other[i].cost;
+                }
+            }
+
             calculateTotalPurchaseCosts();
+            calculateTotalSellingCosts();
 
             if ($scope.proforma.purchase_closing_costs.total == 0) {
                 $scope.proforma.purchase_closing_costs.total = $scope.proforma.buy_target * .02;
             }
             
+            if ($scope.proforma.selling_closing_costs.total == 0) {
+                $scope.proforma.selling_closing_costs.total = $scope.proforma.buy_target * .01;
+            }
 
             $scope.proforma.profit_share = 100;
 
@@ -121,7 +177,7 @@ app.component(
             }
             
 
-            $scope.addItem = function(item) {
+            $scope.addPurchaseCost = function(item) {
                 var cost = {};
                 for ( i in item ) {
                     cost.pid = $scope.s.pid; 
@@ -144,8 +200,44 @@ app.component(
                 $('.item-desc').val('');
             }
 
+            $scope.addSellingCost = function(item) {
+                var cost = {};
+                for ( i in item ) {
+                    cost.pid = $scope.s.pid; 
+                    cost.category = i;
+                    cost.description = item[i].description;
+                    cost.cost = item[i].cost;
+                    auth.post('addSellingCost', {
+                        cost: cost
+                    }).then(function(results) {
+                        auth.toast(results);
+                    });
+                    $scope.proforma.selling_closing_costs[i].push({
+                        description: item[i].description,
+                        cost: item[i].cost.replace(/[$, ]/g, "")
+                    });
+                }
+
+                calculateTotalSellingCosts()
+
+                $('.item-desc').val('');
+            }
+
             $scope.togglePurchaseCosts = function() {
-                var lb = $("#lightbox");
+                var lb = $("#lightbox1");
+                if (lb.css("display") == "block") {
+                    lb.css("display", "none");
+                    $("html,body").css("height","unset");
+                    $("footer").css("margin-top", "0px");
+                } else {
+                    lb.css("display", "block");
+                    $("html,body").css("height","100%");
+                    $("footer").css("margin-top", "200px");
+                }
+            };
+
+            $scope.toggleSellingCosts = function() {
+                var lb = $("#lightbox2");
                 if (lb.css("display") == "block") {
                     lb.css("display", "none");
                     $("html,body").css("height","unset");

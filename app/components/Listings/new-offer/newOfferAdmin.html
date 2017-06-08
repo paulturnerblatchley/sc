@@ -1,19 +1,18 @@
 <app-header></app-header>
 <div class="breadcrumbs" id="breadcrumbs">
-    <ul class="breadcrumb">
-        <li>
-            <a ui-sref="listings">Listings</a>
-        </li>
-        <li><a ng-click="goToProperty()">{{s.address}}</a></li>
-        <li class="active">New Offer</li>
-    </ul>
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
+    <li><a ui-sref="properties.property.listing">Manage Property</a></li>
+    <li class="active">Create Offer</li>
+  </ul>
 </div>
 <div class="page-content">
     <div class="container">
         <div class="row">
             <div class="col-sm-7 col-sm-offset-1">
                 <h4>
-                    Create a New Offer
+                    Create a New Offer for {{s.address}}
                 </h4>
                 <br/>
                 <form name="newOfferForm" class="form-horizontal" role="form" ng-submit="newOffer(offer)" latlng="obj">
@@ -26,7 +25,13 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="financing">Financing</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" name="financing" placeholder="Financing" ng-model="offer.financing" />
+                          <select class="form-control" name="financing" ng-model="offer.financing">
+                              <option value="FHA">FHA</option>
+                              <option value="Conv">Conventional</option>
+                              <option value="VA">VA</option>
+                              <option value="Cash">Cash</option>
+                              <option value="Private">Private</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -38,79 +43,114 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="deposit">Deposit</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="deposit" placeholder="$xxxxx" ng-model="offer.deposit" />
+                            <input type="text" class="form-control" name="deposit" placeholder="$xxxxx" ng-model="offer.deposit" format="currency"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="offer_price">Offer Price</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" name="offer_price" placeholder="$xxxxx" ng-model="offer.offer_price"/>
+                          <input type="text" class="form-control" name="offer_price" placeholder="$xxxxx" ng-model="offer.offer_price" format="currency"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label no-padding-right" for="comp">Comp</label>
+                        <label class="col-sm-4 control-label no-padding-right" for="closing_costs">Closing Costs</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" name="comp" placeholder="Comp" ng-model="offer.comp"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label no-padding-right" for="ccnr">CCNRs</label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="$xxxxx" name="ccnr" ng-model="offer.ccnr"/>
+                          <input type="text" class="form-control" placeholder="$xxxxx" name="closing_costs" ng-model="offer.closing_costs" format="currency"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="counter">Counters/Adjustments</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="$xxxxx" name="counter" ng-model="offer.counter" />
+                          <input type="text" class="form-control" placeholder="$xxxxx" name="counter" ng-model="offer.counter" format="currency"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label no-padding-right" for="hoa">HOA Transfer</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" placeholder="$xxxxx" name="hoa" ng-model="offer.hoa" format="currency"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label no-padding-right" for="home_warranty">Home Warranty</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" placeholder="$xxxxx" name="home_warranty" ng-model="offer.home_warranty" format="currency"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="title">Title</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="Title" name="title" ng-model="offer.title"/>
+                          <select class="form-control" name="title" ng-model="offer.title">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="escrow">Escrow</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="Escrow" name="escrow" ng-model="offer.escrow"/>
+                          <select class="form-control" name="escrow" ng-model="offer.escrow">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="termite">Termite</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="Termite" name="termite" ng-model="offer.termite"/>
+                            <select class="form-control" name="termite" ng-model="offer.termite">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="nhd">NHD</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="NHD" name="nhd" ng-model="offer.nhd"/>
+                            <select class="form-control" name="nhd" ng-model="offer.nhd">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="septic">Septic</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="Septic" name="septic" ng-model="offer.septic"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label no-padding-right" for="retrofit">Retrofit</label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="Retrofit" name="retrofit" ng-model="offer.retrofit"/>
+                          <select class="form-control" name="septic" ng-model="offer.septic">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="co_fees">Co. Fees</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="Co. Fees" name="co_fees" ng-model="offer.co_fees"/>
+                            <select class="form-control" name="co_fees" ng-model="offer.co_fees">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="city_fees">City Fees</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" placeholder="City Fees" name="city_fees" ng-model="offer.city_fees"/>
+                          <select class="form-control" name="city_fees" ng-model="offer.city_fees">
+                              <option value="Buyer">Buyer</option>
+                              <option value="Seller">Seller</option>
+                              <option value="50/50">50/50</option>
+                              <option value="Other">Other</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -122,7 +162,10 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right" for="pof">POF</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="POF" name="pof" ng-model="offer.pof"/>
+                           <select class="form-control" name="pof" ng-model="offer.pof">
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                          </select>
                         </div>
                     </div>
                     <div class="form-group">

@@ -105,6 +105,9 @@ app.config(
                     getPurchaseCosts: ['proforma', function(proforma) {
                       return proforma.getPurchaseCosts('purchaseCosts');
                     }],
+                    getSellingCosts: ['proforma', function(proforma) {
+                      return proforma.getSellingCosts('sellingCosts');
+                    }],
                     getProforma: ['proforma', function(proforma) {
                       return proforma.getProforma('proforma');
                     }]
@@ -129,7 +132,21 @@ app.config(
             /* -- Escrow -- */
             .state('properties.property.escrow', {
                 url: '/escrow',
-                template: '<manage-escrow></manage-escrow>'
+                template: '<manage-escrow></manage-escrow>',
+                params: {
+                    pid: null
+                },
+                resolve: {
+                    pid: ['$stateParams', function($stateParams){
+                        $r = $stateParams.pid;
+                    }],
+                    getEscrowProgress: ['escrow', function(escrow) {
+                      return escrow.getEscrowProgress('escrowProgress', $r);
+                    }],
+                    getEscrowForms: ['escrow', function(escrow) {
+                      return escrow.getEscrowForms('escrowForms', $r);
+                    }]
+                }
             })
             /* -- Comments -- */
             .state('properties.property.comments', {
@@ -292,26 +309,6 @@ app.config(
                 resolve: {
                     getProperties: ['properties', function(properties) {
                         return properties.getProperties('properties');
-                    }]
-                }
-            })
-            .state('escrows.manage-escrow', {
-                url: '/{pid}/manage-escrow',
-                views: {'@': {
-                    template: '<manage-escrow></manage-escrow>'
-                }},
-                params: {
-                    pid: null
-                },
-                resolve: {
-                    pid: ['$stateParams', function($stateParams){
-                        $r = $stateParams.pid;
-                    }],
-                    getSingleProperty: ['singleproperty', function(singleproperty) {
-                      return singleproperty.get('properties', $r);
-                    }],
-                    getEscrowProgress: ['escrow', function(escrow) {
-                      return escrow.getEscrowProgress('escrowProgress', $r);
                     }]
                 }
             })

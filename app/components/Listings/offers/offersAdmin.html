@@ -1,15 +1,16 @@
 <app-header></app-header>
 <div class="breadcrumbs" id="breadcrumbs">
-    <ul class="breadcrumb">
-        <li><a ui-sref="listings">Listings</a></li>
-        <li><a ng-click="goToProperty()">{{s.address}}</a></li>
-        <li class="active">Offers</li>
-    </ul>
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
+    <li><a ui-sref="properties.property.listing">Manage Property</a></li>
+    <li class="active">View Offers</li>
+  </ul>
 </div>
 <div class="page-content">
 	<div class="page-header row">
-		<h1 class="col-sm-6">Offers for {{s.address}}</h1>
-		<h4 class="col-sm-6">Commission: {{proforma.commission}}%</h4>
+		<h1 class="col-sm-5">Offers for {{s.address}}</h1>
+		<h4 class="col-sm-3">Commission: {{proforma.commission}}%</h4>
 	</div>
   <br>
 	<div ng-hide="offers == null || offers.length == 0" class="offers table-responsive row">
@@ -30,8 +31,10 @@
 					<td>{{offer.offer_price}}</td>
 					<td>{{offer.comp}}</td>
 					<td>{{offer.commission}}</td>
-					<td>{{offer.ccnr}}</td>
+					<td>{{offer.closing_costs}}</td>
 					<td>{{offer.counter}}</td>
+					<td>{{offer.hoa}}</td>
+					<td>{{offer.home_warranty}}</td>
 					<td>{{offer.net_offer}}</td>
 					<td>{{offer.title}}</td>
 					<td>{{offer.escrow}}</td>

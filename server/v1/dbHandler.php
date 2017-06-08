@@ -308,13 +308,8 @@ class DbHandler {
         return $this->conn->query($query) or die($this->conn->error.__LINE__);
     }
 
-    public function removeImage($img) {
-      $query = "DELETE FROM images WHERE image_name = '". $img ."' LIMIT 1";
-      return $this->conn->query($query) or die($this->conn->error.__LINE__);
-    }
-
-    public function removeRow($pid) {
-      $query = "DELETE FROM properties WHERE pid = ".$pid." LIMIT 1";
+    public function deleteItem($table, $column, $value) {
+      $query = "DELETE FROM " . $table . " WHERE " . $column . " = '". $value . "' LIMIT 1";
       return $this->conn->query($query) or die($this->conn->error.__LINE__);
     }
 

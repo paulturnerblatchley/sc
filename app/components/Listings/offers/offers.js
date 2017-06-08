@@ -38,7 +38,7 @@ app.component(
                         // Skip
                     } else if (j == "accept") {
                         // Skip
-                    } else if (j == "ccnr") {
+                    } else if (j == "closing_costs") {
                         $scope.columns.push('commission');
                         $scope.columns.push(j.replace(/_/g, " "));
                     } else if (j == "title") {
@@ -55,8 +55,10 @@ app.component(
                 $scope.offers[i].net_offer = (($scope.offers[i].offer_price*1) - ($scope.offers[i].commission*1) -($scope.offers[i].ccnr*1) + ($scope.offers[i].counter*1)).toFixed(0);
                 $scope.offers[i].commission = "$" + $scope.offers[i].commission.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                 $scope.offers[i].net_offer = "$" + $scope.offers[i].net_offer.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-                $scope.offers[i].ccnr = "$" + $scope.offers[i].ccnr.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+                $scope.offers[i].closing_costs = "$" + $scope.offers[i].closing_costs.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                 $scope.offers[i].deposit = "$" + $scope.offers[i].deposit.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+                $scope.offers[i].hoa = "$" + $scope.offers[i].hoa.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+                $scope.offers[i].home_warranty = "$" + $scope.offers[i].home_warranty.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                 $scope.offers[i].counter = "$" + $scope.offers[i].counter.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                 $scope.offers[i].offer_price = "$" + $scope.offers[i].offer_price.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
             }
@@ -108,6 +110,14 @@ app.component(
                     disabled: false
                   }
             ];
+
+            $scope.newOffer = function() {
+                $state.go("listings.new-offer", {pid: $scope.s.pid});
+            }
+
+            $scope.seeOffers = function() {
+                $state.go("listings.offers", {pid: $scope.s.pid});
+            }
         }
 	}
 ); 

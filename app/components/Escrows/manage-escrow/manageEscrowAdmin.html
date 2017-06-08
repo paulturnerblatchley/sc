@@ -1,3 +1,27 @@
+<div class="row top-buffer20">
+  <h5 class="col-sm-3">
+    Escrow Price: {{s.escrow_price}}
+  </h5>
+  <h5 class="col-sm-3">
+    Offer Acceptance: {{s.offer_accept}}
+  </h5>
+  <h5 class="col-sm-3">
+    Days in Escrow: {{s.escrow_days}}
+  </h5>
+  <h5 class="col-sm-3">
+    Sale Close Date: {{s.sale_close_date}}
+  </h5>
+  <hr class="col-xs-12">
+</div>
+<div class="row">
+  <h4>Forms</h4>
+  <div class="checkbox"  ng-repeat="(k,v) in forms">
+    <label class="col-sm-2 forms">
+        <input type="checkbox" name="v" ng-model="v" ng-change="saveEscrowForm(s.pid,k,v)"> {{k}}
+    </label>
+  </div>
+  <hr class="col-xs-12">
+</div>
 <div class="progress-box row clearfix" ng-repeat="(key,value) in progress">
   <h3>{{value.label}}</h3>
   <div class="checkbox col-sm-2" ng-repeat="(k,v) in value.tasks">

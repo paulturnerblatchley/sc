@@ -2,25 +2,22 @@
 <div class="breadcrumbs" id="breadcrumbs">
   <ul class="breadcrumb">
     <li><a ui-sref="properties">Properties</a></li>
-    <li>{{s.address}}</li>
+    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
     <li class="active">Manage Property</li>
   </ul>
 </div>
-<div class="page-content">
-  <div class="container">
-    <div class="row">
-	   <h1 class="col-sm-10">{{s.address}}, {{s.city}}, CA {{s.zip}}</h1>
-    </div>
+<div class="page-content">    <div class="row">
+  <h1 class="col-sm-10">{{s.address}}, {{s.city}}, CA {{s.zip}}</h1>
+  </div>
     <ul class="nav nav-tabs">
       <li id="dashboard" role="presentation" class="active" ng-click="changeTab($event)"><a ui-sref="properties.property.dashboard">Dashboard</a></li>
       <li id="proforma" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.proforma">Pro Forma</a></li>
       <li id="bids" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.bids">Bids</a></li>
       <li id="rehab" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.rehab">Rehab</a></li>
       <li id="listing" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.listing">Listing</a></li>
-      <li id="escrow" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.escrow">Escrow</a></li>
+      <li id="escrow" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.escrow({pid: s.pid})">Escrow</a></li>
       <li id="comments" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.comments">Comments</a></li>
     </ul>
-    <ui-view></ui-view>
-  </div>
+  <ui-view></ui-view>
 </div>
 <app-footer></app-footer>

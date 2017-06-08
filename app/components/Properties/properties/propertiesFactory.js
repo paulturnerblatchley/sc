@@ -130,7 +130,7 @@ app.factory("properties", ['$http',
             // Push Only Escrow Properties
             o.escrowProperties = [];
             for (i = 0; i < o.properties.length; i++) {
-              if (o.properties[i].phase == "Escrow") {
+              if (o.properties[i].phase == "Sale Escrow") {
                 o.escrowProperties.push(o.properties[i]);
               }
             }

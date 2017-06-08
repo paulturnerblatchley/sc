@@ -16,13 +16,15 @@ app.component(
                 $state.go("properties.property.listing", {pid: $scope.s.pid});
             }
 
-            $scope.offer = {'pid': '', 'buyer': '', 'financing': '', 'closing': '', 'deposit': '', 'offer_price': '', 'comp': '', 'ccnr': '', 'counter': '', 'title': '', 'escrow': '', 'termite': '', 'nhd': '', 'septic': '', 'retrofit': '', 'co_fees': '', 'city_fees': '', 'fico': '', 'pof': '', 'other_terms': '', 'notes': ''}
+            $scope.offer = {'pid': '', 'buyer': '', 'financing': '', 'closing': 'days', 'deposit': '', 'offer_price': '', 'closing_costs': '', 'counter': '', 'hoa': '', 'home_warranty': '', 'title': '', 'escrow': '', 'termite': '', 'nhd': '', 'septic': '', 'co_fees': '', 'city_fees': '', 'fico': '', 'pof': '', 'other_terms': '', 'notes': ''}
             $scope.newOffer = function(offer) {
                 offer.pid = $scope.s.pid;
                 offer.deposit = offer.deposit.replace(/[$, ]/g, "");
                 offer.offer_price = offer.offer_price.replace(/[$, ]/g, "");
-                offer.ccnr = offer.ccnr.replace(/[$, ]/g, "");
+                offer.closing_costs = offer.closing_costs.replace(/[$, ]/g, "");
                 offer.counter = offer.counter.replace(/[$, ]/g, "");
+                offer.hoa = offer.hoa.replace(/[$, ]/g, "");
+                offer.home_warranty = offer.home_warranty.replace(/[$, ]/g, "");
 
                 $("#loading").css("display", "block");
                 auth.post('newOffer', {
@@ -34,6 +36,14 @@ app.component(
                         $state.go('listings.offers', {pid: $scope.s.pid});
                     }
                 });
+            }
+
+            $scope.newOffer = function() {
+                $state.go("listings.new-offer", {pid: $scope.s.pid});
+            }
+
+            $scope.seeOffers = function() {
+                $state.go("listings.offers", {pid: $scope.s.pid});
             }
     
         }

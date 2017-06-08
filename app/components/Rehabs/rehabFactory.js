@@ -29,7 +29,11 @@ app.factory("rehab", ['$http',
             o.rehab.sales_clean = [];
             o.rehab.stucco = [];
             o.rehab.windows = [];
+
             for (j in o.rehab) {
+
+              o.rehab[j].comp_perc = o.rehab[j].comp_perc + "%";
+
               if (/\d{4}-\d{2}-\d{2}/.test(o.rehab[j])) {
                 o.rehab[j] = moment(o.rehab[j])._d;
                 if (o.rehab[j] == "Invalid Date") {

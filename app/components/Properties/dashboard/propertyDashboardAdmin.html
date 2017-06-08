@@ -1,7 +1,7 @@
 <form name="propertyUpdate" class="form-horizontal" >
   <div class="row status-controls">      
     <p class="col-sm-3">
-      <select class="invisible-form" name="phase" ng-model="s.phase"/>
+      <select class="invisible-form" name="phase" ng-model="s.phase" ng-change="changeStatusOptions(s)"/>
           <option value="Acquisition">Acquisition</option>
           <option value="Holdover">Holdover</option>
           <option value="Rehab">Rehab</option>
@@ -13,17 +13,7 @@
     </p>
     <p class="col-sm-3">
       <select class="invisible-form" name="status" ng-model="s.status"/>
-          <option value="Active">Active</option>
-          <option value="Hold">Hold</option>
-          <option value="Closed">Closed</option>
-          <option value="Contract">Contract</option>
-          <option value="Purchased">Purchased</option>
-          <option value="Relocation">Relocation</option>
-          <option value="Eviction">Eviction</option>
-          <option value="$-4-Keys">$-4-Keys</option>
-          <option value="Architectural">Architectural</option>
-          <option value="Plan Check">Plan Check</option>
-          <option value="Bid">Bid</option>
+          <option ng-repeat="option in s.status_options" value="{{option}}">{{option}}</option>
       </select>
     </p>
     <p class="col-sm-3">
@@ -43,7 +33,7 @@
         </button>
       </div>
       <div class="form-group edit-property-btn pull-right col-xs-6">
-        <button id="updatePropertySubmit" class="btn btn-primary pull-right col-xs-12" ng-click="uploadFile();updateProperty(s)">
+        <button id="updatePropertySubmit" class="btn btn-success pull-right col-xs-12" ng-click="uploadFile();updateProperty(s)">
           Update
         </button>
       </div>
@@ -51,6 +41,125 @@
   </div>
 <div id="property-box" class="property-box">
   <div class="row">
+    <div class="col-sm-6">
+      <div class="section-header">
+        <h4><i ng-click="toggle($event)" id="t1-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Property Details</h4>
+      </div>
+      <table id="t1-toggle-table" class="list-details table table-bordered">
+        <tbody>
+          <tr>
+            <td class="col-xs-4">Address</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.address"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">City</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.city"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">ZIP</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.zip"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">County</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.county"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Beds</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.beds"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Baths</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.baths"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Square Feet</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sqft"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Lot Size</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.lotsize"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Year Built</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.year_built"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Pool/Spa</td> 
+            <td class="col-xs-8">
+            <select class="invisible-form" name="permits" ng-model="s.pool_spa"/>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Lockbox Combo</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.lockbox_combo"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Alarm Code</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.alarm_code"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Asset Manager</td> 
+            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.asset_manager"></td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Supervisor</td> 
+            <td class="col-xs-8">
+            <select class="invisible-form" name="supervisor" ng-model="s.supervisor"/>
+                  <option value="Codrin">Codrin</option>
+                  <option value="Armando">Armando</option>
+                  <option value="Rodney">Rodney</option>
+                  <option value="Jesus">Jesus</option>
+                  <option value="Marco">Marco</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-4">Permits</td> 
+            <td class="col-xs-8">
+              <select class="invisible-form" name="permits" ng-model="s.permits"/>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="section-header">
+          <h4><i ng-click="toggle($event)" id="t2-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Proforma</h4>
+        </div>
+        <table id="t2-toggle-table" class="list-details table table-bordered">
+          <tbody>
+            <tr>
+              <td class="col-xs-4">Purchase Price</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.purchase_cost"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Rehab Estimate</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Holding Cost</td> 
+              <td class="col-xs-8">{{s.holding_cost}}</td>
+            </tr>
+            <tr>
+             <tr>
+              <td class="col-xs-4">Sales Cost</td> 
+              <td class="col-xs-8">{{s.sales_cost}}</td>
+            </tr>            
+            <tr>
+              <td class="col-xs-4">ARV</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Profit</td> 
+              <td class="col-xs-8">{{s.profit}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
     <div class="col-sm-6">
       <div class="image-box clearfix">
         <div ng-show="!s.images" class="no-img">
@@ -83,8 +192,6 @@
           <input class="col-sm-7" type="file" id="file" name="file" accept="image/*" file-model="myFile" ng-model="s.images" multiple>
         </div>
       </div>
-      </div>
-      <div class="col-sm-6">
       <div class="map">
         <ng-map 
           center="{{s.latlng}}" 
@@ -100,96 +207,9 @@
           </custom-marker>
         </ng-map>
       </div>
-    </div>
+      </div>
     </div>
     <div class="row">
-      <div class="col-sm-6">
-        <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t1-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Property Details</h4>
-        </div>
-        <table id="t1-toggle-table" class="list-details table table-bordered">
-          <tbody>
-            <tr>
-              <td class="col-xs-4">Address</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.address"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">City</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.city"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">ZIP</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.zip"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">County</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.county"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Beds</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.beds"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Baths</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.baths"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Square Feet</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sqft"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Lot Size</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.lotsize"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Year Built</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.year_built"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Pool/Spa</td> 
-              <td class="col-xs-8">
-              <select class="invisible-form" name="permits" ng-model="s.pool_spa"/>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Lockbox Combo</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.lockbox_combo"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Alarm Code</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.alarm_code"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Asset Manager</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.asset_manager"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Supervisor</td> 
-              <td class="col-xs-8">
-              <select class="invisible-form" name="supervisor" ng-model="s.supervisor"/>
-                    <option value="Codrin">Codrin</option>
-                    <option value="Armando">Armando</option>
-                    <option value="Rodney">Rodney</option>
-                    <option value="Jesus">Jesus</option>
-                    <option value="Marco">Marco</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Permits</td> 
-              <td class="col-xs-8">
-                <select class="invisible-form" name="permits" ng-model="s.permits"/>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <div class="col-sm-6">
         <div class="section-header">
           <h4><i ng-click="toggle($event)" id="t2-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Acquisition</h4>
@@ -228,6 +248,10 @@
               </td>
             </tr>
             <tr>
+              <td class="col-xs-4">Rehab Estimate</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate"></td>
+            </tr>
+            <tr>
               <td class="col-xs-4">ARV</td> 
               <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv"></td>
             </tr>
@@ -240,6 +264,10 @@
         </div>
         <table id="t3-toggle-table" class="list-details table table-bordered">
           <tbody>
+            <tr>
+              <td class="col-xs-4">Purchase Date</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.purchase_close_date"></td>
+            </tr>
             <tr>
               <td class="col-xs-4">Occupancy Status</td> 
               <td class="col-xs-8">
@@ -268,39 +296,9 @@
               <td class="col-xs-4">Est. Possession</td> 
               <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.est_possession"></td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-sm-6">
-        <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t5-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listed</h4>
-        </div>
-        <table id="t5-toggle-table" class="list-details table table-bordered">
-          <tbody>
             <tr>
-              <td class="col-xs-4">Listing Date</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.listing_date"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Listing Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-sm-6">
-        <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t7-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Details</h4>
-        </div>
-        <table id="t7-toggle-table" class="list-details table table-bordered">
-          <tbody>
-            <tr>
-              <td class="col-xs-4">Sale Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sale_price"></td>
-            </tr>
-            <tr>
-              <td class="col-xs-4">Length of Ownership</td> 
-              <td class="col-xs-8">{{s.length_of_own}}</td>
+              <td class="col-xs-4">County</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.county"></td>
             </tr>
           </tbody>
         </table>
@@ -342,6 +340,41 @@
       </div>
       <div class="col-sm-6">
         <div class="section-header">
+          <h4><i ng-click="toggle($event)" id="t5-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listed</h4>
+        </div>
+        <table id="t5-toggle-table" class="list-details table table-bordered">
+          <tbody>
+           <tr>
+              <td class="col-xs-4">Purchase Date</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.purchase_close_date"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Days Since Purchase</td> 
+              <td class="col-xs-8">{{s.dsp}}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">FHA Date</td> 
+              <td class="col-xs-8">{{s.fha}}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Listing Date</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.listing_date"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Listing Price</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Day On Market</td> 
+              <td class="col-xs-8">{{s.dom}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="section-header">
           <h4><i ng-click="toggle($event)" id="t6-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Escrow</h4>
         </div>
         <table id="t6-toggle-table" class="list-details table table-bordered">
@@ -362,12 +395,56 @@
               <td class="col-xs-4">Sale Close Date</td> 
               <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.sale_close_date"></td>
             </tr>
+            <tr>
+              <td class="col-xs-4">Days Since Purchase</td> 
+              <td class="col-xs-8">{{s.dsp}}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Days On Market</td> 
+              <td class="col-xs-8">{{s.dom}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="row">
-      <comment-box></comment-box>
+      <div class="col-sm-6">
+        <div class="section-header">
+          <h4><i ng-click="toggle($event)" id="t7-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Details</h4>
+        </div>
+        <table id="t7-toggle-table" class="list-details table table-bordered">
+          <tbody>
+            <tr>
+              <td class="col-xs-4">Purchase Date</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.purchase_close_date"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Sale Date</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.sale_close_date"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Purchase Price</td> 
+              <td class="col-xs-8">{{s.purchase_cost}}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">ARV</td> 
+              <td class="col-xs-8">{{s.arv}}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Sale Price</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sale_price"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Length of Ownership</td> 
+              <td class="col-xs-8">{{s.length_of_own}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
     </div>
   </div>
 </form>
+<div class="row">
+  <div class="section-header">
+    <h4><i ng-click="toggle($event)" id="t8-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Comments</h4>
+  </div>
+  <comment-box id="t8-toggle-table"></comment-box>
+</div>

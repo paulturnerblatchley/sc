@@ -4,6 +4,7 @@ app.factory("proforma", ['$http',
         var o = {
             defaults: [],
             purchaseCosts: [],
+            sellingCosts: [],
             proforma: []
         };
 
@@ -16,6 +17,12 @@ app.factory("proforma", ['$http',
         o.getPurchaseCosts = function(q) {
           return $http.get(serviceBase + q).then(function(results) {
             o.purchaseCosts = results.data;
+          });
+        }
+
+        o.getSellingCosts = function(q) {
+          return $http.get(serviceBase + q).then(function(results) {
+            o.sellingCosts = results.data;
           });
         }
 

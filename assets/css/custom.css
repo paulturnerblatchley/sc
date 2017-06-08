@@ -218,7 +218,7 @@ ul.simple-post-list {
 
 /* - Page - */
 .page-content {
-	padding: 20px 0 60px;
+	padding: 20px 2% 60px;
 	min-height: 500px;
 }
 
@@ -228,8 +228,13 @@ ul.simple-post-list {
 
 /* - Tables - */
 .table>tbody>tr>td {
-	padding: 5px;
+	padding: 6px;
 	background-color: #f5f5f5;
+}
+
+.table>tbody>tr>td>.invisible-form {
+	padding: 5px;
+	height: 100%;
 }
 
 .small-caps {
@@ -240,6 +245,10 @@ ul.simple-post-list {
 
 .table-hover tbody:hover {
 	cursor: pointer;
+}
+
+.top-buffer20 {
+	margin-top: 20px;
 }
 
 /*
@@ -724,6 +733,10 @@ view-property .btn {
 	margin-bottom: 0;
 }
 
+.form-horizontal comment-box .form-group {
+    margin: 0;
+}
+
 .status-controls {
 	background-color: #efefef;
 }
@@ -781,12 +794,12 @@ view-property .btn {
  }
 
 .carousel-inner {
-	height: 259px;
+	height: 306px;
 }
 
  .carousel-inner>.item>a>img, 
  .carousel-inner>.item>img {
-	height: 259px;
+	height: 306px;
     width: auto;
     margin: 0 auto;
  }
@@ -807,7 +820,7 @@ view-property .btn {
 }
 
 .no-img {
-	height: 300px;
+	height: 306px;
 	background-color: #eee;
 	text-align: center;
 	font-size: 21px;
@@ -862,10 +875,10 @@ view-property .btn {
 }
 
 /* LIst Details Table*/
- .list-details td:nth-child(odd) {
- 	text-transform: uppercase;
- 	letter-spacing: 1px;
- }
+.list-details th {
+    text-transform: capitalize;
+   	font-weight: 400;
+}
 
 /*
  * NEW PROPERTY
@@ -942,17 +955,17 @@ view-property .btn {
     width: 100%;
 }
 
-.proforma #lightbox .row {
+.proforma .lightbox .row {
 	background-color: #fff;
 }
 
-.proforma #lightbox .row .table {
+.proforma .lightbox .row .table {
 	width: 100%;
 	max-width: 800px;
 	margin: 15px auto;
 }
 
-.proforma #lightbox .row .table tbody{
+.proforma .lightbox .row .table tbody{
 	border-bottom: 2px solid #444;
 }
 
@@ -1070,6 +1083,11 @@ th {
 	line-height: 2.5;
 }
 
+.rehab_table_header_dates input.invisible-form {
+    width: 60%;
+    margin-left: 10%;
+}
+
 .info-table .header-wrap {
 	background-color: #337ab7;
 	color: #fff;
@@ -1081,8 +1099,28 @@ th {
 	display: block;
 }
 
+.rehab-table {
+	margin-bottom: 0;
+}
+
+.info-table {
+	max-width: 100%;
+	overflow-x: scroll;
+	margin-bottom: 20px;
+}
+
 .rehab-table tr {
 	height: 40px;
+}
+
+.rehab-table th,
+.rehab-table td {
+	max-width: 150px;
+}
+
+.notes th,
+.notes td {
+	height: 100px;
 }
 
 /*
@@ -1152,6 +1190,10 @@ offers .page-header h4 {
 	margin-bottom: 0;
 }
 
+label.forms {
+	text-transform: uppercase;
+}
+
  /*
   *	VFLYER
   ******/
@@ -1193,10 +1235,10 @@ offers .page-header h4 {
 	padding-top: 10px;
 }
 
-#lightbox {
+.lightbox {
 	display: none;
 	background-color: rgba(25,25,25,0.5);
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -1208,7 +1250,7 @@ offers .page-header h4 {
 	overflow: none;
 }
 
-#lightbox .glyphicon {
+.lightbox .glyphicon {
     color: #252525;
     position: absolute;
     font-size: 36px;
@@ -1266,6 +1308,19 @@ h4.comment-header {
 	padding: 10px;
 	border: none;
 	box-shadow: none;
+}
+
+.comment-delete {
+	opacity: 0;
+	padding-top: 5px;
+}
+
+.comment-delete:hover {
+	color: red;
+}
+
+.single-comment:hover .comment-delete {
+	opacity: 1;
 }
 
 

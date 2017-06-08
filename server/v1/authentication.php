@@ -248,6 +248,35 @@ $app->post('/addPurchaseCost', function() use ($app) {
     }
 });
 
+$app->get('/sellingCosts', function() use ($app) {
+  $db = new DbHandler();
+  $table = "selling_closing_costs";
+  $costs = $db->getTable($table);
+  echoResponse(200, $costs);
+});
+
+$app->post('/addSellingCost', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "selling_closing_costs";
+    $category = $r->cost->category;
+    $cost = $r->cost->cost;
+    $description = $r->cost->description;
+    $pid= $r->cost->pid;
+    $column_names = array('category', 'cost', 'description', 'pid');
+    $result = $db->insertIntoTable($r->cost, $column_names, $table);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Item Added.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't add item. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
 $app->post('/changePropValue', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -398,7 +427,9 @@ $app->post('/editProperty', function() use ($app) {
 $app->post('/deleteImage', function() use ($app) {
   $db = new DbHandler();
   $img = json_decode($app->request->getBody());
-  $db->removeImage($img->img);
+  $table = "images";
+  $column = "image_name";
+  $db->deleteItem($table,$column,$img->img);
   $file_to_delete = "uploads/".$img->img;
   $result = unlink($file_to_delete);
   if ($result != NULL) {
@@ -417,11 +448,14 @@ $app->post('/deleteProperty', function() use ($app){
   $db = new DbHandler();
   $r = json_decode($app->request->getBody());
   $pid = $r->property->pid;
-  $images = $r->property->images;
-  for ($i = 0; $i < count($images); $i++) {
-    $db->removeImage($images[$i]);
+  if (property_exists($r->property,'images')) {
+      $images = $r->property->images;
+      for ($i = 0; $i < count($images); $i++) {
+        $db->deleteItem("images","image_name",$images[$i]);
+      }
   }
-  $result = $db->removeRow($pid);
+
+  $result = $db->deleteItem("properties","pid",$pid);
   if ($result != NULL) {
     $response["status"] = "success";
     $response["message"] = "Property has been removed from the database";
@@ -429,6 +463,23 @@ $app->post('/deleteProperty', function() use ($app){
   } else {
     $response["status"] = "error";
     $response["message"] = "Property failed to delete. Please try again.";
+    echoResponse(201, $response);
+  }
+});
+
+$app->post('/deleteComment', function() use ($app){
+  $db = new DbHandler();
+  $r = json_decode($app->request->getBody());
+  $comment_id = $r->comment->comment_id;
+  $table = "comments";
+  $result = $db->deleteItem($table,'comment_id',$comment_id);
+  if ($result != NULL) {
+    $response["status"] = "success";
+    $response["message"] = "Comment has been deleted";
+    echoResponse(200, $response);
+  } else {
+    $response["status"] = "error";
+    $response["message"] = "Comment failed to delete. Please try again.";
     echoResponse(201, $response);
   }
 });
@@ -775,6 +826,41 @@ $app->get('/escrowProgress', function() use ($app) {
   $db = new DbHandler();
   $progress = $db->getEscrowProgress();
   echoResponse(200, $progress);
+});
+
+$app->post('/saveEscrowForm', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $pid = $r->form->pid;
+    $column = $r->form->column;
+    $value = $r->form->value;
+    $table = 'escrow_forms';
+    $isRowExists = $db->getOneRecord("select id from " . $table . " where pid='" . $pid . "'");
+    if(!$isRowExists) {
+        $id = $db->initTableRow($table,'pid',$pid);
+        $isRowExists = $db->getOneRecord("select id from " . $table . " where pid='" . $pid . "'");
+        $result = $db->changeSettings($isRowExists['id'],'id', $column, $value, $table);
+    } else {
+        $result = $db->changeSettings($isRowExists['id'],'id', $column, $value, $table);
+    }
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Accepted";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Rejected. Try again later.";
+        echoResponse(201, $response);
+    }
+
+});
+
+$app->get('/escrowForms', function() use ($app) {
+  $db = new DbHandler();
+  $table = 'escrow_forms';
+  $forms = $db->getTable($table);
+  echoResponse(200, $forms);
 });
 
 $app->post('/enroll', function() use ($app) {

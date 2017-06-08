@@ -1,6 +1,7 @@
 <a class="comments-fullscreen" ng-click="toggleComments()"><i class="glyphicon glyphicon-fullscreen"></i></a>
 <div class="comments">
   <div class="single-comment" ng-repeat="comment in comments">
+  <i ng-click="deleteComment(comment)" class="comment-delete glyphicon glyphicon-remove"></i>
     <div class="meta">
       <p class="author">{{comment.username}}</p>
       <p class="time">{{comment.created}}</p>
@@ -18,7 +19,7 @@
     </div>
   </div>
 </form>
-<div id="lightbox">
+<div id="lightbox" class="lightbox">
   <div class="comments">
   <i ng-click="toggleComments()" class="glyphicon glyphicon-remove-sign"></i>
     <div class="single-comment" ng-repeat="comment in comments">

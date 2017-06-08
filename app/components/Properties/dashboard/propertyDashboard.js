@@ -15,10 +15,40 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, singleproperty, auth, $state, Data) {
-            $('.table>tbody>tr>td>input').parent().css('background-color', '#fff');
+        controller: function($scope, singleproperty, auth, $state, Data, proforma, properties) {
+            $('.table>tbody>tr>td>.invisible-form').parent().css({
+                'background-color': '#fff',
+                'padding': '0',
+                'height': '100%'
+            });
             $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
+           
             $scope.s = singleproperty.property;
+
+            $scope.properties = properties.properties;
+            
+            function setStatusOptions(s) {
+                $scope.s.status_options = ["Active","Hold","Closed"];
+                var phase = s.phase;
+                // Aquisition
+                if (phase == 'Acquisition') {
+                    $scope.s.status_options.push("Contract","Purchased");
+                // Holdover
+                } else if (phase == 'Holdover') {
+                    $scope.s.status_options.push("Eviction","Relocation","$-4-Keys");
+                // Rehab
+                } else if (phase == 'Rehab') {
+                    $scope.s.status_options.push("Architectural","Plan Check","Bid");
+                }
+            }
+
+            setStatusOptions($scope.s);
+            
+
+            $scope.changeStatusOptions = function(s) {
+                setStatusOptions(s);
+            }
+            
             $scope.updateProperty = function(s) {
                 $("#form-loading").css("display", "block");
                 var f = document.getElementById('file').files;
@@ -34,11 +64,11 @@ app.component(
                     s.images = null;
                 }
 
-                s.pool_spa = (s.pool_spa == "Yes") ? 1 : 0;
-                s.is_listed = (s.is_listed == "Yes") ? 1 : 0;
+                s.pool_spa = (s.pool_spa === "Yes") ? 1 : 0;
+                s.is_listed = (s.is_listed === "Yes") ? 1 : 0;
 
                 function removeCash(x) {
-                  x = x.replace(/\B(?=(\d{3})+(?!\d))/g, "");
+                  x = x.replace(",", "");
                   if (x.indexOf('$') == 0) {
                     x = x.slice(1);
                   }
@@ -50,6 +80,7 @@ app.component(
                 s.list_price = removeCash(s.list_price);
                 s.sale_price = removeCash(s.sale_price);
                 s.escrow_price = removeCash(s.escrow_price);
+                s.rehab_estimate = removeCash(s.rehab_estimate);
 
                 var geocoder = new google.maps.Geocoder(),
                     a = s.address + ", " + s.city + ", CA " + s.zip,
@@ -112,12 +143,16 @@ app.component(
 
             $scope.deleteProperty = function(property) {
                 var ok = confirm("Are you sure you want to delete this property?");
-
                 if (ok) {
                   auth.post('deleteProperty', {
                     property: property
                   }).then(function(res){
                       auth.toast(res);
+                      for (i = 0; i < $scope.properties.length; i++) {
+                        if($scope.properties[i].pid == property.pid) {
+                            $scope.properties.splice(i,1);
+                        }
+                      }
                       $state.go('properties');
                   });
                 }

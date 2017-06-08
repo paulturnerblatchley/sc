@@ -544,6 +544,32 @@ CREATE TABLE IF NOT EXISTS `escrow_day23` (
   FOREIGN KEY (`escrow_id`) REFERENCES escrow(escrow_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `escrow_forms` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `pid` int(10) NOT NULL,
+  `escrow` tinyint(1) NOT NULL DEFAULT 0,
+  `home_liberty` tinyint(1) NOT NULL DEFAULT 0,
+  `ad` tinyint(1) NOT NULL DEFAULT 0,
+  `bia` tinyint(1) NOT NULL DEFAULT 0,
+  `sbsa` tinyint(1) NOT NULL DEFAULT 0,
+  `ac` tinyint(1) NOT NULL DEFAULT 0,
+  `fvac` tinyint(1) NOT NULL DEFAULT 0,
+  `tds` tinyint(1) NOT NULL DEFAULT 0,
+  `sbq` tinyint(1) NOT NULL DEFAULT 0,
+  `hid` tinyint(1) NOT NULL DEFAULT 0,
+  `cmd` tinyint(1) NOT NULL DEFAULT 0,
+  `fld` tinyint(1) NOT NULL DEFAULT 0,
+  `eq` tinyint(1) NOT NULL DEFAULT 0,
+  `whsd` tinyint(1) NOT NULL DEFAULT 0,
+  `wcmd` tinyint(1) NOT NULL DEFAULT 0,
+  `wfa` tinyint(1) NOT NULL DEFAULT 0,
+  `dbd` tinyint(1) NOT NULL DEFAULT 0,
+  `selling_avid` tinyint(1) NOT NULL DEFAULT 0,
+  `listing_avid` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`pid`) REFERENCES properties(pid)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 --
 -- Table structure for table `offers`
 --
@@ -575,3 +601,43 @@ CREATE TABLE IF NOT EXISTS `offers` (
   PRIMARY KEY (`offer_id`),
   FOREIGN KEY (`pid`) REFERENCES properties(pid)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `bath` ADD `bath_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `bath_notes`;
+ALTER TABLE `demo` ADD `demo_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `demo_notes`;
+ALTER TABLE `drywall` ADD `drywall_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `drywall_notes`;
+ALTER TABLE `electrical` ADD `electrical_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `electrical_notes`;
+ALTER TABLE `ext_paint` ADD `ext_paint_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `ext_paint_notes`;
+ALTER TABLE `fixtures` ADD `fixtures_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `fixtures_notes`;
+ALTER TABLE `flooring` ADD `flooring_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `flooring_notes`;
+ALTER TABLE `framing` ADD `framing_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `framing_notes`;
+ALTER TABLE `garage_door` ADD `garage_door_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `garage_door_notes`;
+ALTER TABLE `hardscape` ADD `hardscape_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `hardscape_notes`;
+ALTER TABLE `hvac` ADD `hvac_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `hvac_notes`;
+ALTER TABLE `int_paint` ADD `int_paint_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `int_paint_notes`;
+ALTER TABLE `kitchen` ADD `kitchen_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `kitchen_notes`;
+ALTER TABLE `landscaping` ADD `landscaping_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `landscaping_notes`;
+ALTER TABLE `plumbing` ADD `plumbing_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `plumbing_notes`;
+ALTER TABLE `pool_spa` ADD `pool_spa_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `pool_spa_notes`;
+ALTER TABLE `roof` ADD `roof_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `roof_notes`;
+ALTER TABLE `sales_clean` ADD `sales_clean_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `sales_clean_notes`;
+ALTER TABLE `stucco` ADD `stucco_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `stucco_notes`;
+ALTER TABLE `windows` ADD `windows_comp_perc` INT(5) NOT NULL DEFAULT '0' AFTER `windows_notes`;
+
+ALTER TABLE `escrow_day15` ADD `send_acknowledge` tinyint(1) NOT NULL DEFAULT '0' AFTER `send_contingency_date`;
+ALTER TABLE `escrow_day15` ADD `send_acknowledge_date` DATE NOT NULL AFTER `acknowledge`;
+ALTER TABLE `escrow_day21` ADD `loan_acknowledge` tinyint(1) NOT NULL DEFAULT '0' AFTER `loan_contingency_date`;
+ALTER TABLE `escrow_day21` ADD `loan_acknowledge_date` DATE NOT NULL AFTER `acknowledge`;
+
+CREATE TABLE `selling_closing_costs` (
+  `id` int(10) NOT NULL,
+  `pid` int(10) NOT NULL,
+  `category` varchar(15) NOT NULL,
+  `description` varchar(250) NOT NULL,
+  `cost` int(15) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `offers` DROP `comp`, DROP `retrofit`;
+ALTER TABLE `offers` CHANGE `ccnr` `closing_costs` INT(12) NOT NULL;
+ALTER TABLE `offers` ADD `hoa` INT(12) NOT NULL AFTER `counter`;
+ALTER TABLE `offers` ADD `home_warranty` INT(12) NOT NULL AFTER `hoa`;

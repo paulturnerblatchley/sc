@@ -47,27 +47,35 @@ app.component(
 		    };
 
 		    $scope.toggleComments = function() {
-		    	if ($('html, body').css("overflow") != "hidden") {
-		    		$('html, body').animate({
-			            scrollTop : 0
-			        }, 5);
-		    		$('html, body').css("overflow", "hidden");
-		    	} else {
-		    		$('html, body').css("overflow", "auto");
-		    	}
-		        setTimeout(function() {
-		        	var lb = $("#lightbox");
-			        if (lb.css("display") == "block") {
-			            lb.css("display", "none");
-			            $("html,body").css("height","unset");
-			            $("footer").css("margin-top", "0px");
-			        } else {
-			            lb.css("display", "block");
-			            $("html,body").css("height","100%");
-			            $("footer").css("margin-top", "200px");
-			        }
-		        },15);
+	        	var lb = $("#lightbox");
+		        if (lb.css("display") == "block") {
+		            lb.css("display", "none");
+		            $("html,body").css("height","unset");
+		            $("footer").css("margin-top", "0px");
+		        } else {
+		            lb.css("display", "block");
+		            $("html,body").css("height","100%");
+		            $("footer").css("margin-top", "200px");
+		        }
 		    };
+
+		    $scope.deleteComment = function(comment) {
+              var ok = confirm("Are you sure you want to delete this comment?");
+              if (ok) {
+                auth.post('deleteComment', {
+                  comment: comment
+                }).then(function(res){
+                    auth.toast(res);
+                    if (res.status == "success") {
+                      var index = $scope.comments.indexOf(comment);
+                      if (index > -1) {
+                        $scope.comments.splice(index, 1);
+                      }
+                    }
+                    $state.reload();
+                });
+              }
+            };
 		}
 	}
 );

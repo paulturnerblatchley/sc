@@ -14,13 +14,20 @@ app.component(
         controller: function($scope, auth, $http, rehab, GanttData, singleproperty) {
         	$scope.r = rehab.rehab;
         	$scope.s = singleproperty.property;
+
     
 		    $scope.updateRehab = function(r,k,column,v) {
 		        var change = {};
 		        change.rehab_id = r.rehab_id;
 		        change.table = k;
 		        change.column = column;
-		        change.value = v;
+		        if(v.indexOf("%") != -1) {
+		        	v.pop();
+		        	change.value = v;
+		        } else {
+		        	change.value = v;
+		        }
+		        
 		        auth.post('updateRehab', {
 		            change: change
 		        }).then(function (results) {

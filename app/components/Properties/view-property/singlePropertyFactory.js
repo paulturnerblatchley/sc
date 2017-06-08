@@ -10,8 +10,8 @@ app.factory("singleproperty", ['$http',
               if (results.data[i].pid == pid) {
                 o.property = results.data[i];
                 
-                o.property.pool_spa = (o.property.pool_spa === 0) ? "No" : "Yes";
-                o.property.is_listed = (o.property.is_listed === 0) ? "No" : "Yes";
+                o.property.pool_spa = (o.property.pool_spa == 0) ? "No" : "Yes";
+                o.property.is_listed = (o.property.is_listed == 0) ? "No" : "Yes";
 
                 function convertDate(x) {
                   if (x == "0000-00-00") {
@@ -28,14 +28,33 @@ app.factory("singleproperty", ['$http',
                     return d[1] + "/" + d[2] + "/" + d[0];*/
                   }
                 }
+
                 o.property.listing_date = convertDate(o.property.listing_date);
-                o.property.purchase_close_date = convertDate(o.property.purchase_close_date);
                 o.property.sale_close_date = convertDate(o.property.sale_close_date);
                 o.property.notice_date = convertDate(o.property.notice_date);
                 o.property.est_possession = convertDate(o.property.est_possession);
                 o.property.rehab_start = convertDate(o.property.rehab_start);
                 o.property.est_completion = convertDate(o.property.est_completion);
                 o.property.offer_accept = convertDate(o.property.offer_accept);
+
+                function calculateFHA(x) {
+                  if (x == "0000-00-00") {
+                    o.property.fha = "N/A";
+                    return "";
+                  } else {
+                    // ADD FHA DATE
+                    var dat = new Date(x),
+                        d = new Date(dat.setDate(dat.getDate() + 90)),
+                        dd = d.getDate(),
+                        mm = d.getMonth() + 1,
+                        yyyy = d.getFullYear(),
+                        fha = mm + '/' + dd + '/' + yyyy;
+                    return fha;
+                  }
+                }
+
+                o.property.fha = calculateFHA(o.property.purchase_close_date);
+                o.property.purchase_close_date = convertDate(o.property.purchase_close_date);
 
                 function dateDistance(d1,d2) {
                   var oneDay = 24*60*60*1000,
@@ -54,6 +73,15 @@ app.factory("singleproperty", ['$http',
                 o.property.length_of_own = dateDistance(o.property.purchase_close_date);
                 o.property.escrow_days = dateDistance(o.property.offer_accept);
 
+                if (o.property.sale_close_date != "") {
+                  o.property.dom = dateDistance(o.property.listing_date,o.property.sale_close_date);
+                  o.property.dsp = dateDistance(o.property.purchase_close_date,o.property.sale_close_date);
+                } else {
+                  o.property.dom = dateDistance(o.property.listing_date);
+                  o.property.dsp = dateDistance(o.property.purchase_close_date);
+                }
+                
+
                 function convertCash(x) {
                   x = x.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                   x = "$" + x;
@@ -65,6 +93,7 @@ app.factory("singleproperty", ['$http',
                 o.property.list_price = convertCash(o.property.list_price);
                 o.property.sale_price = convertCash(o.property.sale_price);
                 o.property.escrow_price = convertCash(o.property.escrow_price);
+                o.property.rehab_estimate = convertCash(o.property.rehab_estimate);
 
               }
           }

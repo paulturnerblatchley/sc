@@ -21,7 +21,6 @@ app.component(
  			console.log($scope.s.county);
  			if ($scope.s.county == "SB") {
  				$scope.agents = agents.agentsSB;
- 				console.log($scope.agents);
  			} else if ($scope.s.county == "RIV") {
  				$scope.agents = agents.agentsRIV;
  			} else if ($scope.s.county == "LA") {
@@ -72,8 +71,7 @@ app.component(
                         $state.go('properties.property');
                     }
                 }); 
-		    }
-            
+		    }            
         }
 	}
 ); 

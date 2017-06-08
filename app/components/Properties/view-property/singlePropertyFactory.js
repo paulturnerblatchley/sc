@@ -13,6 +13,23 @@ app.factory("singleproperty", ['$http',
                 o.property.pool_spa = (o.property.pool_spa == 0) ? "No" : "Yes";
                 o.property.is_listed = (o.property.is_listed == 0) ? "No" : "Yes";
 
+                function dateDistance(d1,d2) {
+                  var oneDay = 24*60*60*1000,
+                      firstDate = new Date(d1);
+                  if (d2) {
+                    secondDate = new Date(d2);
+                  } else {
+                    secondDate = new Date();
+                  }
+                  var distance = (Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))).toFixed(0);
+                  return distance;
+                }
+
+                o.property.rehab_length = dateDistance(o.property.rehab_start,o.property.est_completion);
+                o.property.rehab_days_lapsed = dateDistance(o.property.rehab_start);
+                o.property.length_of_own = dateDistance(o.property.purchase_close_date);
+                o.property.escrow_days = dateDistance(o.property.offer_accept);
+
                 function convertDate(x) {
                   if (x == "0000-00-00") {
                     return "";
@@ -55,23 +72,6 @@ app.factory("singleproperty", ['$http',
 
                 o.property.fha = calculateFHA(o.property.purchase_close_date);
                 o.property.purchase_close_date = convertDate(o.property.purchase_close_date);
-
-                function dateDistance(d1,d2) {
-                  var oneDay = 24*60*60*1000,
-                      firstDate = new Date(d1);
-                  if (d2) {
-                    secondDate = new Date(d2);
-                  } else {
-                    secondDate = new Date();
-                  }
-                  var distance = (Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))).toFixed(0);
-                  return distance;
-                }
-
-                o.property.rehab_length = dateDistance(o.property.rehab_start,o.property.est_completion);
-                o.property.rehab_days_lapsed = dateDistance(o.property.rehab_start);
-                o.property.length_of_own = dateDistance(o.property.purchase_close_date);
-                o.property.escrow_days = dateDistance(o.property.offer_accept);
 
                 if (o.property.sale_close_date != "") {
                   o.property.dom = dateDistance(o.property.listing_date,o.property.sale_close_date);

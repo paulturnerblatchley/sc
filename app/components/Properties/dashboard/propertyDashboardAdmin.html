@@ -161,7 +161,10 @@
         </table>
     </div>
     <div class="col-sm-6">
-      <div class="image-box clearfix">
+      <div class="section-header">
+        <h4><i ng-click="toggle($event)" id="t3-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Images</h4>
+      </div>
+      <div id="t3-toggle-table" class="image-box clearfix">
         <div ng-show="!s.images" class="no-img">
           <i class="glyphicon glyphicon-camera"></i>
           <p>There are no images for this property.</p>
@@ -192,7 +195,10 @@
           <input class="col-sm-7" type="file" id="file" name="file" accept="image/*" file-model="myFile" ng-model="s.images" multiple>
         </div>
       </div>
-      <div class="map">
+      <div class="section-header">
+        <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Images</h4>
+      </div>
+      <div id="t4-toggle-table" class="map">
         <ng-map 
           center="{{s.latlng}}" 
           zoom="12" >
@@ -212,9 +218,9 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t2-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Acquisition</h4>
+          <h4><i ng-click="toggle($event)" id="t5-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Acquisition</h4>
         </div>
-        <table id="t2-toggle-table" class="list-details table table-bordered">
+        <table id="t5-toggle-table" class="list-details table table-bordered">
           <tbody>
             <tr>
               <td class="col-xs-4">Purchase Price</td> 
@@ -260,9 +266,9 @@
       </div>
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t3-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Holdover</h4>
+          <h4><i ng-click="toggle($event)" id="t6-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Holdover</h4>
         </div>
-        <table id="t3-toggle-table" class="list-details table table-bordered">
+        <table id="t6-toggle-table" class="list-details table table-bordered">
           <tbody>
             <tr>
               <td class="col-xs-4">Purchase Date</td> 
@@ -307,9 +313,9 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Rehab</h4>
+          <h4><i ng-click="toggle($event)" id="t7-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Rehab</h4>
         </div>
-        <table id="t4-toggle-table" class="list-details table table-bordered">
+        <table id="t7-toggle-table" class="list-details table table-bordered">
           <tbody>
             <tr>
               <td class="col-xs-4">Estimated Cost</td> 
@@ -340,9 +346,9 @@
       </div>
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t5-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listed</h4>
+          <h4><i ng-click="toggle($event)" id="t8-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listed</h4>
         </div>
-        <table id="t5-toggle-table" class="list-details table table-bordered">
+        <table id="t8-toggle-table" class="list-details table table-bordered">
           <tbody>
            <tr>
               <td class="col-xs-4">Purchase Date</td> 
@@ -375,9 +381,9 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t6-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Escrow</h4>
+          <h4><i ng-click="toggle($event)" id="t9-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Escrow</h4>
         </div>
-        <table id="t6-toggle-table" class="list-details table table-bordered">
+        <table id="t9-toggle-table" class="list-details table table-bordered">
           <tbody>
             <tr>
               <td class="col-xs-4">Escrow Price</td> 
@@ -408,9 +414,9 @@
       </div>
       <div class="col-sm-6">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="t7-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Details</h4>
+          <h4><i ng-click="toggle($event)" id="t10-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Sale Details</h4>
         </div>
-        <table id="t7-toggle-table" class="list-details table table-bordered">
+        <table id="t10-toggle-table" class="list-details table table-bordered">
           <tbody>
             <tr>
               <td class="col-xs-4">Purchase Date</td> 
@@ -444,7 +450,7 @@
 </form>
 <div class="row">
   <div class="section-header">
-    <h4><i ng-click="toggle($event)" id="t8-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Comments</h4>
+    <h4><i ng-click="toggle($event)" id="t11-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Comments</h4>
   </div>
-  <comment-box id="t8-toggle-table"></comment-box>
+  <comment-box id="t11-toggle-table"></comment-box>
 </div>

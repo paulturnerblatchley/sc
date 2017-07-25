@@ -1,5 +1,5 @@
 <div class="hide-map">
-<i id="filter-switch" ng-click="toggleFiltering()" class="glyphicon glyphicon-filter" title="Filter"></i>
+<i ng-if="isAdmin()" id="filter-switch" ng-click="toggleFiltering()" class="glyphicon glyphicon-filter" title="Filter"></i>
 </div>
 <div class="property-table">
 	<div 

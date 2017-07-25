@@ -1,4 +1,4 @@
-<form name="propertyUpdate" class="form-horizontal" >
+<form name="propertyUpdate" class="form-horizontal">
   <div class="row status-controls">      
     <p class="col-sm-3">
       <select class="invisible-form" name="phase" ng-model="s.phase" ng-change="changeStatusOptions(s)"/>
@@ -61,7 +61,15 @@
           </tr>
           <tr>
             <td class="col-xs-4">County</td> 
-            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.county"></td>
+            <td class="col-xs-8">
+               <select class="invisible-form" name="county" ng-model="s.county"/>
+                    <option value="SB">SB</option>
+                    <option value="RIV">RIV</option>
+                    <option value="LA">LA</option>
+                    <option value="OC">OC</option>
+                    <option value="SD">SD</option>
+                </select>
+            </td>
           </tr>
           <tr>
             <td class="col-xs-4">Beds</td> 
@@ -102,17 +110,17 @@
           </tr>
           <tr>
             <td class="col-xs-4">Asset Manager</td> 
-            <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.asset_manager"></td>
+            <td class="col-xs-8">
+              <select class="invisible-form" name="asset_managers" ng-model="s.asset_manager"/>
+                  <option ng-repeat="manager in asset_managers" ng-value="manager.manager">{{manager.manager}}</option>
+              </select>
+            </td>
           </tr>
           <tr>
             <td class="col-xs-4">Supervisor</td> 
             <td class="col-xs-8">
             <select class="invisible-form" name="supervisor" ng-model="s.supervisor"/>
-                  <option value="Codrin">Codrin</option>
-                  <option value="Armando">Armando</option>
-                  <option value="Rodney">Rodney</option>
-                  <option value="Jesus">Jesus</option>
-                  <option value="Marco">Marco</option>
+                  <option ng-repeat="supervisor in supervisors" ng-value="supervisor.supervisor">{{supervisor.supervisor}}</option>
               </select>
             </td>
           </tr>
@@ -134,28 +142,32 @@
           <tbody>
             <tr>
               <td class="col-xs-4">Purchase Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.purchase_cost"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.purchase_cost" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Rehab Estimate</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate" format="currency"></td>
+            </tr>
+            <tr>
+              <td class="col-xs-4">Loan Amount</td> 
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.loan_amount" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Holding Cost</td> 
-              <td class="col-xs-8">{{s.holding_cost}}</td>
+              <td class="col-xs-8">{{s.holding_cost | currency:'$':0}}</td>
             </tr>
             <tr>
              <tr>
               <td class="col-xs-4">Sales Cost</td> 
-              <td class="col-xs-8">{{s.sales_cost}}</td>
+              <td class="col-xs-8">{{s.sales_costs | currency:'$':0}}</td>
             </tr>            
             <tr>
               <td class="col-xs-4">ARV</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Profit</td> 
-              <td class="col-xs-8">{{s.profit}}</td>
+              <td class="col-xs-8">{{s.profit | currency:'$':0}}</td>
             </tr>
           </tbody>
         </table>
@@ -196,7 +208,7 @@
         </div>
       </div>
       <div class="section-header">
-        <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Images</h4>
+        <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Map</h4>
       </div>
       <div id="t4-toggle-table" class="map">
         <ng-map 
@@ -224,7 +236,7 @@
           <tbody>
             <tr>
               <td class="col-xs-4">Purchase Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.purchase_cost"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.purchase_cost" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Purchase Date</td> 
@@ -234,11 +246,7 @@
               <td class="col-xs-4">Entity Vesting</td> 
               <td class="col-xs-8">
                 <select class="invisible-form" name="entity_vesting" ng-model="s.entity_vesting"/>
-                    <option value="SC Inc.">SC Inc.</option>
-                    <option value="HEF Inc.">HEF Inc.</option>
-                    <option value="NLP Inc.">NLP Inc.</option>
-                    <option value="trust">trust</option>
-                    <option value="Other">Other</option>
+                    <option ng-repeat="entity in entity_vesting" ng-value="entity.entity"">{{entity.entity}}</option>
                 </select>
               </td>
             </tr>
@@ -246,20 +254,17 @@
               <td class="col-xs-4">Lender</td> 
               <td class="col-xs-8">
                 <select class="invisible-form" name="lender" ng-model="s.lender"/>
-                    <option value="Spinnaker">Spinnaker</option>
-                    <option value="Anchor">Anchor</option>
-                    <option value="Doug Carver">Doug Carver</option>
-                    <option value="Other">Other</option>
+                    <option ng-repeat="lender in lenders" ng-value="lender.lender">{{lender.lender}}</option>
                 </select>
               </td>
             </tr>
             <tr>
               <td class="col-xs-4">Rehab Estimate</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">ARV</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.arv" format="currency"></td>
             </tr>
           </tbody>
         </table>
@@ -287,7 +292,7 @@
             <tr>
               <td class="col-xs-4">Status</td> 
               <td class="col-xs-8">
-                <select class="invisible-form" name="holdover_status" ng-model="s.holdover_status"/>
+                <select class="invisible-form" name="holdover_status" ng-model="s.status"/>
                     <option value="Eviction">Eviction</option>
                     <option value="Relocation">Relocation</option>
                     <option value="$-4-Keys">$-4-Keys</option>
@@ -319,11 +324,11 @@
           <tbody>
             <tr>
               <td class="col-xs-4">Estimated Cost</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.rehab_estimate" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Total Accrued Cost</td> 
-              <td class="col-xs-8">{{s.rehab_accrued}}</td>
+              <td class="col-xs-8">{{s.rehab_accrued | currency:'$':0}}</td>
             </tr>
             <tr>
               <td class="col-xs-4">Start Date</td> 
@@ -368,7 +373,7 @@
             </tr>
             <tr>
               <td class="col-xs-4">Listing Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Day On Market</td> 
@@ -387,7 +392,7 @@
           <tbody>
             <tr>
               <td class="col-xs-4">Escrow Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Offer Acceptance</td> 
@@ -428,15 +433,15 @@
             </tr>
             <tr>
               <td class="col-xs-4">Purchase Price</td> 
-              <td class="col-xs-8">{{s.purchase_cost}}</td>
+              <td class="col-xs-8">{{s.purchase_cost | currency:'$':0}}</td>
             </tr>
             <tr>
               <td class="col-xs-4">ARV</td> 
-              <td class="col-xs-8">{{s.arv}}</td>
+              <td class="col-xs-8">{{s.arv | currency:'$':0}}</td>
             </tr>
             <tr>
               <td class="col-xs-4">Sale Price</td> 
-              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sale_price"></td>
+              <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.sale_price" format="currency"></td>
             </tr>
             <tr>
               <td class="col-xs-4">Length of Ownership</td> 

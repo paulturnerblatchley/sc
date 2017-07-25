@@ -1,16 +1,23 @@
-<app-header></app-header>
-<div class="breadcrumbs" id="breadcrumbs">
-  <ul class="breadcrumb">
-    <li><a ui-sref="properties">Properties</a></li>
-    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
-    <li><a ui-sref="properties.property.listing">Manage Property</a></li>
-    <li class="active">View Offers</li>
-  </ul>
+<div class="row">
+  <div class="form-group edit-property-btn col-sm-12">
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.listing" ui-sref-opts="{reload:true}">
+     <i class="glyphicon glyphicon-arrow-left"></i> Back To Listing
+    </button>
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.new-offer" ui-sref-opts="{reload:true}">
+     Input New Offer
+    </button>
+    <button class="btn btn-primary col-xs-3 active" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
+     View Offers
+    </button>
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.email" ui-sref-opts="{reload:true}">
+     Create V-Flyer
+    </button>
+  </div>
 </div>
 <div class="page-content">
 	<div class="page-header row">
 		<h1 class="col-sm-5">Offers for {{s.address}}</h1>
-		<h4 class="col-sm-3">Commission: {{proforma.commission}}%</h4>
+		<h4 class="col-sm-3">Commission: {{proforma.commission_percent}}%</h4>
 	</div>
   <br>
 	<div ng-hide="offers == null || offers.length == 0" class="offers table-responsive row">
@@ -22,26 +29,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-right-click="getOfferId(offer.offer_id)" menu-items="menuItems" ng-repeat="offer in offers track by $index" class="{{offer.accept}}">
+				<tr ng-click="editOffer(offer.offer_id)" ng-right-click="getOfferId(offer.offer_id)" menu-items="menuItems" ng-repeat="offer in offers track by $index" class="{{offer.accept}}">
 					<td>{{$index + 1}}</td>
 					<td>{{offer.buyer}}</td>
 					<td>{{offer.financing}}</td>
 					<td>{{offer.closing}}</td>
-					<td>{{offer.deposit}}</td>
-					<td>{{offer.offer_price}}</td>
-					<td>{{offer.comp}}</td>
-					<td>{{offer.commission}}</td>
-					<td>{{offer.closing_costs}}</td>
-					<td>{{offer.counter}}</td>
-					<td>{{offer.hoa}}</td>
-					<td>{{offer.home_warranty}}</td>
-					<td>{{offer.net_offer}}</td>
+					<td>{{offer.deposit | currency:'$':0}}</td>
+					<td>{{offer.offer_price | currency:'$':0}}</td>
+					<td>{{offer.commission | currency:'$':0}}</td>
+					<td>{{offer.closing_costs | currency:'$':0}}</td>
+					<td>{{offer.counter | currency:'$':0}}</td>
+					<td>{{offer.hoa | currency:'$':0}}</td>
+					<td>{{offer.home_warranty | currency:'$':0}}</td>
+					<td>{{offer.net_offer | currency:'$':0}}</td>
 					<td>{{offer.title}}</td>
 					<td>{{offer.escrow}}</td>
 					<td>{{offer.termite}}</td>
 					<td>{{offer.nhd}}</td>
 					<td>{{offer.septic}}</td>
-					<td>{{offer.retrofit}}</td>
 					<td>{{offer.co_fees}}</td>
 					<td>{{offer.city_fees}}</td>
 					<td>{{offer.fico}}</td>
@@ -56,4 +61,3 @@
 		<h4 class="col-sm-6 col-sm-offset-1">There are currently no offers on this property.</h4>
 	</div>
 </div>
-<app-footer></app-footer>

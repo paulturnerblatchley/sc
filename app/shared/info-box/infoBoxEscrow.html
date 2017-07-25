@@ -3,19 +3,19 @@
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    	<h4>Escrow Details: {{property.address}}</h4>
-	    	<div class="col-sm-5 infobox-titles">
+	    	<div class="col-sm-7 infobox-titles">
 			  <ul>
 				<li>Escrow Price:</li>
 				<li>Offer Acceptance:</li>
 				<li>Days in Escrow:</li>
 				<li>Sale Close:</li>
-				<li>DSP:</li>
-				<li>DOM:</li>
+				<li>Days Since Purchase (DSP):</li>
+				<li>Days On Market (DOM):</li>
 			  </ul>
 		   </div>
-		   <div class="col-sm-7">
+		   <div class="col-sm-5">
 			  <ul>
-				<li>{{property.escrow_price || 'Not Defined'}}</li>
+				<li>{{property.escrow_price | currency:'$':0}}</li>
 				<li>{{property.offer_accept || 'Not Defined'}}</li>
 				<li>{{property.escrow_days || 'Not Defined'}}</li>
 				<li>{{property.sale_close_date || 'Not Defined'}}</li>

@@ -16,7 +16,18 @@ app.component(
 			        $rootScope.$apply();
 			    });
 
-
+				function setGridHeight() {
+        			setTimeout( function() {
+			            var scrollTop     = $(window).scrollTop(),
+			                elementOffset = $(".home-table").offset().top,
+			                distance      = (elementOffset - scrollTop);
+			                space         = window.innerHeight - distance;
+			            $(".home-table").css("height", space + "px");
+			            $("#grid1").css("height", space + "px");
+			            $(".ui-grid-render-container").css("height", space + "px");
+			            $(".ui-grid-viewport").css("height", space - 25 + "px");
+			        }, 550);
+        		}
 
 			    $scope.showDetails = function(event,pid,latlng) {
 			        $(".ui-grid-row").removeClass("ui-grid-row-selected");
@@ -72,49 +83,41 @@ app.component(
 			            if (map.css("max-height") == "280px") {
 			                mapVP.css("max-height","0px");
 			                grid.css({
-			                    "height": "516px",
 			                    "margin-top": "40px"
 			                });
-			                gridVP.css("height", "516px");
-			                ht.css("height", "515px");
 			                s.addClass("flip");
 			                hideMap.css("top", "30px");
 			                map.css("max-height", "0px");
+			                setGridHeight();
 			            } else {
 			                mapVP.css("max-height","280px");
 			                s.removeClass("flip");
 			                hideMap.css("top", "274px");
 			                map.css("max-height", "280px");
 			                grid.css({
-			                    "height": space,
 			                    "margin-top": "0"
 			                });
-			                gridVP.css("height", space - 25);
-			                ht.css("height", space);
+			                setGridHeight();
 			            }
 			        } else {
 			            if (map.css("max-height") == "200px") {
 			                mapVP.css("max-height","0px");
 			                grid.css({
-			                    "height": "516px",
 			                    "margin-top": "40px"
 			                });
-			                gridVP.css("height", "516px");
-			                ht.css("height", "515px");
 			                s.addClass("flip");
 			                hideMap.css("top", "30px");
 			                map.css("max-height", "0px");
+			                setGridHeight();
 			            } else {
 			                mapVP.css("max-height","280px");
 			                s.removeClass("flip");
 			                hideMap.css("top", "194px");
 			                map.css("max-height", "200px");
 			                grid.css({
-			                    "height": space,
 			                    "margin-top": "0"
 			                });
-			                gridVP.css("height", space - 25);
-			                ht.css("height", space);
+			                setGridHeight();
 			            }
 			        }
 

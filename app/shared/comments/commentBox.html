@@ -12,7 +12,7 @@
 <form name="newCommentForm" class="form-horizontal comment-box" role="form">
   <div class="form-group">
     <div class="comment-box clearfix">
-      <textarea rows="2" cols="50" placeholder="Add A Comment" class="col-xs-9" name="comment" ng-model="newcomment.comment" required></textarea>
+      <textarea id="comment-input-box" rows="2" cols="50" placeholder="Add A Comment" class="col-xs-9" name="comment" ng-model="newcomment.comment" required></textarea>
       <button id="form-submit-button" type="submit" class="col-xs-3 btn btn-lg btn-primary" ng-click="newComment(newcomment)" data-ng-disabled="newCommentForm.$invalid">
         Post
       </button>

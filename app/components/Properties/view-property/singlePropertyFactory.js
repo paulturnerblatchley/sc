@@ -28,7 +28,13 @@ app.factory("singleproperty", ['$http',
                 o.property.rehab_length = dateDistance(o.property.rehab_start,o.property.est_completion);
                 o.property.rehab_days_lapsed = dateDistance(o.property.rehab_start);
                 o.property.length_of_own = dateDistance(o.property.purchase_close_date);
-                o.property.escrow_days = dateDistance(o.property.offer_accept);
+                
+                if(moment(o.property.sale_close_date)._d == "Invalid Date") {
+                  o.property.escrow_days = dateDistance(o.property.offer_accept);
+                } else {
+                  o.property.escrow_days = dateDistance(o.property.offer_accept, o.property.sale_close_date);
+                }
+                
 
                 function convertDate(x) {
                   if (x == "0000-00-00") {
@@ -80,24 +86,10 @@ app.factory("singleproperty", ['$http',
                   o.property.dom = dateDistance(o.property.listing_date);
                   o.property.dsp = dateDistance(o.property.purchase_close_date);
                 }
-                
-
-                function convertCash(x) {
-                  x = x.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                  x = "$" + x;
-                  return x;
-                }
-
-                o.property.purchase_cost = convertCash(o.property.purchase_cost);
-                o.property.arv = convertCash(o.property.arv);
-                o.property.list_price = convertCash(o.property.list_price);
-                o.property.sale_price = convertCash(o.property.sale_price);
-                o.property.escrow_price = convertCash(o.property.escrow_price);
-                o.property.rehab_estimate = convertCash(o.property.rehab_estimate);
-
               }
           }
-          var images = {};
+          var images = {},
+              listing_images = {};
           $http.get(serviceBase + 'propertyImages').then(function(res) {
             for(var j=0;j<res.data.length;j++) {
               if(!images[res.data[j].pid]) {
@@ -108,6 +100,19 @@ app.factory("singleproperty", ['$http',
               }
             }
             o.property.images = images[o.property.pid];
+          });
+
+          $http.get(serviceBase + 'listingImages').then(function(res) {
+            for(var j=0;j<res.data.length;j++) {
+              if(!listing_images[res.data[j].pid]) {
+                listing_images[res.data[j].pid] = [];
+                listing_images[res.data[j].pid].push(res.data[j].image_name);
+              } else {
+                listing_images[res.data[j].pid].push(res.data[j].image_name);
+              }
+            }
+            o.property.listing_images = listing_images[o.property.pid];
+
           });
         });
       };

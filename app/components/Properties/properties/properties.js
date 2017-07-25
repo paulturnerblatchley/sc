@@ -3,10 +3,14 @@ app.component(
 	{
 		bindings: {},
 	    templateUrl: 'app/components/Properties/properties/properties.html',
-	    controller: function($scope, $rootScope, $sessionStorage, properties, categories, bids, $http) {
+	    controller: function($scope, $rootScope, $sessionStorage, properties, sections, bids, $http) {
 	    	
-            $scope.categories = categories.categories;
+            $scope.sections = sections.sections;
             switch ($sessionStorage.user.user_role) {
+                // Guest
+                case '0' || 0:
+                    $scope.properties = properties.listedProperties;
+                    break;
                 // Admin
                 case '1' || 1:
                     $scope.properties = properties.adminProperties;
@@ -26,7 +30,7 @@ app.component(
                     // Get Open Bids based on contractor type
                     var typeBids = [];
                     for (k = 0; k < bids.openBids.length; k++) {
-                        if ($sessionStorage.user.contractor_type == bids.openBids[k].cat_name) {
+                        if ($sessionStorage.user.contractor_type == bids.openBids[k].name) {
                             for (j = 0; j < properties.bidProperties.length; j++) {
                                 if (bids.openBids[k].bid_pid == properties.bidProperties[j].pid) {
                                     typeBids.push(properties.bidProperties[j]);

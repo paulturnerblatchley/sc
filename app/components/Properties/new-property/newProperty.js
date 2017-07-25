@@ -3,10 +3,70 @@ app.component(
 	{
     	bindings: {},
         templateUrl: 'app/components/Properties/new-property/new-property.html',
-        controller: function($scope, Data, auth, $location) {
+        controller: function($scope, Data, auth, $location, $state, partners) {
             // NEW PROPERTY CREATOR
 		    $scope.newproperty = {};
-		    $scope.newproperty = {status: '', phase: '', property_type: '',  address: '', city: '', zip: '', latlng: '', county: '', year_built: '', sqft: '', lotsize: '', beds: '', baths: '', listdesc: '', pool_spa: '', occupancy: '', lockbox_combo: '', alarm_code: '', asset_manager: '', purchase_close_date: '', purchase_cost: '', entity_vesting: '', lender: '', rehab_estimate: '', arv: '', is_listed: '', listing_date: '', list_price: '', escrow_price: '', sale_close_date: '', images: ''};
+		    $scope.newproperty = {
+		    	status: '', 
+		    	phase: '', 
+		    	property_type: '',  
+		    	address: '', 
+		    	city: '', 
+		    	zip: '', 
+		    	latlng: '', 
+		    	county: '', 
+		    	year_built: '', 
+		    	sqft: '', 
+		    	lotsize: '', 
+		    	beds: '', 
+		    	baths: '', 
+		    	listdesc: '', 
+		    	pool_spa: '', 
+		    	occupancy: '', 
+		    	est_possession: '',
+		    	lockbox_combo: '', 
+		    	alarm_code: '', 
+		    	asset_manager: '', 
+				supervisor: '', 
+		    	purchase_close_date: '', 
+		    	purchase_cost: '', 
+		    	entity_vesting: '', 
+		    	lender: '', 
+		    	rehab_estimate: '',
+		    	permits: '', 
+		    	loan_amount: '', 
+		    	arv: '', 
+		    	est_completion: '', 
+		    	is_listed: '', 
+		    	listing_date: '', 
+		    	list_price: '', 
+		    	escrow_price: '', 
+		    	sale_close_date: '', 
+		    	images: ''};
+
+		    $scope.status_options = ["Active","Hold","Closed"];
+
+		    // get partners
+            $scope.lenders = partners.lenders;
+            $scope.entity_vesting = partners.entity_vesting;
+            $scope.supervisors = partners.supervisors;
+            $scope.asset_managers = partners.asset_managers;
+
+		    $scope.setStatusOptions = function(newproperty) {
+		    	$scope.status_options = ["Active","Hold","Closed"];
+                var phase = newproperty.phase;
+                // Aquisition
+                if (phase == 'Acquisition') {
+                    $scope.status_options.push("Contract","Purchased");
+                // Holdover
+                } else if (phase == 'Holdover') {
+                    $scope.status_options.push("Eviction","Relocation","$-4-Keys");
+                // Rehab
+                } else if (phase == 'Rehab') {
+                    $scope.status_options.push("Architectural","Plan Check","Bid");
+                }
+            }
+
 		    $scope.newProperty = function(property) {
 		        $("#loading").css("display", "block");
 		        var f = document.getElementById('file').files;
@@ -40,13 +100,18 @@ app.component(
 		                property.latlng = latitude + "," + longitude;
 		                property.beds = parseInt(property.beds);
 		                property.baths = parseInt(property.baths);
+		                if (property.occupancy == 'Vacant') {
+		                	property.est_possession = property.purchase_close_date;
+		                } else {
+		                	property.est_possession = '0000-00-00';
+		                }
 		                auth.post('properties', {
 		                    property: property
 		                }).then(function (results) {
 		                    $("#loading").css("display", "none");
 		                    auth.toast(results);
 		                    if (results.status == "success") {
-		                        $location.path('properties/' + results.pid);
+		                        $state.go('properties.property.dashboard', {pid: results.pid}, {reload: true});
 		                    }
 		                });
 		            } else {

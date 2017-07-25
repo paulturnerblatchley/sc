@@ -16,6 +16,8 @@ app.component(
 		            comment: comment
 		        }).then(function (results) {
 		            auth.toast(results);
+		            comment.comment_id = results.comment_id;
+		            $("#comment-input-box").val("");
 		            if(results.status == "success") {
 		                $("#comment-form").val('');
 
@@ -40,7 +42,6 @@ app.component(
 		                + currentdate.getMinutes() + ampm;
 
 		                comment.created = datetime;
-
 		                $scope.comments.push(comment);
 		            }
 		        });
@@ -60,6 +61,7 @@ app.component(
 		    };
 
 		    $scope.deleteComment = function(comment) {
+		    	console.log(comment);
               var ok = confirm("Are you sure you want to delete this comment?");
               if (ok) {
                 auth.post('deleteComment', {
@@ -72,7 +74,6 @@ app.component(
                         $scope.comments.splice(index, 1);
                       }
                     }
-                    $state.reload();
                 });
               }
             };

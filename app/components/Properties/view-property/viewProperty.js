@@ -21,11 +21,11 @@ app.component(
                 $("#escrow").addClass("active");
             } else if ($state.current.url == "/rehab") {
                 $("#rehab").addClass("active");
-            } else if ($state.current.url == "/bids") {
+            } else if ($state.current.url.indexOf("bids") != -1 || $state.current.url == "/new-bid") {
                 $("#bids").addClass("active");
-            } else if ($state.current.url == "/listing") {
+            } else if ($state.current.url == "/listing" || $state.current.url == "/offers" || $state.current.url == "/new-offer" ||  $state.current.url == "/email") {
                 $("#listing").addClass("active");
-            } else if ($state.current.url == "/proforma") {
+            } else if ($state.current.url == "/proforma" || $state.current.url == "/live" || $state.current.url == "/projected" || $state.current.url == "/actual") {
                 $("#proforma").addClass("active");
             } else if ($state.current.url == "/comments") {
                 $("#comments").addClass("active");
@@ -124,7 +124,7 @@ app.component(
                     property: property
                   }).then(function(res){
                       auth.toast(res);
-                      $state.go('properties');
+                      $state.go('properties', {}, {reload: true});
                   });
                 }
             };

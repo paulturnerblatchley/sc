@@ -11,10 +11,8 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, auth, $http, singleproperty, $state) {
+        controller: function($scope, auth, $http, singleproperty, $state, Data) {
         	$scope.s = singleproperty.property;
-
-            console.log($scope.s);
 
             $('.table>tbody>tr>td>.invisible-form').parent().css({
                 'background-color': '#fff',
@@ -23,11 +21,11 @@ app.component(
             });
 
             $scope.newOffer = function() {
-                $state.go("listings.new-offer", {pid: $scope.s.pid});
+                $state.go("listings.new-offer", {pid: $scope.s.pid}, {reload: true});
             }
 
             $scope.seeOffers = function() {
-                $state.go("listings.offers", {pid: $scope.s.pid});
+                $state.go("listings.offers", {pid: $scope.s.pid}, {reload: true});
             }
     
             $scope.toggle = function(event) {
@@ -62,21 +60,6 @@ app.component(
                 s.pool_spa = (s.pool_spa === "Yes") ? 1 : 0;
                 s.is_listed = (s.is_listed === "Yes") ? 1 : 0;
 
-                function removeCash(x) {
-                  x = x.replace(",", "");
-                  if (x.indexOf('$') == 0) {
-                    x = x.slice(1);
-                  }
-                  return x;
-                }
-
-                s.purchase_cost = removeCash(s.purchase_cost);
-                s.arv = removeCash(s.arv);
-                s.list_price = removeCash(s.list_price);
-                s.sale_price = removeCash(s.sale_price);
-                s.escrow_price = removeCash(s.escrow_price);
-                s.rehab_estimate = removeCash(s.rehab_estimate);
-
                 var geocoder = new google.maps.Geocoder(),
                     a = s.address + ", " + s.city + ", CA " + s.zip,
                     latitude,
@@ -88,7 +71,7 @@ app.component(
                         latitude = results[0].geometry.location.lat();
                         longitude = results[0].geometry.location.lng();
                         s.latlng = latitude + "," + longitude;
-                        auth.post('editProperty', {
+                        auth.post('editListing', {
                             property: s
                         }).then(function (results) {
                             $("#form-loading").css("display", "none");

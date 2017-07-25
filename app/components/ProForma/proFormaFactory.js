@@ -5,8 +5,20 @@ app.factory("proforma", ['$http',
             defaults: [],
             purchaseCosts: [],
             sellingCosts: [],
-            proforma: []
+            proforma: [],
+            projected: [],
+            actual: []
         };
+
+        function resultsForPid (data,pid) {
+          for(i = 0; i < data.length; i++) {
+            if (data[i].pid == pid) {
+              return data[i];
+            } else {
+              return {};
+            }
+          }
+        }
 
         o.getDefaultSettings = function(q) {
           return $http.get(serviceBase + q).then(function(results) {
@@ -14,21 +26,50 @@ app.factory("proforma", ['$http',
           });
         }
 
-        o.getPurchaseCosts = function(q) {
+        o.getPurchaseCosts = function(q,pid) {
           return $http.get(serviceBase + q).then(function(results) {
-            o.purchaseCosts = results.data;
+            o.purchaseCosts = resultsForPid(results.data,pid);
           });
         }
 
-        o.getSellingCosts = function(q) {
+        o.getSellingCosts = function(q,pid) {
           return $http.get(serviceBase + q).then(function(results) {
-            o.sellingCosts = results.data;
+            o.sellingCosts = resultsForPid(results.data,pid);
           });
         }
 
-        o.getProforma = function(q) {
+        o.getProforma = function(q,pid) {
           return $http.get(serviceBase + q).then(function(results) {
-            o.proforma = results.data;
+            o.proforma = resultsForPid(results.data,pid);
+            return $http.get(serviceBase + 'defaultProForma');
+          }).then(function(res) {
+            if (jQuery.isEmptyObject(o.proforma)) {
+              o.proforma = res.data[0];
+            }
+          });
+        }
+
+        o.getProjected = function(q,pid) {
+          return $http.get(serviceBase + q).then(function(results) {
+            for(i = 0; i < results.data.length; i++) {
+              if (results.data[i].pid == pid) {
+                o.projected = results.data[i];
+              } else {
+                o.projected = {};
+              }
+            }
+          });
+        }
+
+        o.getActual = function(q,pid) {
+          return $http.get(serviceBase + q).then(function(results) {
+            for(i = 0; i < results.data.length; i++) {
+              if (results.data[i].pid == pid) {
+                o.actual = results.data[i];
+              } else {
+                o.actual = {};
+              }
+            }
           });
         }
 

@@ -6,17 +6,222 @@
     </ul>
 </div>
 <div class="page-content">
+    <h1>Settings</h1>
+    <hr>
     <div class="container">
         <div class="row view-settings">
             <div class="col-sm-9">
+                <div class="row settings">
+                    <div class="page-header">
+                       <h2><i id="t1-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Column Visibility</h2>
+                    </div>
+                    <div id="t1-toggle-table" class="form-horizontal collapse">
+                        <div class="col-sm-4 column-toggle" ng-repeat="column in columns">
+                            <div class="col-xs-9">
+                                <h5>{{column.displayName}}</h5>
+                            </div>
+                            <div class="col-xs-3">
+                                <div class="onoffswitch pull-right">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch{{$index}}" checked ng-model="column.visible" ng-change="hideColumn(column,user.uid)" >
+                                    <label class="onoffswitch-label" for="myonoffswitch{{$index}}">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
                 <div class="row">
-                    <h4>Pro Forma Defaults</h4>
-                    <div class="form-horizontal">
+                    <div class="page-header">
+                        <h2><i id="t2-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Pro Forma Defaults</h2>
+                    </div>
+                    <div id="t2-toggle-table" class="form-horizontal collapse">
                         <div class="form-group" ng-repeat="(k,v) in prodef">
                             <label class="col-sm-4 control-label no-padding-right" for="{{k}}"><h5>{{k}}</h5></label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" placeholder="{{k}}" name="{{k}}" ng-model="v" ng-change="changeProformaDefault(k,v)"/>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row partners-list">
+                    <div class="page-header">
+                        <h2><i id="t3-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Partners</h2>
+                    </div>
+                    <div id="t3-toggle-table" class="row collapse">
+                        <div class="col-sm-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Lenders</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lender in lenders">
+                                        <td colspan="2">
+                                            {{lender.lender}}
+                                            <i ng-click="deletePartner(lender)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><input id="lender" type="text" ng-model="newlender" placeholder="Lender"></th>
+                                        <th><button class="btn btn-primary" ng-click="addPartner('lenders','lender',newlender)">Add</button></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-sm-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Entity Vesting</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="entity in entity_vesting">
+                                        <td colspan="2">
+                                            {{entity.entity}}
+                                            <i ng-click="deletePartner(entity)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><input id="entity" type="text" ng-model="newentity" placeholder="Entity"></th>
+                                        <th><button class="btn btn-primary" ng-click="addPartner('entity_vesting','entity',newentity)">Add</button></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-sm-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Supervisors</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="supervisor in supervisors">
+                                        <td colspan="2">
+                                            {{supervisor.supervisor}}
+                                            <i ng-click="deletePartner(supervisor)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><input id="supervisor" type="text" ng-model="newsupervisor" placeholder="Supervisor"></th>
+                                        <th><button class="btn btn-primary" ng-click="addPartner('supervisors','supervisor',newsupervisor)">Add</button></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-sm-3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Asset Managers</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="manager in asset_managers">
+                                        <td colspan="2">
+                                            {{manager.manager}}
+                                            <i ng-click="deletePartner(manager)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><input id="manager" type="text" ng-model="newmanager" placeholder="Manager"></th>
+                                        <th><button class="btn btn-primary" ng-click="addPartner('asset_managers','manager',newmanager)">Add</button></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row tasks-list">
+                    <div class="page-header">
+                        <h2><i id="t4-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Tasks &amp; Sections</h2>
+                    </div>
+                    <div id="t4-toggle-table" class="row collapse">
+                        <div class="col-sm-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Name/Desc</h5>
+                                        </th>
+                                        <th>
+                                            <h5>Units</h5>
+                                        </th>
+                                        <th>
+                                            <h5>Cost</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="task-row" ng-repeat="task in tasks | unique:'task_name'">
+                                        <td class="danger task-delete">
+                                            <i ng-click="deletePartner(task)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                        <td class="task-name">
+                                            {{task.task_name}}
+                                        </td>
+                                        <td>
+                                            {{task.task_units}}
+                                        </td>
+                                        <td>
+                                            {{task.task_cost | currency:'$':2}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><button class="btn btn-primary" ng-click="addTask(newtask)"><i class="glyphicon glyphicon-plus"></i></button></th>
+                                        <th><input type="text" ng-model="newtask.task_name" placeholder="Name"></th>
+                                        <th><input type="text" ng-model="newtask.task_units" placeholder="Unit"></th>
+                                        <th><input type="text" ng-model="newtask.task_cost" placeholder="Cost" format="currency"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">
+                                            <h5>Sections</h5>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="section in sections | unique:'name'">
+                                        <td colspan="2">
+                                            {{section.name}}
+                                            <i ng-click="deletePartner(section)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="add-box">
+                                        <th><input id="section" type="text" ng-model="newsection" placeholder="Section"></th>
+                                        <th><button class="btn btn-primary" ng-click="addPartner('sections','name',newsection)">Add</button></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -30,25 +235,8 @@
                             <li>Email: {{user.email}}</li>
                             <li>Phone: {{user.phone}}</li>
                         </ul>
-                        <p><a ui-sref="add-user"><button class="btn btn-primary">Add a New User</button></a></p>
+                        <p><a ui-sref="add-user" ui-sref-opts="{reload:true}"><button class="btn btn-primary">Add a New User</button></a></p>
                         <p><button class="btn btn-secondary" ng-click="logout()">Logout</button></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="settings">
-                    <h4 class="page-header">Column Visibility Settings</h4>
-                    <div class="row" ng-repeat="column in columns">
-                        <div class="col-xs-9">
-                            <h5>{{column.displayName}}</h5>
-                        </div>
-                        <div class="col-xs-3">
-                            <div class="onoffswitch pull-right">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch{{$index}}" checked ng-model="column.visible" ng-change="hideColumn(column,user.uid)" >
-                                <label class="onoffswitch-label" for="myonoffswitch{{$index}}">
-                                    <span class="onoffswitch-inner"></span>
-                                    <span class="onoffswitch-switch"></span>
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,16 @@
-app.factory("categories", ['$http',
+app.factory("sections", ['$http',
     function($http) {
 
         var o = {
-            categories: []
+            sections: []
         };
 
-        o.getCategories = function(q) {
+        o.getSections = function(q) {
           return $http.get(serviceBase + q).then(function(results) {
             for (i = 0; i < results.data.length; i++) {
-                o.categories.push({
-                    cat_id: results.data[i].cat_id,
-                    cat_name: results.data[i].cat_name
+                o.sections.push({
+                    id: results.data[i].id,
+                    name: results.data[i].name
                 });
             }
           });

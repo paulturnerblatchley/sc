@@ -171,12 +171,11 @@ class DbHandler {
     *   Add Images to Image Table
     **/
 
-    public function insertPropertyImages($images, $pid) {
+    public function insertPropertyImages($images, $pid, $table_name) {
         if (gettype($images) == 'array') {
             // Do Nothing
         } else {
             $c = explode(",", $images);
-            $table_name = 'images';
             for ($i=0; $i < count($c); $i++) { 
                 $query = "select 1 from images where image_name='".$c[$i]."'";
                 $r = $this->conn->query($query.' LIMIT 1') or die($this->conn->error.__LINE__);
@@ -214,8 +213,8 @@ class DbHandler {
         return $sess;
     }
 
-    public function getPropertyImages() {
-        $r = $this->conn->query("SELECT images.pid, images.image_name FROM images");
+    public function getPropertyImages($table) {
+        $r = $this->conn->query("SELECT pid, image_name FROM " . $table);
         $images = array();
         while($row = $r->fetch_assoc()) {
             array_push($images, $row);
@@ -234,9 +233,8 @@ class DbHandler {
 
     public function getOpenBids() {
         $r = $this->conn->query("SELECT * FROM open_bids 
-            JOIN categories ON categories.cat_id = open_bids.bid_cat_id 
-            JOIN bid_tasks ON bid_tasks.bid_id = open_bids.bid_id
-            JOIN tasks ON tasks.task_id = bid_tasks.task_id");
+            JOIN sections ON sections.id = open_bids.bid_cat_id 
+            JOIN bid_tasks ON bid_tasks.bid_id = open_bids.bid_id");
         $results = array();
         while ($row = $r->fetch_assoc()) {
           array_push($results, $row);
@@ -299,7 +297,7 @@ class DbHandler {
     }
 
     public function updateRow($table_name,$column_name,$column_value,$id,$id_value) {
-        $query = "UPDATE " . $table_name . " SET " . $column_name . "='" . $column_value . "' WHERE " . $id . "=" . $id_value;
+        $query = "UPDATE `" . $table_name . "` SET `" . $column_name . "` = '" . $column_value . "' WHERE `" . $table_name ."`.`" . $id . "` = " . $id_value;
         return $this->conn->query($query) or die($this->conn->error.__LINE__);
     }
 

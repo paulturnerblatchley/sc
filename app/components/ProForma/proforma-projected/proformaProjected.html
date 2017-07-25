@@ -1,0 +1,187 @@
+<h4>Date: {{projected.created}}</h4>
+<div class="row">
+  <div class="col-sm-7">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Flip Projections</h5></td>
+        </tr>
+      </thead>
+      <tbody class="pre-sales-costs">
+        <tr>
+          <td colspan="2" class="static"><p>Purchase Price</p></td> 
+          <td><p>{{projected.buy_target | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Purchase Closing Costs</p></td> 
+          <td class="static"><p>{{((projected.purchase_close_costs/projected.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{projected.purchase_close_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Rehab Estimate</p></td> 
+          <td class="static"><p>{{(((projected.rehab_estimate/projected.arv).toFixed(2)) * 100).toFixed(2)}}%</p></td> 
+          <td><p>{{projected.rehab_estimate | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Financing</p></td> 
+          <td class="static"><p>{{((projected.total_finance/projected.arv).toFixed(2))*100}}%</p></td>
+          <td class="static"><p>{{projected.total_finance | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Other</p></td>
+          <td class="static"><p>{{((projected.other_costs/projected.arv)*100).toFixed(2)}}%</p></td>
+          <td><p>{{projected.other_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Pre-Sales Costs</h5></td> 
+          <td><p>{{projected.pre_sale_costs = ((projected.buy_target*1) + (projected.purchase_close_costs*1) + (projected.rehab_estimate*1) + (projected.total_finance*1) + (projected.other_costs*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="sales-costs">
+        <tr>
+          <td class="static"><p>Selling Closing Costs</p></td> 
+          <td class="static"><p>{{((projected.selling_close_costs/projected.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{projected.selling_close_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Buyer's Contribution</p></td>  
+          <td><p>{{projected.buyer_percent}}%</p></td>
+          <td class="static"><p>{{projected.buyer_contribution = ((projected.buyer_percent/100)*projected.arv).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>TC/Accounting</p></td> 
+          <td class="static"><p>{{((projected.tca/projected.arv)*100).toFixed(2)}}%</p></td> 
+          <td><p>{{projected.tca | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Commissions</p></td>  
+           <td><p>{{projected.commission_percent}}%</p></td>
+          <td class="static"><p>{{projected.commission = ((projected.commission_percent/100)*projected.arv).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Sales Costs</h5></td> 
+          <td><p>{{projected.sales_costs = ((projected.selling_close_costs*1) + (projected.buyer_contribution*1) + (projected.tca*1) + (projected.commission*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="total-costs">
+        <tr class="info">
+          <td><h5>EST COSTS</h5></td> 
+          <td><p>{{((projected.est_cost/projected.arv)*100).toFixed(2)}}% </p></td>
+          <td><p>{{projected.est_cost = ((projected.pre_sale_costs*1) + (projected.sales_costs*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td class="success" colspan="2"><h5>VALUE</h5></td> 
+          <td><p>{{projected.arv | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Financing</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static" colspan="2"><p>Loan Amount</p></td> 
+          <td><p>{{projected.loan_amount | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="static">
+          <td colspan="2"><p>LTV</p></td> 
+          <td><p>{{(((projected.loan_amount/projected.arv)*100).toFixed(2))}}%</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>APR (%)</p></td> 
+          <td><p>{{projected.apr}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Months</p></td> 
+          <td><p>{{projected.months}}</p></td>
+          <td class="static" format="currency"><p>{{projected.interest = (((projected.loan_amount*(projected.apr/100))/12)*projected.months).toFixed(0)  | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>Fees</p></td> 
+          <td><p>{{projected.fees | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Opening Points (%)</p></td> 
+          <td><p>{{projected.opening_points}}%</p></td>
+          <td class="static"><p>{{projected.open_points_cost = (projected.loan_amount*(projected.opening_points/100)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><p>Total Financials</p></td> 
+          <td><p>{{projected.total_finance = (((projected.interest*1) + (projected.fees*1) + (projected.open_points_cost*1))).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="2"><h5>Contributions</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static">
+          <td><p>Out Of Pocket</p></td> 
+          <td><p>{{projected.pocket = ((projected.pre_sale_costs*1) - (projected.loan_amount*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Jeremy</p></td> 
+          <td><p>{{projected.jeremy_pocket | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Codrin</p></td> 
+          <td><p>{{projected.codrin_pocket | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Tetakawi</p></td> 
+          <td><p>{{ projected.tetakawi_pocket = ((projected.pocket*1) - (projected.jeremy_pocket*1) - (projected.codrin_pocket*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td class="Acquisition"><h5>Profit</h5></td>
+          <td class="Acquisition">
+            <h5>{{((projected.profit/projected.arv)*100).toFixed(2)}}%</h5></td>
+          <td class="Acquisition">
+            <h5>{{projected.profit = ((projected.arv*1) - (projected.est_cost*1)).toFixed(0) | currency:"$":0}}</h5></td>
+            <td><h5>Invested</h5></td>
+            <td><h5>Annualized ROI</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static"><p>Tetakawi</p></td> 
+          <td class="static"><p>{{projected.tetakawi_share_percent}}%</p></td>
+          <td class="static"><p>{{projected.tetakawi_profit = ((projected.profit*1) * (projected.tetakawi_share_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{projected.tetakawi_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((projected.tetakawi_profit*1)/(projected.tetakawi_pocket*1))*(12/(projected.months*1)))*100).toFixed(2)}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Jeremy</p></td> 
+          <td><p>{{projected.jeremy_percent = (((projected.profit_share*1) - (projected.tetakawi_share_percent*1))/2).toFixed(2)}}%</p></td>
+          <td><p>{{projected.jeremy_profit = ((projected.profit*1) * (projected.jeremy_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{projected.jeremy_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((projected.jeremy_profit*1)/(projected.jeremy_pocket*1))*(12/(projected.months*1)))*100).toFixed(2)}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Codrin</p></td> 
+          <td><p>{{projected.codrin_percent = projected.jeremy_percent}}%</p></td>
+          <td><p>{{projected.codrin_profit = ((projected.profit*1) * (projected.codrin_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{projected.codrin_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((projected.codrin_profit*1)/(projected.codrin_pocket*1))*(12/(projected.months*1)))*100).toFixed(2)}}%</p></td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

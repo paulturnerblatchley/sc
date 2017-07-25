@@ -134,11 +134,13 @@ $app->post('/properties', function() use ($app) {
     $supervisor = $r->property->supervisor;
     $permits = $r->property->permits;
     $est_completion = $r->property->est_completion;
+    $est_possession = $r->property->est_possession;
     $purchase_close_date = $r->property->purchase_close_date;
     $purchase_cost = $r->property->purchase_cost;
     $entity_vesting = $r->property->entity_vesting;
     $lender = $r->property->lender;
     $rehab_estimate = $r->property->rehab_estimate;
+    $loan_amount = $r->property->loan_amount;
     $arv = $r->property->arv;
     $is_listed = $r->property->is_listed;
     $listing_date = $r->property->listing_date;
@@ -149,7 +151,7 @@ $app->post('/properties', function() use ($app) {
     $isPropertyExists = $db->getOneRecord("select 1 from properties where address='$address'");
     if(!$isPropertyExists){
         $tabble_name = "properties";
-        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'supervisor', 'permits', 'est_completion', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
+        $column_names = array('status', 'phase', 'property_type', 'address', 'city', 'zip', 'latlng', 'county', 'year_built', 'sqft', 'lotsize', 'beds', 'baths', 'listdesc', 'pool_spa', 'occupancy', 'lockbox_combo', 'alarm_code', 'asset_manager', 'supervisor', 'permits', 'est_completion', 'est_possession', 'purchase_close_date', 'purchase_cost', 'entity_vesting', 'lender', 'rehab_estimate', 'loan_amount', 'arv', 'is_listed', 'listing_date', 'list_price', 'escrow_price', 'sale_close_date');
         $result = $db->insertIntoTable($r->property, $column_names, $tabble_name);
         $db->initRehabTable($result);
         if (count($images)) {
@@ -193,6 +195,9 @@ $app->post('/changeSettings', function() use ($app) {
     }
 });
 
+/*
+ * PROFORMA
+***************/
 $app->get('/defaultProForma', function() use ($app) {
   $db = new DbHandler();
   $table = "proforma_defaults";
@@ -297,6 +302,90 @@ $app->post('/changePropValue', function() use ($app) {
     }
 });
 
+$app->get('/projectedProForma', function() use ($app) {
+  $db = new DbHandler();
+  $table = "proforma_projected";
+  $proforma = $db->getTable($table);
+  echoResponse(200, $proforma);
+});
+
+$app->post('/setProjected', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "proforma_projected";
+    $pid= $r->proforma->pid;
+    $purchase_close_costs = $r->proforma->purchase_close_costs;
+    $rehab_estimate = $r->proforma->rehab_estimate;
+    $other_costs = $r->proforma->other_costs;
+    $selling_close_costs = $r->proforma->selling_close_costs;
+    $loan_amount = $r->proforma->loan_amount;
+    $apr = $r->proforma->apr;
+    $months = $r->proforma->months;
+    $fees = $r->proforma->fees;
+    $opening_points = $r->proforma->opening_points;
+    $buyer_percent = $r->proforma->buyer_percent;
+    $tca = $r->proforma->tca;
+    $commission_percent = $r->proforma->commission_percent;
+    $jeremy_pocket = $r->proforma->jeremy_pocket;
+    $codrin_pocket = $r->proforma->codrin_pocket;
+    $tetakawi_share_percent = $r->proforma->tetakawi_share_percent;
+    $arv = $r->proforma->arv;
+    $column_names = array('pid', 'purchase_cost', 'purchase_close_costs', 'rehab_estimate', 'other_costs', 'selling_close_costs', 'loan_amount', 'apr', 'months', 'fees', 'opening_points', 'buyer_percent', 'tca', 'commission_percent', 'jeremy_pocket', 'codrin_pocket', 'tetakawi_share_percent', 'arv');
+    $result = $db->insertIntoTable($r->proforma, $column_names, $table);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Projection Set";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Save Projection, please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->get('/actualProForma', function() use ($app) {
+  $db = new DbHandler();
+  $table = "proforma_actual";
+  $proforma = $db->getTable($table);
+  echoResponse(200, $proforma);
+});
+
+$app->post('/setActual', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = "proforma_actual";
+    $pid= $r->proforma->pid;
+    $purchase_close_costs = $r->proforma->purchase_close_costs;
+    $rehab_estimate = $r->proforma->rehab_estimate;
+    $other_costs = $r->proforma->other_costs;
+    $selling_close_costs = $r->proforma->selling_close_costs;
+    $loan_amount = $r->proforma->loan_amount;
+    $apr = $r->proforma->apr;
+    $months = $r->proforma->months;
+    $fees = $r->proforma->fees;
+    $opening_points = $r->proforma->opening_points;
+    $buyer_percent = $r->proforma->buyer_percent;
+    $tca = $r->proforma->tca;
+    $commission_percent = $r->proforma->commission_percent;
+    $jeremy_pocket = $r->proforma->jeremy_pocket;
+    $codrin_pocket = $r->proforma->codrin_pocket;
+    $tetakawi_share_percent = $r->proforma->tetakawi_share_percent;
+    $arv = $r->proforma->arv;
+    $column_names = array('pid', 'purchase_cost', 'purchase_close_costs', 'rehab_estimate', 'other_costs', 'selling_close_costs', 'loan_amount', 'apr', 'months', 'fees', 'opening_points', 'buyer_percent', 'tca', 'commission_percent', 'jeremy_pocket', 'codrin_pocket', 'tetakawi_share_percent', 'arv');
+    $result = $db->insertIntoTable($r->proforma, $column_names, $table);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Actual Proforma Set";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Save Actual Proforma, please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
 $app->get('/proforma', function() use ($app) {
   $db = new DbHandler();
   $table = "proforma";
@@ -330,6 +419,11 @@ $app->post('/changeProforma', function() use ($app) {
     }
 });
 
+
+/*
+ * PROPERTIES
+**************/
+
 $app->get('/properties', function() use ($app) {
   $db = new DbHandler();
   $table = "properties";
@@ -339,7 +433,15 @@ $app->get('/properties', function() use ($app) {
 
 $app->get('/propertyImages', function() use ($app) {
   $db = new DbHandler();
-  $images = $db->getPropertyImages();
+  $table = "images";
+  $images = $db->getPropertyImages($table);
+  echoResponse(200, $images);
+});
+
+$app->get('/listingImages', function() use ($app) {
+  $db = new DbHandler();
+  $table = "listing_images";
+  $images = $db->getPropertyImages($table);
   echoResponse(200, $images);
 });
 
@@ -366,7 +468,8 @@ $app->post('/editProperty', function() use ($app) {
   $pid = $r->property->pid;
   if ($r->property->images) {
     $images = $r->property->images;
-    $db->insertPropertyImages($images, $pid);
+    $table_name = 'images';
+    $db->insertPropertyImages($images, $pid, $table_name);
   }
   $tabble_name = "properties";
   $column_names = array(
@@ -397,6 +500,7 @@ $app->post('/editProperty', function() use ($app) {
     'entity_vesting' => $r->property->entity_vesting,
     'lender' => $r->property->lender,
     'rehab_estimate' => $r->property->rehab_estimate,
+    'loan_amount' => $r->property->loan_amount,
     'arv' => $r->property->arv,
     'is_listed' => $r->property->is_listed,
     'listing_date' => $r->property->listing_date,
@@ -404,7 +508,6 @@ $app->post('/editProperty', function() use ($app) {
     'escrow_price' => $r->property->escrow_price,
     'sale_close_date' => $r->property->sale_close_date,
     'est_possession' => $r->property->est_possession,
-    'holdover_status' => $r->property->holdover_status,
     'notice_date' => $r->property->notice_date,
     'rehab_start' => $r->property->rehab_start,
     'offer_accept' => $r->property->offer_accept,
@@ -420,6 +523,112 @@ $app->post('/editProperty', function() use ($app) {
   } else {
       $response["status"] = "error";
       $response["message"] = "Failed to update property";
+      echoResponse(201, $response);
+  }
+});
+
+$app->post('/editListing', function() use ($app) {
+  $db = new DbHandler();
+  $r = json_decode($app->request->getBody());
+  $pid = $r->property->pid;
+  if ($r->property->images) {
+    $images = $r->property->images;
+    $table_name = 'listing_images';
+    $db->insertPropertyImages($images, $pid, $table_name);
+  }
+  $tabble_name = "properties";
+  $column_names = array(
+    'status' => $r->property->status,
+    'phase' => $r->property->phase,
+    'property_type' => $r->property->property_type,
+    'address' => $r->property->address,
+    'city' => $r->property->city,
+    'zip' => $r->property->zip,
+    'latlng' => $r->property->latlng,
+    'county' => $r->property->county,
+    'year_built' => $r->property->year_built,
+    'sqft' => $r->property->sqft,
+    'lotsize' => $r->property->lotsize,
+    'beds' => $r->property->beds,
+    'baths' => $r->property->baths,
+    'listdesc' => $r->property->listdesc,
+    'pool_spa' => $r->property->pool_spa,
+    'occupancy' => $r->property->occupancy,
+    'lockbox_combo' => $r->property->lockbox_combo,
+    'alarm_code' => $r->property->alarm_code,
+    'asset_manager' => $r->property->asset_manager,
+    'supervisor' => $r->property->supervisor,
+    'permits' => $r->property->permits,
+    'est_completion' => $r->property->est_completion,
+    'purchase_close_date' => $r->property->purchase_close_date,
+    'purchase_cost' => $r->property->purchase_cost,
+    'entity_vesting' => $r->property->entity_vesting,
+    'lender' => $r->property->lender,
+    'rehab_estimate' => $r->property->rehab_estimate,
+    'loan_amount' => $r->property->loan_amount,
+    'arv' => $r->property->arv,
+    'is_listed' => $r->property->is_listed,
+    'listing_date' => $r->property->listing_date,
+    'list_price' => $r->property->list_price,
+    'escrow_price' => $r->property->escrow_price,
+    'sale_close_date' => $r->property->sale_close_date,
+    'est_possession' => $r->property->est_possession,
+    'notice_date' => $r->property->notice_date,
+    'rehab_start' => $r->property->rehab_start,
+    'offer_accept' => $r->property->offer_accept,
+    'sale_price' => $r->property->sale_price
+  );
+  foreach ($column_names as $key => $value) {
+    $result = $db->updateRow($tabble_name, $key, $value, 'pid', $pid);
+  }
+  if ($result != NULL) {
+      $response["status"] = "success";
+      $response["message"] = "Property was updated";
+      echoResponse(200, $response);
+  } else {
+      $response["status"] = "error";
+      $response["message"] = "Failed to update property";
+      echoResponse(201, $response);
+  }
+});
+
+$app->post('/editOffer', function() use ($app) {
+  $db = new DbHandler();
+  $r = json_decode($app->request->getBody());
+  $offer_id = $r->offer->offer_id;
+  $table_name = "offers";
+  $column_names = array(
+    'buyer' => $r->offer->buyer,
+    'city_fees' => $r->offer->city_fees,
+    'closing' => $r->offer->closing,
+    'closing_costs' => $r->offer->closing_costs,
+    'co_fees' => $r->offer->co_fees,
+    'counter' => $r->offer->counter,
+    'deposit' => $r->offer->deposit,
+    'escrow' => $r->offer->escrow,
+    'fico' => $r->offer->fico,
+    'financing' => $r->offer->financing,
+    'hoa' => $r->offer->hoa,
+    'home_warranty' => $r->offer->home_warranty,
+    'nhd' => $r->offer->nhd,
+    'notes' => $r->offer->notes,
+    'offer_price' => $r->offer->offer_price,
+    'other_terms' => $r->offer->other_terms,
+    'pof' => $r->offer->pof,
+    'septic' => $r->offer->septic,
+    'termite' => $r->offer->termite,
+    'title' => $r->offer->title
+  );
+  foreach ($column_names as $key => $value) {
+    $result = $db->updateRow($table_name, $key, $value, 'offer_id', $offer_id);
+  }
+  if ($result != NULL) {
+      $response["status"] = "success";
+      $response["message"] = "Offer was updated";
+      echoResponse(200, $response);
+  } else {
+      $response["status"] = "error";
+      $response["message"] = "Failed to update offer. Please try again later.";
       echoResponse(201, $response);
   }
 });
@@ -480,6 +689,23 @@ $app->post('/deleteComment', function() use ($app){
   } else {
     $response["status"] = "error";
     $response["message"] = "Comment failed to delete. Please try again.";
+    echoResponse(201, $response);
+  }
+});
+
+$app->post('/deleteOffer', function() use ($app){
+  $db = new DbHandler();
+  $r = json_decode($app->request->getBody());
+  $offer_id = $r->offer->offer_id;
+  $table = "offers";
+  $result = $db->deleteItem($table,'offer_id',$offer_id);
+  if ($result != NULL) {
+    $response["status"] = "success";
+    $response["message"] = "Offer has been deleted";
+    echoResponse(200, $response);
+  } else {
+    $response["status"] = "error";
+    $response["message"] = "Offer failed to delete. Please try again.";
     echoResponse(201, $response);
   }
 });
@@ -557,7 +783,7 @@ $app->post('/comments', function() use ($app) {
     if ($result != NULL) {
         $response["status"] = "success";
         $response["message"] = "Your comment has been added";
-        $response["pid"] = $result;
+        $response["comment_id"] = $result;
         echoResponse(200, $response);
     } else {
         $response["status"] = "error";
@@ -583,29 +809,29 @@ $app->get('/users', function() use ($app) {
 /*
  * Bids
  *******/
-$app->get('/categories', function() use ($app) {
+$app->get('/sections', function() use ($app) {
   $db = new DbHandler();
-  $table = "categories";
-  $categories = $db->getTable($table);
-  echoResponse(200, $categories);
+  $table = "sections";
+  $sections = $db->getTable($table);
+  echoResponse(200, $sections);
 });
 
-$app->post('/addCategory', function() use ($app) {
+$app->post('/addSection', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
     $db = new DbHandler();
-    $cat = $r->cat;
-    $table_name = "categories";
-    $column_name = "cat_name";
-    $result = $db->insertString($cat, $column_name, $table_name);
+    $name = $r->name;
+    $table_name = "sections";
+    $column_name = "name";
+    $result = $db->insertString($name, $column_name, $table_name);
     if ($result != NULL) {
         $response["status"] = "success";
-        $response["message"] = "Your category has been added";
-        $response["cat_id"] = $result;
+        $response["message"] = "A new section has been added";
+        $response["id"] = $result;
         echoResponse(200, $response);
     } else {
         $response["status"] = "error";
-        $response["message"] = "Failed to create category. Please try again";
+        $response["message"] = "Failed to create section. Please try again";
         echoResponse(201, $response);
     }
 });
@@ -622,9 +848,11 @@ $app->post('/addTask', function() use ($app) {
     $r = json_decode($app->request->getBody());
     $db = new DbHandler();
     $task_name = $r->task->task_name;
-    $units = $r->task->units;
+    $task_units = $r->task->task_units;
+    $task_cost = $r->task->task_cost;
+    $default_qty = $r->task->default_qty;
     $table_name = "tasks";
-    $column_names = array('task_name', 'task_units');
+    $column_names = array('task_name', 'task_units','task_cost', 'default_qty');
     $result = $db->insertComment($r->task, $column_names, $table_name);
     if ($result != NULL) {
         $response["status"] = "success";
@@ -649,23 +877,25 @@ $app->post('/bids', function() use ($app) {
     $r = json_decode($app->request->getBody());
     $db = new DbHandler();
     $bid_pid = $r->bid->pid;
-    $bid_cat_id = $r->bid->category->cat_id;
+    $bid_num = $r->bid->bid_num;
+    $bid_cat_id = $r->bid->section->id;
+    $total_cost = $r->bid->total_cost;
     if (!$bid_cat_id) {
         $response["status"] = "error";
-        $response["message"] = "Please Select A Category";
+        $response["message"] = "Please Select A Section";
         echoResponse(201, $response);
     }
     $tasks = $r->bid->tasks;
     $table_name = "open_bids";
-    $column_names = array('bid_pid', 'bid_cat_id');
-    $column_values = array($bid_pid, $bid_cat_id);
+    $column_names = array('bid_pid', 'bid_num', 'bid_cat_id','bid_total_cost');
+    $column_values = array($bid_pid,$bid_num, $bid_cat_id,$total_cost);
     $bid_result = $db->insertValues($column_values, $column_names, $table_name);
     if ($bid_result != NULL) {
         $table_name = "bid_tasks";
         $total_tasks = count((array)$tasks);
         for ($i = 0; $i < $total_tasks; $i++) {
-            $column_names = array('bid_id', 'task_id', 'description', 'qty');
-            $column_values = array($bid_result, $tasks[$i]->task_id, $tasks[$i]->desc, $tasks[$i]->qty);
+            $column_names = array('bid_id', 'task_name', 'task_cost', 'task_units', 'qty', 'task_total', 'description');
+            $column_values = array($bid_result, $tasks[$i]->task_name, $tasks[$i]->task_cost, $tasks[$i]->task_units, $tasks[$i]->qty, $tasks[$i]->total_cost, $tasks[$i]->description);
             $task_result = $db->insertValues($column_values, $column_names, $table_name);
         }
         if ($task_result != NULL) {
@@ -702,27 +932,28 @@ $app->post('/newOffer', function() use ($app) {
     $db = new DbHandler();
     $table = "offers";
     $pid = $r->offer->pid;
+    $agent_id = $r->offer->agent_id;
     $buyer = $r->offer->buyer;
     $financing = $r->offer->financing;
     $closing = $r->offer->closing;
     $deposit = $r->offer->deposit;
     $offer_price = $r->offer->offer_price;
-    $comp = $r->offer->comp;
-    $ccnr = $r->offer->ccnr;
+    $closing_costs = $r->offer->closing_costs;
     $counter = $r->offer->counter;
+    $hoa = $r->offer->hoa;
+    $home_warranty = $r->offer->home_warranty;
     $title = $r->offer->title;
     $escrow = $r->offer->escrow;
     $termite = $r->offer->termite;
     $nhd = $r->offer->nhd;
     $septic = $r->offer->septic;
-    $retrofit = $r->offer->retrofit;
     $co_fees = $r->offer->co_fees;
     $city_fees = $r->offer->city_fees;
     $fico = $r->offer->fico;
     $pof = $r->offer->pof;
     $other_terms = $r->offer->other_terms;
     $notes = $r->offer->notes;
-    $column_names = array('pid', 'buyer', 'financing', 'closing', 'deposit', 'offer_price', 'comp', 'ccnr', 'counter', 'title', 'escrow', 'termite', 'nhd', 'septic', 'retrofit', 'co_fees', 'city_fees', 'fico', 'pof', 'other_terms', 'notes');
+    $column_names = array('pid', 'agent_id', 'buyer', 'financing', 'closing', 'deposit', 'offer_price', 'closing_costs', 'counter', 'hoa', 'home_warranty', 'title', 'escrow', 'termite', 'nhd', 'septic', 'co_fees', 'city_fees', 'fico', 'pof', 'other_terms', 'notes');
     $result = $db->insertIntoTable($r->offer, $column_names, $table);
     if ($result) {
         $response["status"] = "success";
@@ -758,7 +989,6 @@ $app->post('/offerStatus', function() use ($app) {
 /*
 * ESCROW
 ******/
-
 $app->post('/escrow', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -863,6 +1093,9 @@ $app->get('/escrowForms', function() use ($app) {
   echoResponse(200, $forms);
 });
 
+/*
+* AGENTS
+******/
 $app->post('/enroll', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -881,23 +1114,25 @@ $app->post('/enroll', function() use ($app) {
     $la = $r->agent->la;
     $sd = $r->agent->sd;
     $isAgentExists = $db->getOneRecord("select 1 from agents where phone='$phone' or email='$email'");
-    if(!$isAgentExists){
+    if (!$isAgentExists) {
         $tabble_name = "agents";
         $column_names = array('first_name', 'last_name', 'email', 'phone', 'bre', 'mls_id', 'early_showing', 'open_house', 'sb', 'riv','la','sd');
         $result = $db->insertIntoTable($r->agent, $column_names, $tabble_name);
         if ($result != NULL) {
             $response["status"] = "success";
             $response["message"] = "Enrollment Success";
-            $response["uid"] = $result;
+            $response["agent_id"] = $result;
             echoResponse(200, $response);
         } else {
             $response["status"] = "error";
             $response["message"] = "Enrollment Failed. Please try again later";
             echoResponse(201, $response);
         }
-    }else{
-        $response["status"] = "error";
-        $response["message"] = "An agent with the provided phone or email exists!";
+    } else {
+        $agent_id = $db->getOneRecord("select agent_id from agents where phone='$phone' or email='$email'");
+        $response["status"] = "success";
+        $response["message"] = "You are already in our system.";
+        $response["agent_id"] = $agent_id;
         echoResponse(201, $response);
     }
 });
@@ -1071,4 +1306,114 @@ $app->post('/zillow', function() use ($app) {
     }
 
 });
+
+/*
+* PARTNERS
+******/
+$app->get('/getLenders', function() use ($app) {
+    $db = new DbHandler();
+    $table = "lenders";
+    $lenders = $db->getTable($table);
+    echoResponse(200, $lenders);
+});
+
+$app->get('/getEntityVesting', function() use ($app) {
+    $db = new DbHandler();
+    $table = "entity_vesting";
+    $entity_vesting = $db->getTable($table);
+    echoResponse(200, $entity_vesting);
+});
+
+$app->get('/getSupervisors', function() use ($app) {
+    $db = new DbHandler();
+    $table = "supervisors";
+    $supervisors = $db->getTable($table);
+    echoResponse(200, $supervisors);
+});
+
+$app->get('/getAssetManagers', function() use ($app) {
+    $db = new DbHandler();
+    $table = "asset_managers";
+    $asset_managers = $db->getTable($table);
+    echoResponse(200, $asset_managers);
+});
+
+$app->post('/addPartner', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = $r->partner->table;
+    $column = $r->partner->column;
+    $value = $r->partner->value;
+    $result = $db->insertString($value, $column, $table);
+    if ($result) {
+        $response["status"] = "success";
+        $response["message"] = "Successfully Added";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Failed to add. Please try again";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/deletePartner', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = $r->partner->table;
+    $column = $r->partner->column;
+    $value = $r->partner->value;
+    $result = $db->deleteItem($table, $column, $value);
+    if ($result) {
+        $response["status"] = "success";
+        $response["message"] = "Successfully Deleted";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Failed to delete. Please try again";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/updateValue', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = $r->change->table;
+    $where = $r->change->where;
+    $what = $r->change->what;
+    $column = $r->change->column;
+    $value = $r->change->value;
+    $result = $db->updateRow($table, $column, $value, $where, $what);
+    if ($result != NULL) {
+        $response["status"] = "success";
+        $response["message"] = "Updated.";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Couldn't Update. Please try again later.";
+        echoResponse(201, $response);
+    }
+});
+
+$app->post('/deleteRow', function() use ($app) {
+    $response = array();
+    $r = json_decode($app->request->getBody());
+    $db = new DbHandler();
+    $table = $r->row->table;
+    $column = $r->row->column;
+    $value = $r->row->value;
+    $result = $db->deleteItem($table, $column, $value);
+    if ($result) {
+        $response["status"] = "success";
+        $response["message"] = "Successfully Deleted";
+        echoResponse(200, $response);
+    } else {
+        $response["status"] = "error";
+        $response["message"] = "Failed to delete. Please try again";
+        echoResponse(201, $response);
+    }
+});
+
 ?>

@@ -1,45 +1,47 @@
-<app-header></app-header>
-<div class="breadcrumbs" id="breadcrumbs">
-  <ul class="breadcrumb">
-    <li><a ui-sref="properties">Properties</a></li>
-    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
-    <li><a ui-sref="properties.property.bids">Bids</a></li>
-    <li class="active">Open Bid #{{b.bid_id}}</li>
-  </ul>
+<div class="form-group pull-left">
+  <button ui-sref="properties.property.bids" class="btn btn-primary">
+    <i class="glyphicon glyphicon-arrow-left"></i> Back To Bids
+  </button>
 </div>
-<div class="page-content">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-  		  <div class="page-header clearfix">
-    			 <h1>Open Bid #{{b.bid_id}}</h1>
-           <h4 class="col-xs-3">{{s.address}}</h4><h4 class="col-xs-3">Category: {{b.cat_name}}</h4>
-        </div>
-  		</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <h3>Tasks</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Unit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="task in b.tasks">
-              <td>{{task.task_name}}</td>
-              <td>{{task.description}}</td>
-              <td>{{task.qty}}</td>
-              <td>{{task.task_units}}</td>
-            </tr>
-          </tbody>
-        </table>
+<div class="form-group pull-right">
+  <button ng-click="deleteBid(b.bid_id)" class="btn btn-danger">
+    Delete Bid
+  </button>
+</div>
+<div class="page-content bids">
+  <div class="row">
+    <div class="col-sm-12">
+		  <div class="page-header clearfix">
+  			 <h4 class="col-sm-4">Bid #{{b.bid_num}} for {{s.address}}</h4>
+         <h4 class="col-sm-4">Section: {{b.name}}</h4>
+         <h4 class="col-sm-4">Bid Total: {{b.total_cost | currency:'$':2}}</h4>
       </div>
+		</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-bordered table-responsive tasks-table">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Cost Per Unit</th>
+            <th>Task Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="task in b.tasks | unique:'task_name'">
+            <td><input type="text" class="invisible-form" ng-model="task.task_name" ng-change="changePropValue('task_name', task.task_name,task.bid_task_id)" ng-model-options='{ debounce: 600 }'></td>
+            <td><input type="text" class="invisible-form" ng-model="task.description" ng-change="changePropValue('description', task.description,task.bid_task_id)" ng-model-options='{ debounce: 600 }'></td>
+            <td><input type="text" class="invisible-form" ng-model="task.qty" ng-change="changePropValue('qty', task.qty,task.bid_task_id,((task.qty*1) * (task.task_cost*1)))" ng-model-options='{ debounce: 600 }'></td>
+            <td><input type="text" class="invisible-form" ng-model="task.task_units" ng-change="changePropValue('task_units', task.task_units,task.bid_task_id)" ng-model-options='{ debounce: 600 }'></td>
+            <td><input type="text" class="invisible-form" ng-model="task.task_cost" ng-change="changePropValue('task_cost', task.task_cost,task.bid_task_id,((task.qty*1) * (task.task_cost*1)))" ng-model-options='{ debounce: 600 }'></td>
+            <td><p>{{task.task_total = (task.qty*1) * (task.task_cost*1) | currency:'$':2}}</p></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
-<app-footer></app-footer>

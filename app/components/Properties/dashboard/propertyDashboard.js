@@ -15,18 +15,44 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, singleproperty, auth, $state, Data, proforma, properties) {
+        controller: function($scope, singleproperty, auth, $state, Data, proforma, properties, rehab,$rootScope,partners) {
             $('.table>tbody>tr>td>.invisible-form').parent().css({
                 'background-color': '#fff',
                 'padding': '0',
                 'height': '100%'
             });
             $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
-           
-            $scope.s = singleproperty.property;
 
-            $scope.properties = properties.properties;
+            $('.table>tbody>tr>td>.invisible-form, .table>tbody>tr>td>select').attr("on-change","trackChanges");
+           
+            // get single property
+            $scope.s = singleproperty.property;
             
+            if ($scope.s.loan_amount == 0) {
+                $scope.s.loan_amount = $scope.s.arv * 0.7;
+            }
+
+            // get proforma details
+            $scope.proforma = proforma.proforma;
+            $scope.proforma.open_points_cost = (($scope.s.loan_amount*1)*($scope.proforma.opening_points/100)).toFixed(0);
+            $scope.proforma.interest = ((($scope.s.loan_amount*($scope.proforma.apr/100))/12)*$scope.proforma.months).toFixed(0);
+            $scope.proforma.total_finance = ((($scope.proforma.interest*1) + ($scope.proforma.fees*1) + ($scope.proforma.open_points_cost*1))).toFixed(0);
+            $scope.s.holding_cost = ($scope.proforma.total_finance*1) + ($scope.proforma.other_costs*1);
+
+            // get property rehab
+            $scope.r = rehab.rehab;
+            $scope.s.rehab_accrued = $scope.r.accrued_costs;
+
+            // get all properties
+            $scope.properties = properties.properties;
+
+            // get partners
+            $scope.lenders = partners.lenders;
+            $scope.entity_vesting = partners.entity_vesting;
+            $scope.supervisors = partners.supervisors;
+            $scope.asset_managers = partners.asset_managers;
+
+            // FUNCTIONS
             function setStatusOptions(s) {
                 $scope.s.status_options = ["Active","Hold","Closed"];
                 var phase = s.phase;
@@ -68,10 +94,7 @@ app.component(
                 s.is_listed = (s.is_listed === "Yes") ? 1 : 0;
 
                 function removeCash(x) {
-                  x = x.replace(",", "");
-                  if (x.indexOf('$') == 0) {
-                    x = x.slice(1);
-                  }
+                  x = x.replace(/[$, ]/g, "");
                   return x;
                 }
 
@@ -153,7 +176,7 @@ app.component(
                             $scope.properties.splice(i,1);
                         }
                       }
-                      $state.go('properties');
+                      $state.go('properties', {}, {reload: true});
                   });
                 }
             };

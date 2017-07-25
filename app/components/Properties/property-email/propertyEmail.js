@@ -18,7 +18,7 @@ app.component(
  			}
  			
  			$scope.preview;
- 			console.log($scope.s.county);
+ 			
  			if ($scope.s.county == "SB") {
  				$scope.agents = agents.agentsSB;
  			} else if ($scope.s.county == "RIV") {
@@ -68,7 +68,7 @@ app.component(
                 	$("#loading").css("display", "none");
                     auth.toast(results);
                     if (results.status == "success") {
-                        $state.go('properties.property');
+                        $state.go('properties.property', {}, {reload: true});
                     }
                 }); 
 		    }            

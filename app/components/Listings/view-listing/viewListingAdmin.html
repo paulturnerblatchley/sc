@@ -1,17 +1,17 @@
 <div class="row">
-  <div class="form-group edit-property-btn col-sm-3 pull-right">
-    <button id="updatePropertySubmit" class="btn btn-success pull-right  col-xs-12" ng-click="uploadFile();updateProperty(s)">
+  <div class="form-group edit-property-btn col-sm-3">
+    <button id="updatePropertySubmit" class="btn btn-success col-xs-12" ng-click="uploadFile();updateProperty(s)">
       Update
     </button>
   </div>
 	<div class="form-group edit-property-btn col-sm-9">
-		<button class="btn btn-primary col-xs-4" ng-click="newOffer()">
+		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.new-offer" ui-sref-opts="{reload:true}">
 		 Input New Offer
 		</button>
-		<button class="btn btn-primary col-xs-4" ng-click="seeOffers()">
+		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
 		 View Offers
 		</button>
-		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.email">
+		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.email" ui-sref-opts="{reload:true}">
 		 Create V-Flyer
 		</button>
 	</div>
@@ -38,7 +38,7 @@
 	        </tr>
 	        <tr>
 	          <td class="col-xs-4">Listing Price</td> 
-	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price"/></td>
+	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price" format="currency"/></td>
 	        </tr>
 	        <tr>
               <td class="col-xs-4">Purchase Date</td> 
@@ -58,7 +58,7 @@
             </tr>
 	        <tr>
 	          <td class="col-xs-4">Escrow Price</td> 
-	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price"/></td>
+	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price" format="currency"/></td>
 	        </tr>
 	        <tr>
 	          <td class="col-xs-4">Sale Close Date</td> 
@@ -72,21 +72,21 @@
 	    </table>
 	</div>
 	<div class="col-sm-6">
-      <div class="image-box clearfix">
-        <div ng-show="!s.images" class="no-img">
+    <div class="section-header">
+        <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listing Images</h4>
+    </div>
+      <div id="t4-toggle-table" class="image-box clearfix">
+        <div ng-show="!s.listing_images" class="no-img">
           <i class="glyphicon glyphicon-camera"></i>
-          <p>There are no images for this property.</p>
+          <p>There are no images for this listing.</p>
         </div>
-        <div ng-show="s.images" id="property-carousel" class="carousel slide">
+        <div ng-show="s.listing_images" id="property-carousel" class="carousel slide">
           <ol class="carousel-indicators">
-            <li ng-repeat="image in s.images" data-target="#property-carousel" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>
+            <li ng-repeat="image in s.listing_images" data-target="#property-carousel" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>
           </ol>
           <div class="carousel-inner" role="listbox">
-            <div class="single-img item" ng-class="{active:$first}" ng-repeat="image in s.images">
+            <div class="single-img item" ng-class="{active:$first}" ng-repeat="image in s.listing_images">
               <img class="img-responsive" ng-hide="!image" ng-src="../../../server/v1/uploads/{{image}}"/>
-              <div >
-                <i ng-click="deleteFile(image)" class="img-delete glyphicon glyphicon-remove-sign" ></i>
-              </div>
             </div>
           </div>
           <a class="left carousel-control" data-target="#property-carousel" role="button" data-slide="prev">
@@ -103,5 +103,5 @@
           <input class="col-sm-7" type="file" id="file" name="file" accept="image/*" file-model="myFile" ng-model="s.images" multiple>
         </div>
       </div>
-      </div>
+    </div>
 </div>

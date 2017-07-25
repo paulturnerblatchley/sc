@@ -1,0 +1,185 @@
+<div class="row">
+  <div class="form-group edit-property-btn col-sm-12">
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.listing" ui-sref-opts="{reload:true}">
+     <i class="glyphicon glyphicon-arrow-left"></i> Back To Listing
+    </button>
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
+     View Offers
+    </button>
+    <button class="btn btn-success col-xs-3" ng-click="updateOffer(offer)">
+      Update
+    </button>
+    <button class="btn btn-danger col-xs-3" ng-click="deleteOffer(offer)">
+      Delete
+    </button>
+  </div>
+</div>
+<div class="page-content">
+  <div class="page-header row">
+    <h1 class="col-sm-5">Offer {{offer.offer_id}} for {{s.address}}</h1>
+  </div>
+  <div class="col-sm-6">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Buyer</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.buyer"></td>
+        </tr>
+        <tr>
+          <td>Financing</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.financing">
+              <option value="FHA">FHA</option>
+              <option value="Conv">Conventional</option>
+              <option value="VA">VA</option>
+              <option value="Cash">Cash</option>
+              <option value="Private">Private</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Closing</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.closing"></td>
+        </tr>
+        <tr>
+          <td>Deposit</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.deposit" format="currency"></td>
+        </tr>
+        <tr>
+          <td>Offer Price</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.offer_price" format="currency"></td>
+        </tr>
+        <tr>
+          <td>Commission</td>
+          <td>{{offer.commission = ((offer.offer_price*1) * (proforma.commission_percent/100)).toFixed(0) | currency:'$':0}}</td>
+        </tr>
+        <tr>
+          <td>Closing Costs</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.closing_costs" format="currency"></td>
+        </tr>
+        <tr>
+          <td>Counter</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.counter" format="currency"></td>
+        </tr>
+        <tr>
+          <td>HOA</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.hoa" format="currency"></td>
+        </tr>
+        <tr>
+          <td>Home Warranty</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.home_warranty" format="currency"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="success">
+          <td>Net Offer</td>
+          <td>{{offer.net_offer = ((offer.offer_price*1) - (offer.commission*1) -(offer.closing_costs*1) + (offer.counter*1)).toFixed(0) | currency:'$':0}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="col-sm-6">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.title">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Excrow</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.escrow">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Termite</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.termite">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>NHD</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.nhd">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Septic</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.septic">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Co. Fees</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.co_fees">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>City Fees</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.city_fees">
+              <option value="Buyer">Buyer</option>
+              <option value="Seller">Seller</option>
+              <option value="50/50">50/50</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>FICO</td>
+          <td><input class="invisible-form" type="text" ng-model="offer.fico"></td>
+        </tr>
+        <tr>
+          <td>POF</td>
+          <td>
+            <select class="invisible-form" ng-model="offer.pof">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Other Terms</td>
+          <td><textarea class="invisible-form" ng-model="offer.other_terms"></textarea></td>
+        </tr>
+        <tr>
+          <td>Notes</td>
+          <td><textarea class="invisible-form" ng-model="offer.notes"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

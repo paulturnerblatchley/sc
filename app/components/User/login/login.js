@@ -14,7 +14,7 @@ app.component(
                     $sessionStorage.user = results;
 		            auth.toast(results);
 		            if (results.status == "success") {
-		                $state.go('properties');
+		                $state.go('properties', {}, {reload: true});
 		            }
 		        });
 		    };

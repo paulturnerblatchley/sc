@@ -9,11 +9,26 @@ app.component(
 			// Default
             else               return 'app/components/User/login/login.html'
         },
-	    controller: function($scope, $rootScope, $sessionStorage, auth, properties, singleproperty, escrow) {
+	    controller: function($scope, $rootScope, $sessionStorage, auth, properties, singleproperty, escrow, offers, $state, proforma) {
+            // get property info
             $scope.s = singleproperty.property;
+
+            // get proforma details
+            $scope.proforma = proforma.proforma;
+
+            // check for accepted offer
+            for(i = 0; i < offers.offers.length; i++) {
+                  if (offers.offers[i].accept == "success") {
+                        $scope.offer = offers.offers[i];
+                        $scope.offer.commission = (($scope.offer.offer_price*1) * ($scope.proforma.commission_percent/100)).toFixed(0)
+                        $scope.offer.net_offer = (($scope.offer.offer_price*1) - ($scope.offer.commission*1) - ($scope.offer.closing_costs*1) + ($scope.offer.counter*1)).toFixed(0)
+                        break;                    
+                  }
+            }
+            
             // Pretty Dates
             $scope.s.offer_accept = moment($scope.s.offer_accept).format('LL');
-            $scope.s.sale_close_date = moment($scope.s.sale_close_date).format('LL'); 
+            $scope.s.sale_close_date = ($scope.s.sale_close_date == '') ? '0000-00-00' : $scope.s.sale_close_date; 
 
             // Get Escrow Progress     
             $scope.progress = {};
@@ -25,9 +40,8 @@ app.component(
             delete $scope.forms.id;
             delete $scope.forms.pid;
 
-            $scope.saveEscrowChanges = function(pid,day,task_name,task_obj,task_value) {
-            	
-            	var escrow = {pid:'', day: '', task_name:'', status: '', date: '', inspection: ''};
+            $scope.saveEscrowChanges = function(pid,day,task_name,task_obj,task_value) {   	
+            	var escrow = {};
             	escrow.pid = pid;
             	escrow.day = day;
             	escrow.task_name = task_name;
@@ -45,9 +59,10 @@ app.component(
             		delete escrow.status;
             	}
 				
-			auth.post('escrow', {
+                auth.post('escrow', {
             		escrow: escrow
             	}).then( function(results) {
+
             	});
             }
 
@@ -62,6 +77,32 @@ app.component(
                   }).then( function(results) {
 
                   });
+            }
+
+            $scope.changePropValue = function(k,v) {
+                  var change = {};
+                  change.pid = $scope.s.pid;
+                  change.column = k;
+                  change.value = v;
+                  auth.post('changePropValue', {
+                        change: change
+                  }).then(function() {
+                        $state.go($state.current, {}, {reload: true});
+                  });
+            }
+
+            $scope.toggle = function(event) {
+                var t = $(event.target);
+                var id = t[0].id;
+                if (t.hasClass("glyphicon-minus")) {
+                    $("#" + id + "-table").addClass("collapse");
+                    t.removeClass("glyphicon-minus");
+                    t.addClass("glyphicon-plus");
+                } else {
+                    $("#" + id + "-table").removeClass("collapse");
+                    t.removeClass("glyphicon-plus");
+                    t.addClass("glyphicon-minus");
+                }
             }
 	    }
 	}

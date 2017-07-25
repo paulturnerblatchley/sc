@@ -13,20 +13,20 @@
     </style>
     
     <!-- inject-vendor:css -->
-    <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.4/ui-grid.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tree/2.22.5/angular-ui-tree.min.css" />
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/angular.gantt/1.3.1/angular-gantt.min.css"/>
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/angular.gantt/1.3.1/angular-gantt-plugins.min.css"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/2.1.0/toaster.min.css" rel="stylesheet">
+    <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.4/ui-grid.min.css" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tree/2.22.5/angular-ui-tree.min.css"  type="text/css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/angular.gantt/1.3.1/angular-gantt.min.css" type="text/css"/>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/angular.gantt/1.3.1/angular-gantt-plugins.min.css" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/2.1.0/toaster.min.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
 
     <!-- inject-fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i|Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i|Open+Sans:300,400,700" rel="stylesheet" type="text/css">
     <!-- endinject -->
 
     <!-- inject:css -->
-    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="/assets/css/custom.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,6 +35,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <base href="/">
   </head>
   <body class="{{bodylayout}}" ng-cloak>
     <loading></loading>  
@@ -56,7 +57,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-touch.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.2.2/angular-local-storage.min.js"></script>
     <script src="assets/libs/moment.js"></script>
-    <script src="assets/libs/draganddrop.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tree/2.22.5/angular-ui-tree.min.js"></script>
     <script src="https://cdn.jsdelivr.net/angular.moment/1.0.1/angular-moment.min.js"></script>
     <script src="http://cdn.jsdelivr.net/angular.gantt/1.3.1/angular-gantt.min.js"></script>
@@ -83,7 +83,7 @@
     <script src="app/components/Properties/new-property/imageDataFactory.js"></script>
     <script src="app/components/Properties/view-property/singlePropertyFactory.js"></script>
     <script src="app/components/Bids/bidsFactory.js"></script>
-    <script src="app/components/Bids/categoriesFactory.js"></script>
+    <script src="app/components/Bids/sectionsFactory.js"></script>
     <script src="app/components/Bids/taskFactory.js"></script>
     <script src="app/components/Rehabs/rehabFactory.js"></script>
     <script src="app/components/Escrows/escrowFactory.js"></script>
@@ -92,6 +92,7 @@
     <script src="app/shared/comments/commentsFactory.js"></script>
     <script src="app/components/ProForma/proFormaFactory.js"></script>
     <script src="app/components/Listings/offers/offersFactory.js"></script>
+    <script src="app/components/User/dashboard/partnersFactory.js"></script>
     <!-- endinject -->
 
     <!-- inject-shared:js -->
@@ -118,13 +119,17 @@
     <script src="app/components/Properties/dashboard/propertyDashboard.js"></script>
     <script src="app/components/Properties/new-property/newProperty.js"></script>
     <script src="app/components/Properties/property-email/propertyEmail.js"></script>
-    <!-- Pro Forma Pages -->
+    <!-- Asset Stats Page  -->
+    <script src="app/components/Stats/assetStats.js"></script>
+    <!-- Pro Forma Page -->
     <script src="app/components/ProForma/proForma.js"></script>
+    <script src="app/components/ProForma/proforma-live/proformaLive.js"></script>
+    <script src="app/components/ProForma/proforma-projected/proformaProjected.js"></script>
+    <script src="app/components/ProForma/proforma-actual/proformaActual.js"></script>
     <!-- Bids Pages -->
     <script src="app/components/Bids/bids/bids.js"></script>
     <script src="app/components/Bids/new-bid/newBid.js"></script>
     <script src="app/components/Bids/open-bid/openBid.js"></script>
-    <script src="app/components/Bids/submitted-bid/submittedBid.js"></script>
     <!-- Rehab Pages -->
     <script src="app/components/Rehabs/rehabs/rehabs.js"></script>
     <script src="app/components/Rehabs/view-rehab/viewRehab.js"></script>
@@ -132,7 +137,9 @@
     <script src="app/components/Listings/listings/listings.js"></script>
     <script src="app/components/Listings/view-listing/viewListing.js"></script>
     <script src="app/components/Listings/new-offer/newOffer.js"></script>
+    <script src="app/components/Listings/agent-offer/agentOffer.js"></script>
     <script src="app/components/Listings/offers/offers.js"></script>
+    <script src="app/components/Listings/edit-offer/editOffer.js"></script>
     <!-- Escrow Pages -->
     <script src="app/components/Escrows/escrows/escrows.js"></script>
     <script src="app/components/Escrows/manage-escrow/manageEscrow.js"></script>

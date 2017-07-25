@@ -31,7 +31,7 @@ app.component(
                     auth.toast(results);
                     $sessionStorage.user = {};
                     $sessionStorage.user.user_role = 0;
-                    $state.go('login');
+                    $state.go('login', {}, {reload: true});
                 });
             };
         }

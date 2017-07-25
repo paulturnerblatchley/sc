@@ -1,66 +1,35 @@
-<div class="page-content bids">
-  <div class="container">
-    <div class="form-group col-xs-2 pull-right">
-        <button ng-click="newBid(s.pid)" class="btn btn-primary pull-right">
-          Create New Bid
-        </button>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-  			<h3>Submitted Bids</h3>
-        <div class="row" ng-show="!submitted.length">
-          <p>There are currently no bid submissions for this property.</p>
-        </div>
-        <div ng-show="submitted.length" class="table-responsive">
-          <table class="table table-striped header-fixed">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Labor Costs</th>
-                <th>Material Costs</th>
-                <th>Total Costs</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="bid in submitted" ng-click="viewBidDetails(bid.id)">
-                <td>{{bid.name}}</td>
-                <td>{{bid.company}}</td>
-                <td>{{bid.email}}</td>
-                <td>{{bid.phone}}</td>
-                <td>{{bid.labor_costs}}</td>
-                <td>{{bid.material_costs}}</td>
-                <td>{{bid.total_costs}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-  		</div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <h3>Open Bids</h3>
-        <div class="row" ng-show="!open.length">
-          <p>There are currently no open bids for this property.</p>
-        </div>
-        <div ng-show="open.length" class="table-responsive">
-          <table class="table table-striped header-fixed">
-            <thead>
-              <tr>
-                <th>BID #</th>
-                <th>Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="bid in open" ng-click="viewBidDetails(bid.bid_id)">
-                <td>{{bid.bid_id}}</td>
-                <td>{{bid.cat_name}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<div class="form-group pull-right">
+  <button ng-click="newBid(s.pid)" class="btn btn-primary pull-right">
+    Create New Bid
+  </button>
+</div>
+<div class="bids">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <h3 class="col-sm-6">Open Bids</h3>
+        <h3 class="col-sm-6">Rehab Total: {{rehab_total | currency:'$':0}}</h3>
+      </div>
+      <div class="row" ng-show="!open.length">
+        <p>There are currently no open bids for this property.</p>
+      </div>
+      <div ng-show="open.length">
+        <table class="table table-bordered table-responsive header-fixed table-hover">
+          <thead>
+            <tr>
+              <th>BID #</th>
+              <th>Section</th>
+              <th>Bid Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="bid in open | unique:'bid_num'" ng-click="viewBidDetails(s.pid,bid.bid_num)">
+              <td>{{bid.bid_num}}</td>
+              <td>{{bid.name}}</td>
+              <td>{{bid.bid_total_cost | currency:'$':2}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -1,0 +1,187 @@
+<h4>Date: {{actual.created}}</h4>
+<div class="row">
+  <div class="col-sm-7">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Flip Projections</h5></td>
+        </tr>
+      </thead>
+      <tbody class="pre-sales-costs">
+        <tr>
+          <td colspan="2" class="static"><p>Purchase Price</p></td> 
+          <td><p>{{actual.buy_target | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Purchase Closing Costs</p></td> 
+          <td class="static"><p>{{((actual.purchase_close_costs/actual.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{actual.purchase_close_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Rehab Estimate</p></td> 
+          <td class="static"><p>{{(((actual.rehab_estimate/actual.arv).toFixed(2)) * 100).toFixed(2)}}%</p></td> 
+          <td><p>{{actual.rehab_estimate | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Financing</p></td> 
+          <td class="static"><p>{{((actual.total_finance/actual.arv).toFixed(2))*100}}%</p></td>
+          <td class="static"><p>{{actual.total_finance | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Other</p></td>
+          <td class="static"><p>{{((actual.other_costs/actual.arv)*100).toFixed(2)}}%</p></td>
+          <td><p>{{actual.other_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Pre-Sales Costs</h5></td> 
+          <td><p>{{actual.pre_sale_costs = ((actual.buy_target*1) + (actual.purchase_close_costs*1) + (actual.rehab_estimate*1) + (actual.total_finance*1) + (actual.other_costs*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="sales-costs">
+        <tr>
+          <td class="static"><p>Selling Closing Costs</p></td> 
+          <td class="static"><p>{{((actual.selling_close_costs/actual.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{actual.selling_close_costs | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Buyer's Contribution</p></td>  
+          <td><p>{{actual.buyer_percent}}%</p></td>
+          <td class="static"><p>{{actual.buyer_contribution = ((actual.buyer_percent/100)*actual.arv).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>TC/Accounting</p></td> 
+          <td class="static"><p>{{((actual.tca/actual.arv)*100).toFixed(2)}}%</p></td> 
+          <td><p>{{actual.tca | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Commissions</p></td>  
+           <td><p>{{actual.commission_percent}}%</p></td>
+          <td class="static"><p>{{actual.commission = ((actual.commission_percent/100)*actual.arv).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Sales Costs</h5></td> 
+          <td><p>{{actual.sales_costs = ((actual.selling_close_costs*1) + (actual.buyer_contribution*1) + (actual.tca*1) + (actual.commission*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="total-costs">
+        <tr class="info">
+          <td><h5>EST COSTS</h5></td> 
+          <td><p>{{((actual.est_cost/actual.arv)*100).toFixed(2)}}% </p></td>
+          <td><p>{{actual.est_cost = ((actual.pre_sale_costs*1) + (actual.sales_costs*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td class="success" colspan="2"><h5>VALUE</h5></td> 
+          <td><p>{{actual.arv | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Financing</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static" colspan="2"><p>Loan Amount</p></td> 
+          <td><p>{{actual.loan_amount | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="static">
+          <td colspan="2"><p>LTV</p></td> 
+          <td><p>{{(((actual.loan_amount/actual.arv)*100).toFixed(2))}}%</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>APR (%)</p></td> 
+          <td><p>{{actual.apr}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Months</p></td> 
+          <td><p>{{actual.months}}</p></td>
+          <td class="static" format="currency"><p>{{actual.interest = (((actual.loan_amount*(actual.apr/100))/12)*actual.months).toFixed(0)  | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>Fees</p></td> 
+          <td><p>{{actual.fees | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Opening Points (%)</p></td> 
+          <td><p>{{actual.opening_points}}%</p></td>
+          <td class="static"><p>{{actual.open_points_cost = (actual.loan_amount*(actual.opening_points/100)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><p>Total Financials</p></td> 
+          <td><p>{{actual.total_finance = (((actual.interest*1) + (actual.fees*1) + (actual.open_points_cost*1))).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="2"><h5>Contributions</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static">
+          <td><p>Out Of Pocket</p></td> 
+          <td><p>{{actual.pocket = ((actual.pre_sale_costs*1) - (actual.loan_amount*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Jeremy</p></td> 
+          <td><p>{{actual.jeremy_pocket | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Codrin</p></td> 
+          <td><p>{{actual.codrin_pocket | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Tetakawi</p></td> 
+          <td><p>{{ actual.tetakawi_pocket = ((actual.pocket*1) - (actual.jeremy_pocket*1) - (actual.codrin_pocket*1)).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td class="Acquisition"><h5>Profit</h5></td>
+          <td class="Acquisition">
+            <h5>{{((actual.profit/actual.arv)*100).toFixed(2)}}%</h5></td>
+          <td class="Acquisition">
+            <h5>{{actual.profit = ((actual.arv*1) - (actual.est_cost*1)).toFixed(0) | currency:"$":0}}</h5></td>
+            <td><h5>Invested</h5></td>
+            <td><h5>Annualized ROI</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static"><p>Tetakawi</p></td> 
+          <td class="static"><p>{{actual.tetakawi_share_percent}}%</p></td>
+          <td class="static"><p>{{actual.tetakawi_profit = ((actual.profit*1) * (actual.tetakawi_share_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{actual.tetakawi_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((actual.tetakawi_profit*1)/(actual.tetakawi_pocket*1))*(12/(actual.months*1)))*100).toFixed(2)}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Jeremy</p></td> 
+          <td><p>{{actual.jeremy_percent = (((actual.profit_share*1) - (actual.tetakawi_share_percent*1))/2).toFixed(2)}}%</p></td>
+          <td><p>{{actual.jeremy_profit = ((actual.profit*1) * (actual.jeremy_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{actual.jeremy_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((actual.jeremy_profit*1)/(actual.jeremy_pocket*1))*(12/(actual.months*1)))*100).toFixed(2)}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Codrin</p></td> 
+          <td><p>{{actual.codrin_percent = actual.jeremy_percent}}%</p></td>
+          <td><p>{{actual.codrin_profit = ((actual.profit*1) * (actual.codrin_percent/100)).toFixed(0) | currency:"$":0}}</p></td>
+          <td class="static"><p>{{actual.codrin_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{((((actual.codrin_profit*1)/(actual.codrin_pocket*1))*(12/(actual.months*1)))*100).toFixed(2)}}%</p></td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

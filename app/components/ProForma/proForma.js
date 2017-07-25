@@ -9,266 +9,170 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, auth, $http, singleproperty, proforma) {
-            $('.table>tbody>tr>td>.invisible-form').parent().css({
-                'background-color': '#fff',
-                'padding': '0',
-                'height': '100%'
-            });
-            $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
-            // Get Property Info
-        	$scope.s = singleproperty.property;
-            $scope.proforma = {};
+        controller: function($scope, auth, $http, singleproperty, proforma, $state) {
+        	$scope.s = singleproperty.property; // Get Property Info
 
-            // Convert Currency Strings to Numbers
-            $scope.proforma.buy_target = $scope.s.purchase_cost.replace(/[$, ]/g, "");
-            $scope.proforma.arv = $scope.s.arv.replace(/[$, ]/g, "");
-            $scope.proforma.rehab_estimate = $scope.s.rehab_estimate.replace(/[$, ]/g, "");
+            $scope.proforma = proforma.proforma; // get proforma data
 
-            $scope.proforma.purchase_closing_costs = {
-                escrow: [],
-                title: [],
-                prorations: [],
-                other: [],
-                total: 0
-            };
-
-            $scope.proforma.selling_closing_costs = {
-                escrow: [],
-                title: [],
-                prorations: [],
-                other: [],
-                total: 0
-            };
-
-            for (i = 0; i < proforma.purchaseCosts.length; i++) {
-                if (proforma.purchaseCosts[i].pid == $scope.s.pid) {
-                    if (proforma.purchaseCosts[i].category == 'escrow') {
-                        $scope.proforma.purchase_closing_costs.escrow.push(proforma.purchaseCosts[i]);
-                    } else if (proforma.purchaseCosts[i].category == 'title') {
-                        $scope.proforma.purchase_closing_costs.title.push(proforma.purchaseCosts[i]);
-                    } else if (proforma.purchaseCosts[i].category == 'prorations') {
-                        $scope.proforma.purchase_closing_costs.prorations.push(proforma.purchaseCosts[i]);
-                    } else {
-                        $scope.proforma.purchase_closing_costs.other.push(proforma.purchaseCosts[i]);
-                    }
-                }
+            if ($scope.s.loan_amount != 0) {
+                $scope.proforma.loan_amount = $scope.s.loan_amount;
+            } else {
+                $scope.proforma.loan_amount = $scope.s.arv * .7;
             }
 
-            for (i = 0; i < proforma.sellingCosts.length; i++) {
-                if (proforma.sellingCosts[i].pid == $scope.s.pid) {
-                    if (proforma.sellingCosts[i].category == 'escrow') {
-                        $scope.proforma.selling_closing_costs.escrow.push(proforma.sellingCosts[i]);
-                    } else if (proforma.sellingCosts[i].category == 'title') {
-                        $scope.proforma.selling_closing_costs.title.push(proforma.sellingCosts[i]);
-                    } else if (proforma.sellingCosts[i].category == 'prorations') {
-                        $scope.proforma.selling_closing_costs.prorations.push(proforma.sellingCosts[i]);
-                    } else {
-                        $scope.proforma.selling_closing_costs.other.push(proforma.sellingCosts[i]);
-                    }
-                }
-            }
-
-            function calculateTotalPurchaseCosts() {
-                $scope.proforma.purchase_closing_costs.total = 0;
-                
-                for (i = 0; i < $scope.proforma.purchase_closing_costs.escrow.length; i++) {
-                    $scope.proforma.purchase_closing_costs.escrow[i].cost = $scope.proforma.purchase_closing_costs.escrow[i].cost * 1;
-                    $scope.proforma.purchase_closing_costs.total += $scope.proforma.purchase_closing_costs.escrow[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.purchase_closing_costs.title.length; i++) {
-                    $scope.proforma.purchase_closing_costs.title[i].cost = $scope.proforma.purchase_closing_costs.title[i].cost * 1;
-                    $scope.proforma.purchase_closing_costs.total += $scope.proforma.purchase_closing_costs.title[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.purchase_closing_costs.prorations.length; i++) {
-                    $scope.proforma.purchase_closing_costs.prorations[i].cost = $scope.proforma.purchase_closing_costs.prorations[i].cost * 1;
-                    $scope.proforma.purchase_closing_costs.total += $scope.proforma.purchase_closing_costs.prorations[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.purchase_closing_costs.other.length; i++) {
-                    $scope.proforma.purchase_closing_costs.other[i].cost = $scope.proforma.purchase_closing_costs.other[i].cost * 1;
-                    $scope.proforma.purchase_closing_costs.total += $scope.proforma.purchase_closing_costs.other[i].cost;
-                }
-            }
-
-            function calculateTotalSellingCosts() {
-                $scope.proforma.selling_closing_costs.total = 0;
-                
-                for (i = 0; i < $scope.proforma.selling_closing_costs.escrow.length; i++) {
-                    $scope.proforma.selling_closing_costs.escrow[i].cost = $scope.proforma.selling_closing_costs.escrow[i].cost * 1;
-                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.escrow[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.selling_closing_costs.title.length; i++) {
-                    $scope.proforma.selling_closing_costs.title[i].cost = $scope.proforma.selling_closing_costs.title[i].cost * 1;
-                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.title[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.selling_closing_costs.prorations.length; i++) {
-                    $scope.proforma.selling_closing_costs.prorations[i].cost = $scope.proforma.selling_closing_costs.prorations[i].cost * 1;
-                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.prorations[i].cost;
-                }
-
-                for (i = 0; i < $scope.proforma.selling_closing_costs.other.length; i++) {
-                    $scope.proforma.selling_closing_costs.other[i].cost = $scope.proforma.selling_closing_costs.other[i].cost * 1;
-                    $scope.proforma.selling_closing_costs.total += $scope.proforma.selling_closing_costs.other[i].cost;
-                }
-            }
-
-            calculateTotalPurchaseCosts();
-            calculateTotalSellingCosts();
-
-            if ($scope.proforma.purchase_closing_costs.total == 0) {
-                $scope.proforma.purchase_closing_costs.total = $scope.proforma.buy_target * .02;
-            }
-            
-            if ($scope.proforma.selling_closing_costs.total == 0) {
-                $scope.proforma.selling_closing_costs.total = $scope.proforma.buy_target * .01;
-            }
-
+            // get values from property table
+            $scope.proforma.buy_target = $scope.s.purchase_cost;
+            $scope.proforma.arv = $scope.s.arv;
+            $scope.proforma.rehab_estimate = $scope.s.rehab_estimate;
             $scope.proforma.profit_share = 100;
 
-            if (proforma.proforma.length) {
-                for(i = 0; i < proforma.proforma.length; i ++) {
-                    if (proforma.proforma[i].pid == $scope.s.pid) {
-                        for (j in proforma.proforma[i]) {
-                            $scope.proforma[j] = proforma.proforma[i][j];
+            function getCostDetails(obj) {
+                var costs = {
+                    escrow: [],
+                    title: [],
+                    prorations: [],
+                    other: [],
+                    total: 0
+                };
+                if (obj) {
+                    for (i = 0; i < obj.length; i++) {
+                        if (obj[i].category == 'escrow') {
+                            costs.escrow.push(obj[i]);
+                        } else if (obj[i].category == 'title') {
+                            costs.title.push(obj[i]);
+                        } else if (obj[i].category == 'prorations') {
+                            costs.prorations.push(obj[i]);
+                        } else {
+                            costs.other.push(obj[i]);
                         }
-                    } else {
-                        // Set Defaults
-                        $scope.default = proforma.defaults;
-                        $scope.proforma.loan_amount = $scope.proforma.arv * .7;
-                        $scope.proforma.apr = $scope.default.apr;
-                        $scope.proforma.months = $scope.default.months;
-                        $scope.proforma.fees = $scope.default.fees;
-                        $scope.proforma.opening_points = $scope.default.opening_points;
-                        $scope.proforma.other_costs = 0;
-                        $scope.proforma.selling_costs_percent = $scope.default.selling_closing_costs_percent;
-                        $scope.proforma.buyer_percent = $scope.default.buyers_contribution;
-                        $scope.proforma.tc = $scope.default.tc;
-                        $scope.proforma.accounting = $scope.default.accounting;
-                        $scope.proforma.tca = ($scope.proforma.tc*1) + ($scope.proforma.accounting*1);
-                        $scope.proforma.commission_percent = $scope.default.commission;
-                        $scope.proforma.jeremy_pocket = 0;
-                        $scope.proforma.codrin_pocket = 0;
-                        $scope.proforma.tetakawi_share_percent = $scope.default.tetakawi_share;
                     }
+                } else {
+                    return costs;
                 }
-            } else {
-                // Set Defaults
-                $scope.default = proforma.defaults;
-                $scope.proforma.loan_amount = $scope.proforma.arv * .7;
-                $scope.proforma.apr = $scope.default.apr;
-                $scope.proforma.months = $scope.default.months;
-                $scope.proforma.fees = $scope.default.fees;
-                $scope.proforma.opening_points = $scope.default.opening_points;
-                $scope.proforma.other_costs = 0;
-                $scope.proforma.selling_costs_percent = $scope.default.selling_closing_costs_percent;
-                $scope.proforma.buyer_percent = $scope.default.buyers_contribution;
-                $scope.proforma.tc = $scope.default.tc;
-                $scope.proforma.accounting = $scope.default.accounting;
+                
+                return costs;
+            }
+
+            $scope.proforma.purchase_closing_costs = getCostDetails(proforma.purchaseCosts);
+            $scope.proforma.selling_closing_costs = getCostDetails(proforma.sellingCosts);
+
+            function calculateTotalCosts(obj,purchase) {
+                obj.total = 0;
+                for (i = 0; i < obj.escrow.length; i++) {
+                    obj.escrow[i].cost = obj.escrow[i].cost * 1;
+                    obj.total += obj.escrow[i].cost;
+                }
+
+                for (i = 0; i < obj.title.length; i++) {
+                    obj.title[i].cost = obj.title[i].cost * 1;
+                    obj.total += obj.title[i].cost;
+                }
+
+                for (i = 0; i < obj.prorations.length; i++) {
+                    obj.prorations[i].cost = obj.prorations[i].cost * 1;
+                    obj.total += obj.prorations[i].cost;
+                }
+
+                for (i = 0; i < obj.other.length; i++) {
+                    obj.other[i].cost = obj.other[i].cost * 1;
+                    obj.total += obj.other[i].cost;
+                }
+                if (obj.total == 0) {
+                    obj.total = purchase * .02;
+                }
+                return obj;
+            }
+
+            $scope.proforma.purchase_closing_costs = calculateTotalCosts($scope.proforma.purchase_closing_costs,$scope.proforma.buy_target);
+            $scope.proforma.selling_closing_costs = calculateTotalCosts($scope.proforma.selling_closing_costs,$scope.proforma.buy_target);
+
+             // calculate all other values behind the scenes
+            if ($scope.proforma.tc) {
                 $scope.proforma.tca = ($scope.proforma.tc*1) + ($scope.proforma.accounting*1);
-                $scope.proforma.commission_percent = $scope.default.commission;
-                $scope.proforma.jeremy_pocket = 0;
-                $scope.proforma.codrin_pocket = 0;
-                $scope.proforma.tetakawi_share_percent = $scope.default.tetakawi_share;
             }
-            
+            $scope.proforma.open_points_cost = ($scope.proforma.loan_amount*($scope.proforma.opening_points/100)).toFixed(0);
+            $scope.proforma.interest = ((($scope.proforma.loan_amount*($scope.proforma.apr/100))/12)*$scope.proforma.months).toFixed(0);
+            $scope.proforma.total_finance = ((($scope.proforma.interest*1) + ($scope.proforma.fees*1) + ($scope.proforma.open_points_cost*1))).toFixed(0);
+            $scope.proforma.pre_sale_costs = (($scope.proforma.buy_target*1) + ($scope.proforma.purchase_closing_costs.total*1) + ($scope.proforma.rehab_estimate*1) + ($scope.proforma.total_finance*1) + ($scope.proforma.other_costs*1)).toFixed(0);
+            $scope.proforma.buyer_contribution = (($scope.proforma.buyer_percent/100)*$scope.proforma.arv).toFixed(0);
+            $scope.proforma.commission = (($scope.proforma.commission_percent/100)*$scope.proforma.arv).toFixed(0);
+            $scope.proforma.sales_costs = (($scope.proforma.selling_closing_costs.total*1) + ($scope.proforma.buyer_contribution*1) + ($scope.proforma.tca*1) + ($scope.proforma.commission*1)).toFixed(0);
+            $scope.proforma.est_cost = (($scope.proforma.pre_sale_costs*1) + ($scope.proforma.sales_costs*1)).toFixed(0);
+            $scope.proforma.pocket = (($scope.proforma.pre_sale_costs*1) - ($scope.proforma.loan_amount*1)).toFixed(0)
+            $scope.proforma.tetakawi_pocket = (($scope.proforma.pocket*1) - ($scope.proforma.jeremy_pocket*1) - ($scope.proforma.codrin_pocket*1)).toFixed(0) 
+            $scope.proforma.profit = (($scope.proforma.arv*1) - ($scope.proforma.est_cost*1)).toFixed(0);
+            $scope.proforma.tetakawi_profit = (($scope.proforma.profit*1) * ($scope.proforma.tetakawi_share_percent/100)).toFixed(0);
+            $scope.proforma.jeremy_percent = ((($scope.proforma.profit_share*1) - ($scope.proforma.tetakawi_share_percent*1))/2).toFixed(2);
+            $scope.proforma.jeremy_profit = (($scope.proforma.profit*1) * ($scope.proforma.jeremy_percent/100)).toFixed(0);
+            $scope.proforma.codrin_percent = $scope.proforma.jeremy_percent;
+            $scope.proforma.codrin_profit = (($scope.proforma.profit*1) * ($scope.proforma.codrin_percent/100)).toFixed(0);
+            $scope.proforma.tetakawi_roi = (((($scope.proforma.tetakawi_profit*1)/($scope.proforma.tetakawi_pocket*1))*(12/($scope.proforma.months*1)))*100).toFixed(2);
+            $scope.proforma.jeremy_roi = (((($scope.proforma.jeremy_profit*1)/($scope.proforma.jeremy_pocket*1))*(12/($scope.proforma.months*1)))*100).toFixed(2);
+            $scope.proforma.codrin_roi = (((($scope.proforma.codrin_profit*1)/($scope.proforma.codrin_pocket*1))*(12/($scope.proforma.months*1)))*100).toFixed(2);
 
-            $scope.addPurchaseCost = function(item) {
-                var cost = {};
-                for ( i in item ) {
-                    cost.pid = $scope.s.pid; 
-                    cost.category = i;
-                    cost.description = item[i].description;
-                    cost.cost = item[i].cost;
-                    auth.post('addPurchaseCost', {
-                        cost: cost
-                    }).then(function(results) {
-                        auth.toast(results);
-                    });
-                    $scope.proforma.purchase_closing_costs[i].push({
-                        description: item[i].description,
-                        cost: item[i].cost.replace(/[$, ]/g, "")
-                    });
-                }
-
-                calculateTotalPurchaseCosts()
-
-                $('.item-desc').val('');
+            // Get Projected Table if exists
+            if (!jQuery.isEmptyObject(proforma.projected)) {
+                $("#projected").html("Projected");
+                $scope.projected = proforma.projected;
             }
 
-            $scope.addSellingCost = function(item) {
-                var cost = {};
-                for ( i in item ) {
-                    cost.pid = $scope.s.pid; 
-                    cost.category = i;
-                    cost.description = item[i].description;
-                    cost.cost = item[i].cost;
-                    auth.post('addSellingCost', {
-                        cost: cost
-                    }).then(function(results) {
-                        auth.toast(results);
-                    });
-                    $scope.proforma.selling_closing_costs[i].push({
-                        description: item[i].description,
-                        cost: item[i].cost.replace(/[$, ]/g, "")
-                    });
-                }
-
-                calculateTotalSellingCosts()
-
-                $('.item-desc').val('');
+            // Get Actual Table if exists
+            if (!jQuery.isEmptyObject(proforma.actual)) {
+                $("#actual").html("Actual");
+                $scope.actual = proforma.actual;
             }
 
-            $scope.togglePurchaseCosts = function() {
-                var lb = $("#lightbox1");
-                if (lb.css("display") == "block") {
-                    lb.css("display", "none");
-                    $("html,body").css("height","unset");
-                    $("footer").css("margin-top", "0px");
+
+
+            $scope.setProjected = function(proforma) {
+                if (!jQuery.isEmptyObject($scope.projected)) {
+                    $state.go("properties.property.proforma.projected", {}, {reload: true});
+                    $(".proforma .btn").removeClass("active");
+                    $("#projected").addClass("active");
                 } else {
-                    lb.css("display", "block");
-                    $("html,body").css("height","100%");
-                    $("footer").css("margin-top", "200px");
-                }
-            };
+                    var proforma = $scope.proforma;
+                    proforma.pid = $scope.s.pid;
+                    proforma.purchase_cost = proforma.buy_target;
+                    proforma.purchase_close_costs = proforma.purchase_closing_costs.total;
+                    proforma.selling_close_costs = proforma.selling_closing_costs.total;
+                    auth.post('setProjected', {
+                        proforma: proforma
+                    }).then(function(results) {
+                        setTimeout(function() {
+                            $state.go("properties.property.proforma.projected", {}, {reload: true});
+                            $(".proforma .btn").removeClass("active");
+                        },200);
+                    });
+                }      
+            }
 
-            $scope.toggleSellingCosts = function() {
-                var lb = $("#lightbox2");
-                if (lb.css("display") == "block") {
-                    lb.css("display", "none");
-                    $("html,body").css("height","unset");
-                    $("footer").css("margin-top", "0px");
+            $scope.seeLive = function() {
+                $state.go("properties.property.proforma.live", {}, {reload: true});
+                $(".proforma .btn").removeClass("active");
+                $("#live").addClass("active");
+            }
+
+            $scope.setActual = function() {
+                if (!jQuery.isEmptyObject($scope.actual)) {
+                    $state.go("properties.property.proforma.actual", {}, {reload: true});
+                    $(".proforma .btn").removeClass("active");
+                    $("#actual").addClass("active");
                 } else {
-                    lb.css("display", "block");
-                    $("html,body").css("height","100%");
-                    $("footer").css("margin-top", "200px");
+                    var proforma = $scope.proforma;
+                    proforma.pid = $scope.s.pid;
+                    proforma.purchase_cost = proforma.buy_target;
+                    proforma.purchase_close_costs = proforma.purchase_closing_costs.total;
+                    proforma.selling_close_costs = proforma.selling_closing_costs.total;
+                    auth.post('setActual', {
+                        proforma: proforma
+                    }).then(function(results) {
+                        setTimeout(function() {
+                            $state.go("properties.property.proforma.actual", {}, {reload: true});
+                            $(".proforma .btn").removeClass("active");
+                        },200);
+                    });
                 }
-            };
-
-            $scope.changePropValue = function(k,v) {
-                var change = {};
-                change.pid = $scope.s.pid;
-                change.column = k;
-                change.value = v;
-                auth.post('changePropValue', {
-                    change: change
-                });
             }
-
-            $scope.changeProforma = function(k,v) {
-                var change = {};
-                change.pid = $scope.s.pid;
-                change.column = k;
-                change.value = v;
-                auth.post('changeProforma', {
-                    change: change
-                });
-            }
-
         }
 	}
 ); 

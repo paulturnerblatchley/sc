@@ -3,21 +3,21 @@
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    	<h4>Holdover Details: {{property.address}}</h4>
-	    	<div class="col-sm-5 infobox-titles">
+	    	<div class="col-sm-7 infobox-titles">
 			  <ul>
-				<li>Purchase Date</li>
-				<li>Occupancy Status</li>
-				<li>Status</li>
+				<li>Purchase Date:</li>
+				<li>Occupancy Status:</li>
+				<li>Status:</li>
 				<li>Notice Date:</li>
-				<li>Est. Poss.</li>
-				<li>County</li>
+				<li>Est. Possession:</li>
+				<li>County:</li>
 			  </ul>
 		   </div>
-		   <div class="col-sm-7">
+		   <div class="col-sm-5">
 			  <ul>
 				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
 				<li>{{property.occupancy || 'Not Defined'}}</li>
-				<li>{{property.holdover_status || 'Not Defined'}}</li>
+				<li>{{property.status || 'Not Defined'}}</li>
 				<li>{{property.notice_date || 'Not Defined'}}</li>
 				<li>{{property.est_possession || 'Not Defined'}}</li>
                 <li>{{property.county || 'Not Defined'}}</li>

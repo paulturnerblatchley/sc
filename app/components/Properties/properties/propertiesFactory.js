@@ -31,6 +31,22 @@ app.factory("properties", ['$http',
                 }
             });
 
+            var listing_images = {};
+            $http.get(serviceBase + 'listingImages').then(function(res) {
+                for(var j=0;j<res.data.length;j++) {
+                  if(!listing_images[res.data[j].pid]) {
+                    listing_images[res.data[j].pid] = [];
+                    listing_images[res.data[j].pid].push(res.data[j].image_name);
+                  } else {
+                    listing_images[res.data[j].pid].push(res.data[j].image_name);
+                  }
+                }
+                for (i = 0; i < o.properties.length; i++) {
+                  var id = o.properties[i].pid;
+                  o.properties[i].listing_images = listing_images[id];
+                }
+            });
+
             function convertDate(x) {
               if (x == "0000-00-00") {
                 return "";
@@ -42,18 +58,29 @@ app.factory("properties", ['$http',
 
             function convertPurchaseDate(x) {
               if (x == "0000-00-00") {
-                o.properties[i].fha = "N/A";
-                o.properties[i].dsp = "N/A";
+                o.properties[i].fha = "";
+                o.properties[i].dsp = "";
                 return "";
               } else {
                 // ADD FHA DATE
                 var dat = new Date(x),
                     d = new Date(dat.setDate(dat.getDate() + 90)),
+                    now = new Date(),
                     dd = d.getDate(),
                     mm = d.getMonth() + 1,
                     yyyy = d.getFullYear(),
                     fha = mm + '/' + dd + '/' + yyyy;
                 o.properties[i].fha = fha;
+
+                /* for FHA Colors
+                if (d <= now) {
+                  if (o.properties[i].phase == 'Listed' || o.properties[i].phase == 'Sale Escrow') {
+                    o.properties[i].fha_color = 'green';
+                  } else if (o.properties[i].phase == 'Acquisition' || o.properties[i].phase == 'Holdover' || o.properties[i].phase == 'Rehab') {
+                    o.properties[i].fha_color = 'red';
+                  } 
+                }*/
+
                 // CALCULATE DSP
                 var oneDay = 24*60*60*1000,
                     firstDate = new Date(x),
@@ -71,18 +98,59 @@ app.factory("properties", ['$http',
             }
             
             for(var i=0; i<results.data.length;i++) {
-              o.properties[i].purchase_cost = o.properties[i].purchase_cost.replace(/\B(?=(\d{3})+(?!\d))/g, ",");      
               o.properties[i].pid = parseInt(results.data[i].pid);
               o.properties[i].pool_spa = (o.properties[i].pool_spa == 0) ? "No" : "Yes";
               o.properties[i].is_listed = (o.properties[i].is_listed == 0) ? "No" : "Yes";
-              o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);
+              
+              o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].sale_close_date = convertDate(o.properties[i].sale_close_date);
               o.properties[i].est_possession = convertDate(o.properties[i].est_possession);
               o.properties[i].rehab_start = convertDate(o.properties[i].rehab_start);
               o.properties[i].est_completion = convertDate(o.properties[i].est_completion);
+              o.properties[i].notice_date = convertDate(o.properties[i].notice_date);
+              o.properties[i].offer_accept = convertDate(o.properties[i].offer_accept);
+
               o.properties[i].rehab_estimate = convertCash(o.properties[i].rehab_estimate);
               o.properties[i].arv = convertCash(o.properties[i].arv);
+              o.properties[i].purchase_cost = convertCash(o.properties[i].purchase_cost);
+              o.properties[i].sale_price = convertCash(o.properties[i].sale_price);
+              o.properties[i].list_price = convertCash(o.properties[i].list_price);
+              o.properties[i].loan_amount = convertCash(o.properties[i].loan_amount);
+
+
+              function dateDistance(d1,d2) {
+                var oneDay = 24*60*60*1000,
+                    firstDate = new Date(d1);
+                if (d2) {
+                  secondDate = new Date(d2);
+                } else {
+                  secondDate = new Date();
+                }
+                var distance = (Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay))).toFixed(0);
+                if (isNaN(distance)) {
+                  return "";
+                } else {
+                  return distance;
+                }
+              }
+
+                if (o.properties[i].sale_close_date != '0000-00-00') {
+                  o.properties[i].length_of_own = dateDistance(o.properties[i].purchase_close_date,o.properties[i].sale_close_date);
+                }
+
+                o.properties[i].rehab_length = dateDistance(o.properties[i].rehab_start,o.properties[i].est_completion);
+                o.properties[i].rehab_days_lapsed = dateDistance(o.properties[i].rehab_start);
+                o.properties[i].length_of_own = dateDistance(o.properties[i].purchase_close_date);
+                o.properties[i].escrow_days = dateDistance(o.properties[i].offer_accept);
+
+                if (o.properties[i].sale_close_date != "") {
+                  o.properties[i].dom = dateDistance(o.properties[i].listing_date,o.properties[i].sale_close_date);
+                  o.properties[i].dsp = dateDistance(o.properties[i].purchase_close_date,o.properties[i].sale_close_date);
+                } else {
+                  o.properties[i].dom = dateDistance(o.properties[i].listing_date);
+                  o.properties[i].dsp = dateDistance(o.properties[i].purchase_close_date);
+                }
             }
 
             // Push All Properties to Admin

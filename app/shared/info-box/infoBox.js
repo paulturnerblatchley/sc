@@ -3,11 +3,26 @@ app.component(
 	{
 		bindings: {},
 	    template: '<ng-include src="template"></ng-include>',
-	    controller: function($scope, $rootScope, properties, $state, bids) {
+	    controller: function($scope, $rootScope, properties, $state, bids, $sessionStorage, rehab) {
 
 	    	$scope.template = 'app/shared/info-box/infoBoxDefault.html'
 	    	$scope.properties = properties.properties;
 	    	$scope.bids = bids.openBids;
+	    	$scope.rehabs = rehab.rehabs;
+
+	    	for (i = 0; i < $scope.properties.length; i++) {
+	    		for (j = 0; j < $scope.rehabs.length; j++) {
+	    			if( $scope.properties[i].pid == $scope.rehabs[j].pid) {
+	    				for (k in $scope.rehabs[j]) {
+	    					if (k.indexOf("_actual_cost") !== -1) {
+			                $scope.rehabs[j].accrued_costs = parseInt($scope.rehabs[j].accrued_costs);
+			                $scope.rehabs[j].accrued_costs += parseInt($scope.rehabs[j][k]);
+			              }
+			          }
+	    				$scope.properties[i].rehab_accrued = $scope.rehabs[j].accrued_costs;
+	    			}
+	    		}
+	    	}
 	    	
 	    	// Get Selected Property
 	    	$rootScope.$on('addInfo', function (event, data) {
@@ -43,10 +58,14 @@ app.component(
 			      	}
 			      }
 			    }
-			});  
+			}); 
+
+			$scope.isAdmin = function() {
+				return ($sessionStorage.user.user_role == 1) ? true : false;
+			} 
 
 	        $scope.viewBidDetails = function(bid) {
-        		$state.go('properties.property.bids.open-bid', {bid_id: bid});
+        		$state.go('properties.property.bids.open-bid', {bid_id: bid}, {reload: true});
         	}
 
 	        $scope.toggleInfoBox = function() {
@@ -77,38 +96,43 @@ app.component(
 
 		    $scope.linkToBid = function(bid) {
 		    	$rootScope.addInfo = {};
-	        	$state.go('properties.property.bids', {pid: bid.bid_pid});
+	        	$state.go('properties.property.bids', {pid: bid.bid_pid}, {reload: true});
 		    }
 
 		    $scope.linkToSingle = function(property) {
-		    	if (property.phase == "Purchase") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
-		    	} else if (property.phase == "Relocation") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
-		    	} else if (property.phase == "Eviction") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
-		    	} else if (property.phase == "Plan Check") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
-		    	} else if (property.phase == "Rehab") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property.rehab', {pid: property.pid});
-		    	} else if (property.phase == "Listed") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property.listing', {pid: property.pid});
-		    	} else if (property.phase == "Hold") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
-		    	} else if (property.phase == "Escrow") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property.escrow', {pid: property.pid});
-		    	} else if (property.phase == "Sold") {
-		    		$rootScope.addInfo = {};
-		        	$state.go('properties.property', {pid: property.pid});
+		    	if ($sessionStorage.user.user_role == 1) {
+	    			if (property.phase == "Acquisition") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.dashboard', {pid: property.pid});
+			    	} else if (property.phase == "Holdover") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.dashboard', {pid: property.pid});
+			    	} else if (property.phase == "Rehab") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.rehab', {pid: property.pid});
+			    	} else if (property.phase == "Listed") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.listing', {pid: property.pid});
+			    	} else if (property.phase == "Hold") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.dashboard', {pid: property.pid});
+			    	} else if (property.phase == "Sale Escrow") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.escrow', {pid: property.pid});
+			    	} else if (property.phase == "Sold") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.dashboard', {pid: property.pid});
+			    	} else {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.property.dashboard', {pid: property.pid});
+			    	}
+		    	} else if ($sessionStorage.user.user_role == 0) {
+		    		if (property.phase == "Listed") {
+			    		$rootScope.addInfo = {};
+			        	$state.go('properties.agent-offer', {pid: property.pid});
+			    	}
 		    	}
+		    	
 		    };
 	    }
 	}

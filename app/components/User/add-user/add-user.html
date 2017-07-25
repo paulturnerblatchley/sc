@@ -2,7 +2,7 @@
 <div class="breadcrumbs" id="breadcrumbs">
     <ul class="breadcrumb">
         <li>
-            <a ui-sref="dashboard">Dashboard</a>
+            <a ui-sref="dashboard">Settings</a>
         </li>
         <li class="active">Add A User</li>
     </ul>
@@ -73,7 +73,7 @@
                     <label class="col-sm-5 control-label no-padding-right" for="Contractor Type">Contractor Type</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="Contractor Type" ng-model="signup.contractor_type"/>
-                            <option ng-repeat="type in categories" value="{{type.cat_name}}">{{type.cat_name}}</option>
+                            <option ng-repeat="type in sections" value="{{type.name}}">{{type.name}}</option>
                         </select>
                     </div>
                 </div>

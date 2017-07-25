@@ -16,14 +16,18 @@ app.component(
 	    controller: function($scope, $rootScope, $state, singleproperty, bids) {
         	$scope.s = singleproperty.property;
         	$scope.open = bids.openBids;
-            $scope.submitted = bids.submittedBids;
+            $scope.rehab_total = 0;
 
-        	$scope.viewBidDetails = function(bid) {
-        		$state.go('properties.property.bids.open-bid', {bid_id: bid});
+            for (var i = 0; i < $scope.open.length; i++) {
+                $scope.rehab_total += parseInt($scope.open[i].bid_total_cost);
+            }
+            
+        	$scope.viewBidDetails = function(pid,num) {
+        		$state.go('properties.property.open-bid', {pid: pid,bid_num: num}, {reload: true});
         	}
 
             $scope.newBid = function(pid) {
-                $state.go('properties.property.bids.new-bid', {pid: pid});
+                $state.go('properties.property.new-bid', {pid: pid}, {reload: true});
             }
 	    }
 	}

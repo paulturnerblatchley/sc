@@ -11,7 +11,7 @@ app.component(
             // Default
             else               return 'app/components/User/login/login.html'
         },
-        controller: function($scope, auth, $http, rehab, GanttData, singleproperty) {
+        controller: function($scope, auth, $http, rehab, GanttData, singleproperty, $state) {
         	$scope.r = rehab.rehab;
         	$scope.s = singleproperty.property;
 
@@ -21,13 +21,15 @@ app.component(
 		        change.rehab_id = r.rehab_id;
 		        change.table = k;
 		        change.column = column;
-		        if(v.indexOf("%") != -1) {
+		        if (typeof v.getMonth === 'function') {
+		        	change.value = v;
+		        } else if (v.indexOf("%") != -1) {
 		        	v.pop();
 		        	change.value = v;
 		        } else {
 		        	change.value = v;
 		        }
-		        
+		        console.log(change);
 		        auth.post('updateRehab', {
 		            change: change
 		        }).then(function (results) {

@@ -1,0 +1,352 @@
+<div class="row">
+  <div class="col-sm-7">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Flip Projections</h5></td>
+        </tr>
+      </thead>
+      <tbody class="pre-sales-costs">
+        <tr>
+          <td colspan="2" class="static"><p>Purchase Price</p></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.buy_target" ng-change="changePropValue('purchase_cost',proforma.buy_target)"/></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Purchase Closing Costs <i class="glyphicon glyphicon-plus" ng-click="toggleCosts($event)" id="purchase"></i></p></td> 
+          <td class="static"><p>{{((proforma.purchase_closing_costs.total/proforma.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{(proforma.purchase_closing_costs.total).toFixed(0) | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Rehab Estimate</p></td> 
+          <td class="static"><p>{{(((proforma.rehab_estimate/proforma.arv).toFixed(2)) * 100).toFixed(2)}}%</p></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.rehab_estimate" ng-change="changePropValue('rehab_estimate',proforma.rehab_estimate)"/></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Financing</p></td> 
+          <td class="static"><p>{{((proforma.total_finance/proforma.arv).toFixed(2))*100}}%</p></td>
+          <td class="static"><p>{{proforma.total_finance | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Other</p></td>
+          <td class="static"><p>{{((proforma.other_costs/proforma.arv)*100).toFixed(2)}}%</p></td>
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.other_costs" ng-change="changeProforma('other_costs',proforma.other_costs)"/></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Pre-Sales Costs</h5></td> 
+          <td><p>{{proforma.pre_sale_costs | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="sales-costs">
+        <tr>
+          <td class="static"><p>Selling Closing Costs <i class="glyphicon glyphicon-plus" ng-click="toggleCosts($event)" id="selling"></i></p></td> 
+          <td class="static"><p>{{((proforma.selling_closing_costs.total/proforma.arv) * 100).toFixed(2)}}%</p></td>
+          <td class="static"><p>{{proforma.selling_closing_costs.total | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Buyer's Contribution</p></td>  
+           <td><input class="invisible-form" type="text" ng-model="proforma.buyer_percent" ng-change="changeProforma('buyer_percent',proforma.buyer_percent)"/>%</td>
+          <td class="static"><p>{{proforma.buyer_contribution | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>TC/Accounting</p></td> 
+          <td class="static"><p>{{((proforma.tca/proforma.arv)*100).toFixed(2)}}%</p></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.tca" ng-change="changeProforma('tca',proforma.tca)"/></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Commissions</p></td>  
+           <td><input class="invisible-form" type="text" ng-model="proforma.commission_percent" ng-change="changeProforma('commission_percent',proforma.commission_percent)"/>%</td>
+          <td class="static"><p>{{proforma.commission | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><h5>Sales Costs</h5></td> 
+          <td><p>{{proforma.sales_costs | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody class="total-costs">
+        <tr class="info">
+          <td><h5>EST COSTS</h5></td> 
+          <td><p>{{((proforma.est_cost/proforma.arv)*100).toFixed(2)}}% </p></td>
+          <td><p>{{proforma.est_cost | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td class="success" colspan="2"><h5>VALUE</h5></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.arv" ng-change="changePropValue('arv',proforma.arv)"/></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="3"><h5>Financing</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static" colspan="2"><p>Loan Amount</p></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.loan_amount" ng-change="changeProforma('loan_amount',proforma.loan_amount); changePropValue('loan_amount',proforma.loan_amount)"/></td>
+        </tr>
+        <tr class="static">
+          <td colspan="2"><p>LTV</p></td> 
+          <td><p>{{(((proforma.loan_amount/proforma.arv)*100).toFixed(2))}}%</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>APR (%)</p></td> 
+          <td><input class="invisible-form" type="text" ng-model="proforma.apr" ng-change="changeProforma('apr',proforma.apr)"/>%</td>
+        </tr>
+        <tr>
+          <td class="static"><p>Months</p></td> 
+          <td><input class="invisible-form" type="text" ng-model="proforma.months" ng-change="changeProforma('months',proforma.months)"/></td>
+          <td class="static" format="currency"><p>{{proforma.interest | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static" colspan="2"><p>Fees</p></td> 
+          <td><input class="invisible-form" type="text" format="currency" ng-model="proforma.fees" ng-change="changeProforma('fees',proforma.fees)"/></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Opening Points (%)</p></td> 
+          <td><input class="invisible-form" type="text" ng-model="proforma.opening_points" ng-change="changeProforma('opening_points',proforma.opening_points)"/>%</td>
+          <td class="static"><p>{{proforma.open_points_cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr class="info">
+          <td colspan="2"><p>Total Financials</p></td> 
+          <td><p>{{proforma.total_finance | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td colspan="2"><h5>Contributions</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static">
+          <td><p>Out Of Pocket</p></td> 
+          <td><p>{{proforma.pocket | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Jeremy</p></td> 
+          <td><input class="invisible-form" type="text" ng-model="proforma.jeremy_pocket" ng-change="changeProforma('jeremy_pocket',proforma.jeremy_pocket)" format="currency"/></td>
+        </tr>
+        <tr>
+          <td class="static"><p>Codrin</p></td> 
+          <td><input class="invisible-form" type="text" ng-model="proforma.codrin_pocket" ng-change="changeProforma('codrin_pocket',proforma.codrin_pocket)" format="currency"/></td>
+        </tr>
+        <tr class="static">
+          <td><p>Tetakawi</p></td> 
+          <td><p>{{ proforma.tetakawi_pocket | currency:"$":0}}</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td class="Acquisition"><h5>Profit</h5></td>
+          <td class="Acquisition">
+            <h5>{{((proforma.profit/proforma.arv)*100).toFixed(2)}}%</h5></td>
+          <td class="Acquisition">
+            <h5>{{proforma.profit | currency:"$":0}}</h5></td>
+            <td><h5>Invested</h5></td>
+            <td><h5>Annualized ROI</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="static"><p>Tetakawi</p></td> 
+          <td class="static"><p>{{proforma.tetakawi_share_percent}}%</p></td>
+          <td class="static"><p>{{proforma.tetakawi_profit | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.tetakawi_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.tetakawi_roi}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Jeremy</p></td> 
+          <td><p>{{proforma.jeremy_percent}}%</p></td>
+          <td><p>{{proforma.jeremy_profit | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.jeremy_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.jeremy_roi}}%</p></td>
+        </tr>
+        <tr class="static">
+          <td><p>Codrin</p></td> 
+          <td><p>{{proforma.codrin_percent}}%</p></td>
+          <td><p>{{proforma.codrin_profit | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.codrin_pocket | currency:"$":0}}</p></td>
+          <td class="static"><p>{{proforma.codrin_roi}}%</p></td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="purchase-costs" class="lightbox">
+  <div class="row">
+  <i id="purchase" ng-click="toggleCosts($event)" class="glyphicon glyphicon-remove-sign"></i>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td><h5>Escrow Charges</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.purchase_closing_costs.escrow track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addPurchaseCost(escrow_charge)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="escrow_charge.escrow.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="escrow_charge.escrow.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Title/Taxes/Recording Charges</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.purchase_closing_costs.title track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addPurchaseCost(title_charges)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="title_charges.title.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="title_charges.title.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Prorations/Adjustments</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.purchase_closing_costs.prorations track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost  | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addPurchaseCost(prorations)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="prorations.prorations.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="prorations.prorations.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Other Debits/Credits</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.purchase_closing_costs.other track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addPurchaseCost(other)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="other.other.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="other.other.cost" format="currency"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="selling-costs" class="lightbox">
+  <div class="row">
+  <i id="selling" ng-click="toggleCosts($event)" class="glyphicon glyphicon-remove-sign"></i>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td><h5>Escrow Charges</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.selling_closing_costs.escrow track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addSellingCost(escrow_charge)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="escrow_charge.escrow.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="escrow_charge.escrow.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Title/Taxes/Recording Charges</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.selling_closing_costs.title track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addSellingCost(title_charges)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="title_charges.title.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="title_charges.title.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Prorations/Adjustments</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.selling_closing_costs.prorations track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addSellingCost(prorations)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="prorations.prorations.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="prorations.prorations.cost" format="currency"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <td><h5>Other Debits/Credits</h5></td>
+          <td><h6>Description</h6></td>
+          <td><h6>Cost</h6></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="static" ng-repeat="item in proforma.selling_closing_costs.other track by $index">
+          <td><p>{{$index + 1}}</p></td> 
+          <td><p>{{item.description}}</p></td>
+          <td><p>{{item.cost | currency:"$":0}}</p></td>
+        </tr>
+        <tr>
+          <td><button class="btn btn-primary" ng-click="addSellingCost(other)">Add Item</button></td>
+          <td><input class="invisible-form item-desc" type="text" ng-model="other.other.description" placeholder="Example..."></td> 
+          <td><input class="invisible-form  item-desc" type="text" ng-model="other.other.cost" format="currency"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

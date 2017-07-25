@@ -1,85 +1,131 @@
-<app-header></app-header>
-<div class="breadcrumbs" id="breadcrumbs">
-  <ul class="breadcrumb">
-    <li><a ui-sref="properties">Properties</a></li>
-    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
-    <li><a ui-sref="properties.property.bids">Bids</a></li>
-    <li class="active">New Bid</li>
-  </ul>
+<div class="form-group pull-left">
+  <button ui-sref="properties.property.bids" class="btn btn-primary">
+    <i class="glyphicon glyphicon-arrow-left"></i> Back To Bids
+  </button>
 </div>
-<div class="page-content">
+<div class="page-content bids">
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
   		  <div class="page-header clearfix">
-    			 <h1>New Bid</h1>
-           <h4>{{s.address}}</h4>
+    			 <h4>Create Bid #{{bid.bid_num}} for {{s.address}}</h4>
         </div>
         <div class="row">
           <form name="newBidForm" class="form-horizontal new-bid-form" role="form">
-            <div class="category-group">
+            <div class="section-group">
               <div class="form-group">
-                  <label class="col-sm-2 control-label no-padding-right" for="category">Category<p><a ng-click="showNewCategoryBox()">Add New Category...</a></p></label>
+                  <label class="col-sm-1 control-label no-padding-right" for="section">Section<p><a ng-click="showNewSectionBox()">Add New...</a></p></label>
                   <div class="col-sm-4">
-                      <select class="form-control" name="category" ng-model="bid.category.cat_name"/>
-                          <option ng-repeat="category in categories" value="{{category.cat_name}}">
-                            {{category.cat_name}}
+                      <select class="form-control" name="section" ng-model="bid.section.name"/>
+                          <option ng-repeat="section in sections | unique:'name'" value="{{section.name}}">
+                            {{section.name}}
                           </option>
                       </select>
                   </div>
               </div>
-              <div id="addCategoryBox" class="form-group">
-                <label class="col-sm-2 control-label no-padding-right" for="category">Category Name</label>
+              <div id="addSectionBox" class="form-group">
+                <label class="col-sm-1 control-label no-padding-right" for="section">Section Name</label>
                   <div class="col-sm-2">
-                      <input class="form-control" type="text" placeholder="Category" ng-model="newcategory">
+                      <input class="form-control" type="text" placeholder="Section" ng-model="newsection">
                   </div>
-                  <button class="col-sm-1 btn btn-primary" ng-click="addCategory(newcategory)">Add</button>
+                  <button class="col-sm-1 btn btn-primary" ng-click="addSection(newsection)">Add</button>
               </div>
               <div id="addTaskBox" class="form-group">
-                <label class="col-sm-2 control-label no-padding-right" for="task">Task Name</label>
+                  <label class="col-sm-1 control-label no-padding-right">New Task</label>
                   <div class="col-sm-2">
                       <input class="form-control" type="text" placeholder="Task" ng-model="newtask.task_name">
+                      <label class="control-label">Task Name</label>
                   </div>
                   <div class="col-sm-2">
-                      <input class="form-control" type="text" placeholder="Units" ng-model="newtask.units">
+                      <input class="form-control" type="text" placeholder="Units" ng-model="newtask.task_units">
+                      <label class="control-label">Units</label>
                   </div>
-                  <button class="col-sm-1 btn btn-primary" ng-click="addTask(newtask)">Add</button>
+                  <div class="col-sm-2">
+                      <select ng-change="otherQty(newtask.default_qty)" class="form-control" ng-model="newtask.default_qty">
+                        <option value="1">EACH (1)</option>
+                        <option value="bd"># of Bedrooms</option>
+                        <option value="ba"># of Bathrooms</option>
+                        <option value="bd+ba"># of Bedrooms + Bathrooms</option>
+                        <option value="sqft">Property SQFT</option>
+                        <option value="sqft/3">Property SQYD (SQFT/3)</option>
+                        <option value="sqft/3.25">Property LNFT (SQFT/3.25)</option>
+                        <option value="other">other (#)</option>
+                      </select>
+                    <label class="control-label">Default Qty</label>
+                      <input id="other-box" class="form-control" type="text" placeholder="other qty (#)" ng-model="newtask.default_qty">
+                  </div>
+                  <div class="col-sm-2">
+                      <input class="form-control" type="text" placeholder="Cost" ng-model="newtask.task_cost">
+                      <label class="control-label">Unit Cost</label>
+                  </div>
+                  <div class="col-sm-2">
+                    <button class="btn btn-primary" ng-click="addTask(newtask)">Add</button>
+                  </div>
               </div>
             </div>
             <div class="tasks-group">
-              <label class="col-sm-2 control-label no-padding-right" for="category">Tasks<p><a ng-click="showNewTaskBox()">Add New Task...</a></p></label>
+              <label class="col-sm-1 control-label no-padding-right" for="task">Tasks<p><a ng-click="showNewTaskBox()">Add New...</a></p></label>
               <div class="task-list col-sm-5">
                 <div class="form-control">
                   <div class="search-tasks">
                     <input type="text" ng-model="searchTasks" class="col-xs-12" placeholder="Search...">
                   </div>
                   <ul class="all-tasks">
-                      <li ui-draggable="true" drag="task" 
-                      on-drop-success="dropSuccessHandler($event,$index,task)"
-                      ng-repeat="task in tasks | filter:searchTasks">
+                      <li id="out-task{{$index}}" ng-repeat="task in tasks | filter:searchTasks | unique:'task_name'" ng-click="select($index,task)">
                           {{task.task_name}} ({{task.task_units}})
                       </li>
                   </ul>
                 </div>
               </div>
+              <div class="col-sm-1 task-move-arrows">
+                <div class="row">
+                  <button ng-click="includeTasks(selected)" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                </div>
+                <div class="row">
+                  <button ng-click="excludeTasks(deselected)" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i></button>
+                </div>
+              </div>
               <div class="task-list task-collector col-sm-5">
                 <div class="form-control">
                   <ul>
-                      <li ui-draggable="true" drag="task" 
-                      on-drop-success="dropSuccessHandler($event,$index,task)"
-                      ng-repeat="task in bid.tasks track by $index">
-                      <p class="col-xs-6">{{task.task_name}}</p> <p class="col-xs-6"><input type="text" ng-model="task.qty" placeholder="Quantity" class="qty col-xs-6"> ({{task.task_units}})</p><i class="glyphicon glyphicon-remove-sign pull-right" ng-click="removeTask($index,task)"></i>
-                      <input type="text" ng-model="task.desc" placeholder="Describe the task..." class="col-xs-12">
+                      <li id="in-task{{$index}}" ng-repeat="task in bid.tasks track by $index" ng-click="deselect($event,$index,task)" class="clearfix">
+                      <div class="row">
+                        <p class="col-sm-4 bold">{{task.task_name}}</p>
+                        <span class="col-sm-4">{{task.task_cost | currency:'$':2}} per {{task.task_units}}</span>
+                        <span class="col-sm-4">Total: {{task.total_cost | currency:'$':2}}</span>
+                      </div>
+                      <table class="table task-details">
+                        <thead>
+                          <tr>
+                            <th colspan="2">
+                              <i id="t{{$index}}-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down">Details</i> 
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody  id="t{{$index}}-toggle-table" class="collapse">
+                        <tr>
+                          <td class="col-sm-4">Quantity</td>
+                          <td class="col-sm-8"> <input class="invisible-form" type="text" ng-model="task.qty" ng-change="recalculateCosts()"  ng-model-options='{ debounce: 600 }'></td>
+                        </tr>
+                        <tr>
+                          <td class="col-sm-4">Description</td>
+                          <td class="col-sm-8"><textarea class="invisible-form" ng-model="task.description"></textarea></td>
+                        </tr>
+                        </tbody>
+                      </table>
                       </li>
                   </ul>
                 </div>
               </div>
           </div>
             <div class="form-group">
-                <div class="col-sm-8 col-sm-offset-2">
-                    <button id="form-submit-button" type="submit" class="width-35 pull-left col-sm-3 btn btn-lg btn-primary"  data-ng-disabled="newPropertyForm.$invalid" ng-click="createBid(bid)">
+                <div class="col-sm-6 col-sm-offset-1">
+                    <button id="form-submit-button" type="submit" class="width-35 pull-left col-sm-6 btn btn-lg btn-primary"  data-ng-disabled="newPropertyForm.$invalid" ng-click="createBid(bid)">
                         Create
                     </button>
+                </div>
+                <div class="col-sm-5">
+                  <h2 class="pull-right">Total: {{bid_total | currency:'$':0}}</h2>
                 </div>
             </div>
             </fieldset>
@@ -89,4 +135,3 @@
   </div>
 </div>
 </div>
-<app-footer></app-footer>

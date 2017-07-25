@@ -3,20 +3,20 @@
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    	<h4>Sold Details: {{property.address}}</h4>
-	    	<div class="col-sm-5 infobox-titles">
+	    	<div class="col-sm-7 infobox-titles">
 			  <ul>
 				<li>Purchase Date:</li>
 				<li>Sale Date:</li>
 				<li>Purchase Price:</li>
-				<li>ARV:</li>
+				<li>After Repair Value (ARV):</li>
 				<li>Sale Price:</li>
 				<li>Ownership Length:</li>
 			  </ul>
 		   </div>
-		   <div class="col-sm-7">
+		   <div class="col-sm-5">
 			  <ul>
-				<li>{{property.purchase_date || 'Not Defined'}}</li>
-				<li>{{property.sale_date || 'Not Defined'}}</li>
+				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
+				<li>{{property.sale_close_date || 'Not Defined'}}</li>
 				<li>{{property.purchase_cost || 'Not Defined'}}</li>
 				<li>{{property.arv || 'Not Defined'}}</li>
 				<li>{{property.sale_price || 'Not Defined'}}</li>

@@ -10,7 +10,6 @@ app.factory("offers", ['$http',
             o.offers = [];
             for (i = 0; i < results.data.length; i++) {
               if (results.data[i].pid == pid) {
-                delete results.data[i].pid;
                 o.offers.push(results.data[i]);
               }
             }

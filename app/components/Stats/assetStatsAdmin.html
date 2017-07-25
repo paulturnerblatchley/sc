@@ -1,0 +1,93 @@
+<app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li><a ui-sref="properties">Properties</a></li>
+    <li class="active">Asset Stats</li>
+  </ul>
+</div>
+<div class="page-content">
+	<div class="page-header">
+		<h1>Asset Stats</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<table class="table table-bordered table-responsive">
+				<thead>
+					<tr>
+						<th>Phase</th>
+						<th># of Properties</th>
+					</tr>
+				<thead>
+				<tbody>
+					<tr>
+						<td>Acquisition</td>
+						<td>{{acquisitionCount}}</td>
+					</tr>
+					<tr>
+						<td>Holdover</td>
+						<td>{{holdoverCount}}</td>
+					</tr>
+					<tr>
+						<td>Rehab</td>
+						<td>{{rehabCount}}</td>
+					</tr>
+					<tr>
+						<td>Listed</td>
+						<td>{{listedCount}}</td>
+					</tr>
+					<tr>
+						<td>Sale Escrow</td>
+						<td>{{saleEscrowCount}}</td>
+					</tr>
+					<tr>
+						<td>Sold</td>
+						<td>{{soldCount}}</td>
+					</tr>
+					<tr>
+						<td>Withdrawn</td>
+						<td>{{withdrawnCount}}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>Total</td>
+						<td>{{totalCount}}</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="col-sm-6">
+			<table class="table table-bordered table-responsive">
+				<thead>
+					<tr>
+						<td></td>
+						<td>Total</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Current Assets (Total Purchase Costs)</td>
+						<td>{{currentAssets | currency:'$':0}}</td>
+					</tr>
+					<tr>
+						<td>Projected Total Improvements (Rehab Estimates)</td>
+						<td>{{projectedImprovements | currency:'$':0}}</td>
+					</tr>
+					<tr>
+						<td>Projected Total Revenue (ARVs)</td>
+						<td>{{projectedRevenue | currency:'$':0}}</td>
+					</tr>
+					<tr>
+						<td>Total Profits (Proforma Profits)</td>
+						<td>{{totalProfits | currency:'$':0}}</td>
+					</tr>
+					<tr>
+						<td>Total Sales Revenue (Total Escrow Price of Sold)</td>
+						<td>{{totalRevenue | currency:'$':0}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<app-footer></app-footer>

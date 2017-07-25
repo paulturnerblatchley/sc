@@ -3,7 +3,7 @@
 	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    <h4>Rehab Details: {{property.address}}</h4>
-		   <div class="col-sm-5 infobox-titles">
+		   <div class="col-sm-7 infobox-titles">
 		   	<ul>
 				<li>Rehab Estimate:</li>
 				<li>Rehab Cost Accrued:</li>
@@ -13,10 +13,10 @@
 				<li>Days Lapsed:</li>
 			  </ul>
 		   </div>
-		   <div class="col-sm-7">
+		   <div class="col-sm-5">
 			  <ul>
-				<li>{{property.rehab_estimate || 'Not Defined'}}</li>
-				<li>{{property.rehab_accrued || 'Not Defined'}}</li>
+				<li>{{property.rehab_estimate}}</li>
+				<li>{{property.rehab_accrued | currency:'$':0}}</li>
 				<li>{{property.rehab_start || 'Not Defined'}}</li>
 				<li>{{property.est_completion || 'Not Defined'}}</li>
 				<li>{{property.rehab_length || 'Not Defined'}}</li>

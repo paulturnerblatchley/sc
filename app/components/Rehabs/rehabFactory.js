@@ -1,8 +1,15 @@
 app.factory("rehab", ['$http',
   function($http) {
     var o = {
-      rehab: []
+      rehab: [],
+      rehabs: []
     };
+
+    o.getAllRehabs = function(q) {
+      return $http.get(serviceBase + q).then(function(results) {
+        o.rehabs = results.data;
+      });
+    }
 
     o.get = function(q, pid) {
       return $http.get(serviceBase + q).then(function(results) {
@@ -33,6 +40,11 @@ app.factory("rehab", ['$http',
             for (j in o.rehab) {
 
               o.rehab[j].comp_perc = o.rehab[j].comp_perc + "%";
+              if (j.indexOf("_actual_cost") !== -1) {
+                o.rehab.accrued_costs = parseInt(o.rehab.accrued_costs);
+                o.rehab.accrued_costs += parseInt(o.rehab[j]);
+              }
+              
 
               if (/\d{4}-\d{2}-\d{2}/.test(o.rehab[j])) {
                 o.rehab[j] = moment(o.rehab[j])._d;

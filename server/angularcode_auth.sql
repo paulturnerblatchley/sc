@@ -641,3 +641,175 @@ ALTER TABLE `offers` DROP `comp`, DROP `retrofit`;
 ALTER TABLE `offers` CHANGE `ccnr` `closing_costs` INT(12) NOT NULL;
 ALTER TABLE `offers` ADD `hoa` INT(12) NOT NULL AFTER `counter`;
 ALTER TABLE `offers` ADD `home_warranty` INT(12) NOT NULL AFTER `hoa`;
+
+
+ALTER TABLE `properties` ADD `profit` INT(16) NOT NULL AFTER `sale_price`;
+ALTER TABLE `properties` ADD `pre_sale_costs` INT(16) NOT NULL AFTER `profit`;
+ALTER TABLE `properties` ADD `sales_costs` INT(16) NOT NULL AFTER `pre_sale_costs`;
+ALTER TABLE `properties` CHANGE `purchase_cost` `purchase_cost` INT(16) NOT NULL;
+ALTER TABLE `properties` CHANGE `rehab_estimate` `rehab_estimate` INT(13) NOT NULL;
+ALTER TABLE `properties` CHANGE `arv` `arv` INT(16) NOT NULL;
+ALTER TABLE `properties` CHANGE `list_price` `list_price` INT(16) NOT NULL;
+ALTER TABLE `properties` CHANGE `escrow_price` `escrow_price` INT(16) NOT NULL;
+ALTER TABLE `properties` CHANGE `sale_price` `sale_price` INT(16) NOT NULL;
+ALTER TABLE `bath` CHANGE `bath_planned_cost` `bath_planned_cost` INT(16) NOT NULL, CHANGE `bath_actual_cost` `bath_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `demo` CHANGE `demo_planned_cost` `demo_planned_cost` INT(16) NOT NULL, CHANGE `demo_actual_cost` `demo_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `drywall` CHANGE `drywall_planned_cost` `drywall_planned_cost` INT(16) NOT NULL, CHANGE `drywall_actual_cost` `drywall_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `electrical` CHANGE `electrical_planned_cost` `electrical_planned_cost` INT(16) NOT NULL, CHANGE `electrical_actual_cost` `electrical_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `ext_paint` CHANGE `ext_paint_planned_cost` `ext_paint_planned_cost` INT(16) NOT NULL, CHANGE `ext_paint_actual_cost` `ext_paint_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `fixtures` CHANGE `fixtures_planned_cost` `fixtures_planned_cost` INT(16) NOT NULL, CHANGE `fixtures_actual_cost` `fixtures_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `flooring` CHANGE `flooring_planned_cost` `flooring_planned_cost` INT(16) NOT NULL, CHANGE `flooring_actual_cost` `flooring_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `framing` CHANGE `framing_planned_cost` `framing_planned_cost` INT(16) NOT NULL, CHANGE `framing_actual_cost` `framing_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `garage_door` CHANGE `garage_door_planned_cost` `garage_door_planned_cost` INT(16) NOT NULL, CHANGE `garage_door_actual_cost` `garage_door_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `hardscape` CHANGE `hardscape_planned_cost` `hardscape_planned_cost` INT(16) NOT NULL, CHANGE `hardscape_actual_cost` `hardscape_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `hvac` CHANGE `hvac_planned_cost` `hvac_planned_cost` INT(16) NOT NULL, CHANGE `hvac_actual_cost` `hvac_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `int_paint` CHANGE `int_paint_planned_cost` `int_paint_planned_cost` INT(16) NOT NULL, CHANGE `int_paint_actual_cost` `int_paint_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `kitchen` CHANGE `kitchen_planned_cost` `kitchen_planned_cost` INT(16) NOT NULL, CHANGE `kitchen_actual_cost` `kitchen_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `landscaping` CHANGE `landscaping_planned_cost` `landscaping_planned_cost` INT(16) NOT NULL, CHANGE `landscaping_actual_cost` `landscaping_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `plumbing` CHANGE `plumbing_planned_cost` `plumbing_planned_cost` INT(16) NOT NULL, CHANGE `plumbing_actual_cost` `plumbing_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `pool_spa` CHANGE `pool_spa_planned_cost` `pool_spa_planned_cost` INT(16) NOT NULL, CHANGE `pool_spa_actual_cost` `pool_spa_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `roof` CHANGE `roof_planned_cost` `roof_planned_cost` INT(16) NOT NULL, CHANGE `roof_actual_cost` `roof_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `sales_clean` CHANGE `sales_clean_planned_cost` `sales_clean_planned_cost` INT(16) NOT NULL, CHANGE `sales_clean_actual_cost` `sales_clean_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `stucco` CHANGE `stucco_planned_cost` `stucco_planned_cost` INT(16) NOT NULL, CHANGE `stucco_actual_cost` `stucco_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `windows` CHANGE `windows_planned_cost` `windows_planned_cost` INT(16) NOT NULL, CHANGE `windows_actual_cost` `windows_actual_cost` INT(16) NOT NULL;
+ALTER TABLE `rehabs` ADD `accrued_costs` INT(16) NOT NULL AFTER `comp_percent`;
+ALTER TABLE `properties` CHANGE `sqft` `sqft` INT(10) NOT NULL, CHANGE `lotsize` `lotsize` INT(10) NOT NULL;
+
+
+CREATE TABLE `proforma_projected` (
+  `id` int(10) NOT NULL,
+  `pid` int(10) NOT NULL,
+  `purchase_cost` int(16) NOT NULL,
+  `purchase_closing_costs` int(13) NOT NULL,
+  `rehab_estimate` int(13) NOT NULL,
+  `other_costs` int(10) NOT NULL,
+  `selling_closing_costs` int(13) NOT NULL,
+  `loan_amount` int(11) NOT NULL,
+  `apr` int(5) NOT NULL,
+  `months` int(5) NOT NULL,
+  `fees` int(11) NOT NULL,
+  `opening_points` int(5) NOT NULL,
+  `buyer_percent` int(5) NOT NULL,
+  `tca` int(8) NOT NULL,
+  `commission_percent` int(5) NOT NULL,
+  `jeremy_pocket` int(11) NOT NULL,
+  `codrin_pocket` int(11) NOT NULL,
+  `tetakawi_share_percent` float NOT NULL,
+  `arv` int(16) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`pid`) REFERENCES properties(pid)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `proforma_actual` (
+  `id` int(10) NOT NULL,
+  `pid` int(10) NOT NULL,
+  `purchase_cost` int(16) NOT NULL,
+  `purchase_closing_costs` int(13) NOT NULL,
+  `rehab_estimate` int(13) NOT NULL,
+  `other_costs` int(10) NOT NULL,
+  `selling_closing_costs` int(13) NOT NULL,
+  `loan_amount` int(11) NOT NULL,
+  `apr` int(5) NOT NULL,
+  `months` int(5) NOT NULL,
+  `fees` int(11) NOT NULL,
+  `opening_points` int(5) NOT NULL,
+  `buyer_percent` int(5) NOT NULL,
+  `tca` int(8) NOT NULL,
+  `commission_percent` int(5) NOT NULL,
+  `jeremy_pocket` int(11) NOT NULL,
+  `codrin_pocket` int(11) NOT NULL,
+  `tetakawi_share_percent` float NOT NULL,
+  `arv` int(16) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`pid`) REFERENCES properties(pid)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+---
+-- Jun 12th
+---
+
+ALTER TABLE `proforma` CHANGE `apr` `apr` FLOAT(5) NOT NULL, CHANGE `opening_points` `opening_points` FLOAT(5) NOT NULL, CHANGE `selling_costs_percent` `selling_costs_percent` FLOAT(5) NOT NULL, CHANGE `buyer_percent` `buyer_percent` FLOAT(5) NOT NULL, CHANGE `commission_percent` `commission_percent` FLOAT(5) NOT NULL, CHANGE `tetakawi_share_percent` `tetakawi_share_percent` FLOAT NOT NULL;
+
+
+---
+-- June 14th
+---
+
+ALTER TABLE `user_settings` CHANGE `fha` `fha` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `dsp` `dsp` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `supervisor` `supervisor` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `permits` `permits` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `estimated_completion` `estimated_completion` TINYINT(1) NOT NULL DEFAULT '1';
+ALTER TABLE `user_settings` ADD `purchase_date` TINYINT(1) NOT NULL DEFAULT '1' AFTER `estimated_completion`, ADD `lender` TINYINT(1) NOT NULL DEFAULT '1' AFTER `purchase_date`;
+ALTER TABLE `user_settings` CHANGE `purchase_date` `purchase_close_date` TINYINT(1) NOT NULL DEFAULT '1';
+ALTER TABLE `properties` CHANGE `status` `status` VARCHAR(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `properties` ADD `loan_amount` INT(16) NOT NULL AFTER `arv`;
+
+CREATE TABLE `listing_images` (
+  `image_id` int(10) NOT NULL,
+  `image_name` varchar(50) NOT NULL,
+  `pid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `listing_images`
+  ADD PRIMARY KEY (`image_id`),
+  ADD KEY `pid` (`pid`);
+
+ALTER TABLE `listing_images`
+  MODIFY `image_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `listing_images`
+  ADD CONSTRAINT `listing_images_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `properties` (`pid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `offers` ADD `agent_id` INT(11) NOT NULL AFTER `pid`;
+
+ALTER TABLE `offers`
+ADD CONSTRAINT `offers_ibfk_2` FOREIGN KEY (`agent_id`) REFERENCES `agents` (`agent_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `proforma` CHANGE `apr` `apr` FLOAT(5) NOT NULL, CHANGE `opening_points` `opening_points` FLOAT(5) NOT NULL, CHANGE `selling_costs_percent` `selling_costs_percent` FLOAT(5) NOT NULL, CHANGE `buyer_percent` `buyer_percent` FLOAT(5) NOT NULL, CHANGE `commission_percent` `commission_percent` FLOAT(5) NOT NULL, CHANGE `tetakawi_share_percent` `tetakawi_share_percent` FLOAT NOT NULL;
+
+ALTER TABLE `user_settings` ADD `loan_amount` TINYINT(1) NOT NULL DEFAULT '1' AFTER `arv`, ADD `list_price` TINYINT(1) NOT NULL DEFAULT '1' AFTER `loan_amount`, ADD `sale_price` TINYINT(1) NOT NULL DEFAULT '1' AFTER `list_price`;
+ALTER TABLE `user_settings` ADD `purchase_close_date` TINYINT(1) NOT NULL DEFAULT '1' AFTER `arv`, ADD `lender` TINYINT(1) NOT NULL DEFAULT '1' AFTER `purchase_close_date`;
+ALTER TABLE `user_settings` CHANGE `estimated_completion` `est_completion` TINYINT(1) NOT NULL DEFAULT '1';
+
+CREATE TABLE `lenders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lender_name` varchar(50) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `entity_vesting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entity` varchar(50) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `supervisors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `supervisor` varchar(50) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `asset_managers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `manager` varchar(50) NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+RENAME TABLE `categories` to `sections`;
+ALTER TABLE `sections` CHANGE `cat_id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `cat_name` `name` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `open_bids` ADD `bid_total_cost` INT(10) NOT NULL AFTER `bid_cat_id`;
+ALTER TABLE `bid_tasks` ADD `total_cost` INT(10) NOT NULL AFTER `task_id`;
+
+ALTER TABLE `tasks` ADD `default_qty` VARCHAR(16) NOT NULL AFTER `task_units`;
+ALTER TABLE `open_bids` ADD `bid_num` INT(5) NOT NULL AFTER `bid_id`;
+ALTER TABLE `bid_tasks` CHANGE `total_cost` `task_total` INT(10) NOT NULL;
+ALTER TABLE `bid_tasks` ADD `qty` INT(10) NOT NULL DEFAULT '1' AFTER `task_id`;
+ALTER TABLE `bid_tasks` ADD `description` VARCHAR(300) NOT NULL AFTER `task_total`;
+ALTER TABLE `bid_tasks` DROP FOREIGN KEY `bid_tasks_ibfk_2`;
+ALTER TABLE `bid_tasks` DROP `task_id`;
+ALTER TABLE `bid_tasks` ADD `task_name` VARCHAR(60) NOT NULL AFTER `qty`, ADD `task_cost` FLOAT NOT NULL AFTER `task_name`, ADD `task_units` VARCHAR(25) NOT NULL AFTER `task_cost`;
+-------------------------- UP TO DATE ----------------------------
+ALTER TABLE `escrow` ADD `agent_id` INT(11) NOT NULL AFTER `pid`;
+ALTER TABLE `escrow`
+  ADD CONSTRAINT `agents_ibfk_1` FOREIGN KEY (`agent_id`) REFERENCES `agents` (`agent_id`) ON DELETE CASCADE ON UPDATE CASCADE;

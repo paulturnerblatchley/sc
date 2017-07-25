@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <th>Cost</th>
-            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_planned_cost', v.planned_cost)" class="invisible-form" type="text" ng-model="v.planned_cost"></td>
+            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_planned_cost', v.planned_cost)" class="invisible-form" type="text" ng-model="v.planned_cost" format="currency"></td>
           </tr>
           <tr class="notes">
             <th>Notes</th>
@@ -73,11 +73,11 @@
           </tr>
           <tr>
             <th>Completion Percentage</th>
-            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_comp_perc', v.comp_perc)" class="invisible-form" type="text" ng-model="v.comp_perc"></td>
+            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_comp_perc', v.comp_perc)" class="invisible-form" type="text" ng-model="v.comp_perc""></td>
           </tr>
           <tr>
             <th>Cost</th>
-            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_actual_cost', v.actual_cost)" class="invisible-form" type="text" ng-model="v.actual_cost"></td>
+            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_actual_cost', v.actual_cost)" class="invisible-form" type="text" ng-model="v.actual_cost" format="currency"></td>
           </tr>
           <tr>
             <th>Contractor</th>

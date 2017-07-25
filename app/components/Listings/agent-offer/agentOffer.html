@@ -1,0 +1,266 @@
+  <app-header></app-header>
+<div class="breadcrumbs" id="breadcrumbs">
+  <ul class="breadcrumb">
+    <li><a ui-sref="listings">Listings</a></li>
+    <li class="active">Submit Offer</li>
+  </ul>
+</div>
+<div class="page-content">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-header">
+        <h2>
+            Submit an Offer for {{s.address}}
+        </h2>
+      </div>
+      <div class="col-sm-6">
+        <ul class="list-details clearfix">
+          <li class="col-xs-4">City: {{s.city}}</li>
+          <li class="col-xs-4">ZIP: {{s.zip}}</li>
+          <li class="col-xs-4">County: {{s.county}}</li>
+          <li class="col-xs-4">Beds: {{s.beds}}</li>
+          <li class="col-xs-4">Baths: {{s.baths}}</li>
+          <li class="col-xs-4">Square Feet: {{s.sqft}}</li>
+          <li class="col-xs-4">Lot Size: {{s.lotsize}}</li>
+          <li class="col-xs-4">Year Built: {{s.year_built}}</li>
+          <li class="col-xs-4">Pool/Spa: {{s.pool_spa}}</li>
+        </ul>
+        <p class="listing-desc">{{s.listdesc}}</p>
+      </div>
+      <div class="col-sm-6">
+        <div class="image-box clearfix">
+          <div ng-show="!s.listing_images" class="no-img">
+            <i class="glyphicon glyphicon-camera"></i>
+            <p>There are no images for this listing.</p>
+          </div>
+          <div ng-show="s.listing_images" id="property-carousel" class="carousel slide">
+            <ol class="carousel-indicators">
+              <li ng-repeat="image in s.listing_images" data-target="#property-carousel" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+              <div class="single-img item" ng-class="{active:$first}" ng-repeat="image in s.listing_images">
+                <img class="img-responsive" ng-hide="!image" ng-src="../../../server/v1/uploads/{{image}}"/>
+              </div>
+            </div>
+            <a class="left carousel-control" data-target="#property-carousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" data-target="#property-carousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form name="newOfferForm" class="form-horizontal offer-form" role="form" ng-submit="newOffer(offer,enroll)" latlng="obj">
+    <div class="row top-buffer20">
+      <div class="col-sm-8">
+        <h3>Offer Information</h3>
+        <div class="col-sm-6">
+          <div class="form-group">
+              <label for="buyer">Buyer</label>
+              <input type="text" class="form-control" placeholder="Buyer" name="buyer" ng-model="offer.buyer" focus/>
+          </div>
+          <div class="form-group">
+              <label for="financing">Financing</label>
+              <select class="form-control" name="financing" ng-model="offer.financing">
+                  <option value="FHA">FHA</option>
+                  <option value="Conv">Conventional</option>
+                  <option value="VA">VA</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Private">Private</option>
+              </select>
+          </div>
+          <div class="form-group">
+              <label for="closing">Closing</label>
+              <input type="text" class="form-control" name="closing" placeholder="Closing" ng-model="offer.closing" />
+          </div>
+          <div class="form-group">
+              <label for="deposit">Deposit</label>
+              <input type="text" class="form-control" name="deposit" placeholder="$xxxxx" ng-model="offer.deposit" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="offer_price">Offer Price</label>
+              <input type="text" class="form-control" name="offer_price" placeholder="$xxxxx" ng-model="offer.offer_price" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="closing_costs">Closing Costs</label>
+              <input type="text" class="form-control" placeholder="$xxxxx" name="closing_costs" ng-model="offer.closing_costs" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="counter">Counters/Adjustments</label>
+              <input type="text" class="form-control" placeholder="$xxxxx" name="counter" ng-model="offer.counter" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="hoa">HOA Transfer</label>
+              <input type="text" class="form-control" placeholder="$xxxxx" name="hoa" ng-model="offer.hoa" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="home_warranty">Home Warranty</label>
+              <input type="text" class="form-control" placeholder="$xxxxx" name="home_warranty" ng-model="offer.home_warranty" format="currency"/>
+          </div>
+          <div class="form-group">
+              <label for="title">Title</label>
+              <select class="form-control" name="title" ng-model="offer.title">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="escrow">Escrow</label>
+              <select class="form-control" name="escrow" ng-model="offer.escrow">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>
+                </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+              <label for="termite">Termite</label>
+                <select class="form-control" name="termite" ng-model="offer.termite">
+                    <option value="Section I">Section I</option>
+                    <option value="Section I & II">Section I &amp; II</option>
+                    <option value="None">None</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="nhd">NHD</label>
+                <select class="form-control" name="nhd" ng-model="offer.nhd">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="septic">Septic</label>
+              <select class="form-control" name="septic" ng-model="offer.septic">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="co_fees">Co. Fees</label>
+                <select class="form-control" name="co_fees" ng-model="offer.co_fees">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="city_fees">City Fees</label>
+              <select class="form-control" name="city_fees" ng-model="offer.city_fees">
+                    <option value="Buyer Paid">Buyer Paid</option>
+                    <option value="Seller Paid">Seller Paid</option>
+                    <option value="50/50">50/50</option>
+                    <option value="Each Pay Own">Each Pay Own</option>
+                    <option value="Other">Other</option>>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="fico">FICO</label>
+              <input type="text" class="form-control" placeholder="FICO" name="fico" ng-model="offer.fico"/>
+          </div>
+          <div class="form-group">
+              <label for="pof">POF</label>
+               <select class="form-control" name="pof" ng-model="offer.pof">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="other_terms">Other Terms</label>
+                <textarea rows="4" cols="50" class="form-control" name="other_terms" ng-model="offer.other_terms"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="notes">Notes</label>
+              <textarea rows="4" cols="50" class="form-control" name="notes" ng-model="offer.notes"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h3>Agent Information</h3>
+        <div class="form-group">
+            <label for="name">First Name</label>
+            <input type="text" class="form-control" placeholder="First Name" ng-model="enroll.first_name" required/>
+        </div>
+        <div class="form-group">
+            <label for="name">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last Name" ng-model="enroll.last_name" required/>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" placeholder="Email" name="email" ng-model="enroll.email" required/>
+            <span ng-show="enrollmentForm.email.$error.email" class="help-inline">Email is not valid</span>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="enroll.phone" required/>
+        </div>
+        <div class="form-group">
+            <label for="BRE License No.">BRE License No.</label>
+            <input type="text" class="form-control" placeholder="BRE License No." name="bre" ng-model="enroll.bre" required/>
+        </div>
+        <div class="form-group">
+            <label for="mls_id">MLS ID (not required)</label>
+            <input type="text" class="form-control" placeholder="MLS ID" name="mls_id" ng-model="enroll.mls_id"/>
+        </div>
+        <div class="form-check">
+            <label class="col-sm-5 form-check-label text-right" for="early_showing">Early Showing</label>
+            <div class="col-sm-7">
+                <input type="checkbox" class="col-sm-1 form-check-input"  name="early_showing" ng-model="enroll.early_showing" checked="checked">
+                <p class="col-sm-11">Would you like to preview properties prior to them being listed?</p>
+            </div>
+        </div>
+        <div class="form-check">
+            <label class="col-sm-5 form-check-label text-right" for="phone">Open House</label>
+            <div class="col-sm-7">
+                <input type="checkbox" class="col-sm-1 form-check-input" name="open_house" ng-model="enroll.open_house" checked="checked">
+                <p class="col-sm-11">Would you like to host open houses for our turnkey vacant properties?</p>
+            </div>
+        </div>
+        <div class="form-check">
+            <label class="col-sm-5 form-check-label text-right" for="phone">Area of Interest (County)</label>
+            <div class="col-sm-7 interest-area">
+                <div class="row">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Bernardino" ng-model="enroll.sb" checked="checked">
+                    <p class="col-sm-11">San Bernardino</p>
+                </div>
+                <div class="row">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="Riverside" ng-model="enroll.riv" checked="checked">
+                    <p class="col-sm-11">Riverside</p>
+                </div>
+                <div class="row">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="Los Angeles" ng-model="enroll.la" checked="checked">
+                    <p class="col-sm-11">Los Angeles</p>
+                </div>
+                <div class="row">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Diego" ng-model="enroll.sd" checked="checked">
+                    <p class="col-sm-11">San Diego</p>
+                </div>
+            </div>
+        </div>
+        <button id="form-submit-button" type="submit" class="pull-left col-sm-12 btn btn-lg btn-primary top-buffer20"  data-ng-disabled="newOfferForm.$invalid">
+            Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- /.page-content -->
+<app-footer></app-footer>

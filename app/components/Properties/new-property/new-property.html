@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="phase">Phase</label>
                             <div class="col-sm-8">
-                                <select class="form-control" name="phase" ng-model="newproperty.phase" required/>
+                                <select class="form-control" name="phase" ng-model="newproperty.phase" required ng-change="setStatusOptions(newproperty)"/>
                                     <option value="Acquisition">Acquisition</option>
                                     <option value="Holdover">Holdover</option>
                                     <option value="Rehab">Rehab</option>
@@ -35,17 +35,7 @@
                             <label class="col-sm-4 control-label no-padding-right" for="status">Status</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="status" ng-model="newproperty.status"/>
-                                    <option value="Active">Active</option>
-                                    <option value="Hold">Hold</option>
-                                    <option value="Closed">Closed</option>
-                                    <option value="Contract">Contract</option>
-                                    <option value="Purchased">Purchased</option>
-                                    <option value="Relocation">Relocation</option>
-                                    <option value="Eviction">Eviction</option>
-                                    <option value="$-4-Keys">$-4-Keys</option>
-                                    <option value="Architectural">Architectural</option>
-                                    <option value="Plan Check">Plan Check</option>
-                                    <option value="Bid">Bid</option>
+                                    <option ng-repeat="option in status_options" ng-value="option">{{option}}</option>
                                 </select>
                             </div>
                         </div>
@@ -161,7 +151,7 @@
                             <label class="col-sm-4 control-label no-padding-right" for="asset_manager">Asset Manager</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="asset_manager" ng-model="newproperty.asset_manager"/>
-                                    <option value="Codrin">Codrin</option>
+                                    <option ng-repeat="manager in asset_managers" ng-value="manager.manager">{{manager.manager}}</option>
                                 </select>
                             </div>
                         </div>
@@ -174,18 +164,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="purchase_cost">Purchase Cost</label>
                             <div class="col-sm-8">
-                              <input type="text" class="form-control" placeholder="$$$" name="purchase_cost" ng-model="newproperty.purchase_cost"/>
+                              <input type="text" class="form-control" format="currency" name="purchase_cost" ng-model="newproperty.purchase_cost"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="entity_vesting">Entity Vesting</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="entity_vesting" ng-model="newproperty.entity_vesting"/>
-                                    <option value="SC Inc.">SC Inc.</option>
-                                    <option value="HEF Inc.">HEF Inc.</option>
-                                    <option value="NLP Inc.">NLP Inc.</option>
-                                    <option value="trust">trust</option>
-                                    <option value="other">other</option>
+                                    <option ng-repeat="entity in entity_vesting" ng-value="entity.entity"">{{entity.entity}}</option>
                                 </select>
                             </div>
                         </div>
@@ -193,23 +179,26 @@
                             <label class="col-sm-4 control-label no-padding-right" for="lender">Lender</label>
                             <div class="col-sm-8">
                                 <select class="form-control" name="lender" ng-model="newproperty.lender"/>
-                                    <option value="Spinnaker">Spinnaker</option>
-                                    <option value="Anchor">Anchor</option>
-                                    <option value="Doug Carver">Doug Carver</option>
-                                    <option value="Other">Other</option>
+                                    <option ng-repeat="lender in lenders" ng-value="lender.lender">{{lender.lender}}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label no-padding-right" for="loan_amount">Loan Amount</label>
+                            <div class="col-sm-8">
+                              <input type="text" class="form-control" format="currency" name="loan_amount" ng-model="newproperty.loan_amount"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="rehab_estimate">Rehab Estimate</label>
                             <div class="col-sm-8">
-                              <input type="text" class="form-control" placeholder="$$$" name="rehab_estimate" ng-model="newproperty.rehab_estimate"/>
+                              <input type="text" class="form-control" format="currency" name="rehab_estimate" ng-model="newproperty.rehab_estimate"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="arv">ARV</label>
                             <div class="col-sm-8">
-                              <input type="text" class="form-control" placeholder="$$$" name="arv" ng-model="newproperty.arv"/>
+                              <input type="text" class="form-control" format="currency" name="arv" ng-model="newproperty.arv"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -228,13 +217,13 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="list_price">Listing Price</label>
                             <div class="col-sm-8">
-                              <input type="text" class="form-control" placeholder="$$$" name="list_price" ng-model="newproperty.list_price"/>
+                              <input type="text" class="form-control" format="currency" name="list_price" ng-model="newproperty.list_price"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label no-padding-right" for="escrow_price">Escrow Price</label>
                             <div class="col-sm-8">
-                              <input type="text" class="form-control" placeholder="$$$" name="escrow_price" ng-model="newproperty.escrow_price"/>
+                              <input type="text" class="form-control" format="currency" name="escrow_price" ng-model="newproperty.escrow_price"/>
                             </div>
                         </div>
                         <div class="form-group">

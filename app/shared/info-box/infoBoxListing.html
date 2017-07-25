@@ -1,30 +1,56 @@
 <i id="info-box-switch" ng-click="toggleInfoBox()" class="glyphicon glyphicon-circle-arrow-right flip"></i>
 <div id="info-box" class="add-info">
-	<div class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
+	<div ng-show="isAdmin()" class="row" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
 	    <div class="row">
 	    	<h4>Listing Details: {{property.address}}</h4>
-	    	<div class="col-sm-5 infobox-titles">
+	    	<div class="col-sm-7 infobox-titles">
 			  <ul>
 				<li>Purchase Date:</li>
-				<li>DSP:</li>
+				<li>Days Since Purchase(DSP):</li>
 				<li>FHA:</li>
 				<li>Listing Date:</li>
 				<li>Listing Price:</li>
-				<li>DOM:</li>
+				<li>Days On Market (DOM):</li>
 			  </ul>
 		   </div>
-		   <div class="col-sm-7">
+		   <div class="col-sm-5">
 			  <ul>
 				<li>{{property.purchase_close_date || 'Not Defined'}}</li>
 				<li>{{property.dsp || 'Not Defined'}}</li>
 				<li>{{property.fha || 'Not Defined'}}</li>
 				<li>{{property.listing_date || 'Not Defined'}}</li>
-				<li>{{property.list_price || 'Not Defined'}}</li>
+				<li>{{property.list_price}}</li>
                 <li>{{property.dom || 'Not Defined'}}</li>
 			  </ul>
 		   </div>
 	    </div>
         <a ng-click="linkToSingle(property)">
+		   <button class="btn btn-primary">View Listing</button>
+        </a>
+	</div>
+	<div ng-show="!isAdmin()" class="row public-listing-info-box" ng-repeat="property in filteredProperties = (properties | pidFilter: addInfo)" ng-show="property">
+	    <div class="row">
+	    	<h4>Listing Details: {{property.address}}</h4>
+	    	<div ng-show="property.listing_images" id="property-carousel" class="carousel slide">
+	          <ol class="carousel-indicators">
+	            <li ng-repeat="image in property.listing_images" data-target="#property-carousel" data-slide-to="{{$index}}" ng-class="{active: $first}"></li>
+	          </ol>
+	          <div class="carousel-inner" role="listbox">
+	            <div class="single-img item" ng-class="{active:$first}" ng-repeat="image in property.listing_images">
+	              <img class="img-responsive" ng-hide="!image" ng-src="../../../server/v1/uploads/{{image}}"/>
+	            </div>
+	          </div>
+	          <a class="left carousel-control" data-target="#property-carousel" role="button" data-slide="prev">
+	            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	            <span class="sr-only">Previous</span>
+	          </a>
+	          <a class="right carousel-control" data-target="#property-carousel" role="button" data-slide="next">
+	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	            <span class="sr-only">Next</span>
+	          </a>
+	        </div>
+	    </div>
+        <a ui-sref="listings.agent-offer({pid: property.pid})">
 		   <button class="btn btn-primary">View Listing</button>
         </a>
 	</div>

@@ -1,12 +1,18 @@
-<app-header></app-header><div class="breadcrumbs" id="breadcrumbs">
-  <ul class="breadcrumb">
-    <li><a ui-sref="properties">Properties</a></li>
-    <li><a ui-sref="properties.property.dashboard">{{s.address}}</a></li>
-    <li><a ui-sref="properties.property.listing">Manage Property</a></li>
-    <li class="active">Create V-Flyer Email</li>
-  </ul>
-</div>
-<div id="form-loading">
+<div class="row">
+  <div class="form-group edit-property-btn col-sm-12">
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.listing" ui-sref-opts="{reload:true}">
+     <i class="glyphicon glyphicon-arrow-left"></i> Back To Listing
+    </button>
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.new-offer" ui-sref-opts="{reload:true}">
+     Input New Offer
+    </button>
+    <button class="btn btn-primary col-xs-3" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
+     View Offers
+    </button>
+    <button class="btn btn-primary col-xs-3 active" ui-sref="properties.property.email" ui-sref-opts="{reload:true}">
+     Create V-Flyer
+    </button>
+  </div>
 </div>
 <div class="page-content">
     <div class="container">

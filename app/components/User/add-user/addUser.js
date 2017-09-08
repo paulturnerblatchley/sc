@@ -1,5 +1,5 @@
 app.component(
-	'addUser',  
+	'addUser',
 	{
     	bindings: {},
         templateUrl: 'app/components/User/add-user/add-user.html',
@@ -14,13 +14,13 @@ app.component(
 		        }).then(function (results) {
 		            auth.toast(results);
 		            if (results.status == "success") {
-		                $state.go('dashboard', {}, {reload: true});
+		                $state.go('settings', {}, {reload: true});
 		            }
 		        });
 		    };
 
 		    $scope.sections = sections.sections;
-		    
+
 		    $scope.getContractorType = function() {
 		    	$("#contractor_type").fadeIn();
 		    }

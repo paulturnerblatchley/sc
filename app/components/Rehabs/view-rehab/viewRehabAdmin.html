@@ -1,8 +1,7 @@
 <div class="row">
   <div class="info-table">
-    <div class="header-wrap">
       <div class="section-header col-xs-12">
-        <h4><i ng-click="toggle($event)" id="t11-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Planned Rehabs</h4>
+        <h4><i id="t1-toggle" class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t1"></i>Planned Rehabs</h4>
       </div>
       <div class="col-sm-6 rehab_table_header_dates">
         Start Date: <input ng-change="updateRehab(r,'rehabs', 'planned_start', r.planned_start)" class="invisible-form header_date" type="date" ng-model="r.planned_start">
@@ -10,9 +9,8 @@
       <div class="col-sm-6 rehab_table_header_dates">
         Finish Date: <input ng-change="updateRehab(r, 'rehabs', 'planned_finish', r.planned_finish)" class="invisible-form header_date" type="date" ng-model="r.planned_finish">
       </div>
-    </div>
     <div>
-      <table id="t11-toggle-table" class="list-details rehab-table table table-bordered">
+      <table id="t1" class="list-details rehab-table table table-bordered">
         <thead>
           <tr>
             <th>Rehab</th>
@@ -21,7 +19,7 @@
         </thead>
         <tbody>
           <tr>
-            <th>Start</th> 
+            <th>Start</th>
             <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_planned_start', v.planned_start)" class="invisible-form" type="date" ng-model="v.planned_start"></td>
           </tr>
           <tr>
@@ -43,9 +41,8 @@
 </div>
 <div class="row">
   <div class="info-table" >
-    <div class="header-wrap">
       <div class="section-header col-xs-12">
-        <h4><i ng-click="toggle($event)" id="t12-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Actual Rehabs</h4>
+        <h4><i id="t2-toggle"class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t2"></i>Actual Rehabs</h4>
       </div>
       <div class="col-sm-6 rehab_table_header_dates">
         Start Date: <input ng-change="updateRehab(r,'rehabs', 'actual_start', r.actual_start)" class="invisible-form header_date" type="date" ng-model="r.actual_start">
@@ -53,9 +50,8 @@
       <div class="col-sm-6 rehab_table_header_dates">
         Finish Date: <input ng-change="updateRehab(r,'rehabs', 'actual_finish', r.actual_finish)" class="invisible-form header_date" type="date" ng-model="r.actual_finish">
       </div>
-    </div>
     <div>
-      <table id="t12-toggle-table" class="list-details rehab-table table table-bordered">
+      <table id="t2" class="list-details rehab-table table table-bordered">
         <thead>
           <tr>
             <th>Rehab</th>
@@ -64,7 +60,7 @@
         </thead>
         <tbody>
           <tr>
-            <th>Start</th> 
+            <th>Start</th>
             <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_actual_start', v.actual_start)" class="invisible-form" type="date" ng-model="v.actual_start"></td>
           </tr>
           <tr>
@@ -73,7 +69,7 @@
           </tr>
           <tr>
             <th>Completion Percentage</th>
-            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_comp_perc', v.comp_perc)" class="invisible-form" type="text" ng-model="v.comp_perc""></td>
+            <td ng-repeat="(k,v) in r" ng-if="isValueAnArray(v)"><input ng-change="updateRehab(r,k, k + '_comp_perc', v.comp_perc)" class="invisible-form" type="text" ng-model="v.comp_perc"></td>
           </tr>
           <tr>
             <th>Cost</th>
@@ -92,11 +88,11 @@
   <div class="info-table">
     <div class="section-header col-xs-12">
       <h4>
-        <i ng-click="toggle($event)" id="t10-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Rehab Gantt Chart
+        <i id="t3-toggle" class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t3"></i>Rehab Gantt Chart
       </h4>
     </div>
-    <div  id="t10-toggle-table" 
-          gantt 
+    <div  id="t3"
+          gantt
           data=data
           sort-mode="options.sortMode"
           api="registerApi">

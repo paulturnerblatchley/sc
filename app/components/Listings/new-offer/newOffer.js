@@ -10,12 +10,13 @@ app.component(
             else               return 'app/components/User/login/login.html'
         },
         controller: function($scope, auth, $http, singleproperty, $state) {
-        	
+
             $scope.s = singleproperty.property;
-            
-            $scope.offer = {'pid': '', 'buyer': '', 'financing': '', 'closing': 'days', 'deposit': '', 'offer_price': '', 'closing_costs': '', 'counter': '', 'hoa': '', 'home_warranty': '', 'title': '', 'escrow': '', 'termite': '', 'nhd': '', 'septic': '', 'co_fees': '', 'city_fees': '', 'fico': '', 'pof': '', 'other_terms': '', 'notes': ''};
-            $scope.enroll = {first_name: '', last_name: '', email:'', phone:'', bre: '', mls_id: '', early_showing: '', open_house: '', sb: '', riv: '', la: '', sd: ''};
+
+            $scope.offer = {'pid': '', 'buyer': '', 'financing': '', 'closing': 'days', 'deposit': '0', 'offer_price': '0', 'closing_costs': '0', 'counter': '0', 'hoa': '0', 'home_warranty': '0', 'title': '', 'escrow': '', 'termite': '', 'nhd': '', 'septic': '', 'co_fees': '', 'city_fees': '', 'fico': '', 'pof': '', 'other_terms': '', 'notes': ''};
+            $scope.agent = {first_name: '', last_name: '', email:'', phone:'', bre: '', mls_id: '', early_showing: '', open_house: '', sb: '0', riv: '0', la: '0', sd: '0'};
             $scope.newOffer = function(offer,agent) {
+							console.log(offer,agent);
                 offer.pid = $scope.s.pid;
 
                 $("#loading").css("display", "block");
@@ -42,4 +43,4 @@ app.component(
             }
         }
 	}
-); 
+);

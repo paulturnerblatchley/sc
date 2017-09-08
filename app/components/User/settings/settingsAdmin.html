@@ -1,21 +1,23 @@
 <app-header></app-header>
-<!-- Dashboard Template -->
+<!-- settings Template -->
 <div class="breadcrumbs" id="breadcrumbs">
     <ul class="breadcrumb">
         <li class="active">Settings</li>
     </ul>
 </div>
 <div class="page-content">
-    <h1>Settings</h1>
-    <hr>
+  <div class="container">
+    <div class="page-header">
+        <h1>Settings</h1>
+    </div>
     <div class="container">
         <div class="row view-settings">
             <div class="col-sm-9">
                 <div class="row settings">
                     <div class="page-header">
-                       <h2><i id="t1-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Column Visibility</h2>
+                       <h2><i id="t1-toggle" class="glyphicon glyphicon-chevron-up flip" toggle target="t1"></i>Column Visibility</h2>
                     </div>
-                    <div id="t1-toggle-table" class="form-horizontal collapse">
+                    <div id="t1" class="form-horizontal collapse">
                         <div class="col-sm-4 column-toggle" ng-repeat="column in columns">
                             <div class="col-xs-9">
                                 <h5>{{column.displayName}}</h5>
@@ -29,27 +31,29 @@
                                     </label>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row settings">
                     <div class="page-header">
-                        <h2><i id="t2-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Pro Forma Defaults</h2>
+                       <h2><i id="t2-toggle" class="glyphicon glyphicon-chevron-up flip" toggle target="t2"></i>Pro Forma Defaults</h2>
                     </div>
-                    <div id="t2-toggle-table" class="form-horizontal collapse">
-                        <div class="form-group" ng-repeat="(k,v) in prodef">
-                            <label class="col-sm-4 control-label no-padding-right" for="{{k}}"><h5>{{k}}</h5></label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" placeholder="{{k}}" name="{{k}}" ng-model="v" ng-change="changeProformaDefault(k,v)"/>
+                    <div id="t2" class="form-horizontal collapse">
+                        <div class="col-sm-4 column-toggle" ng-repeat="(k,v) in prodef">
+                            <label class="col-xs-8" for="{{k}}"><h5>{{k}}</h5></label>
+                            <div class="col-xs-4">
+                                <div class="pull-right">
+                                    <input type="text" class="form-control" placeholder="{{k}}" name="{{k}}" ng-model="v" ng-change="changeProformaDefault(k,v)"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row partners-list">
                     <div class="page-header">
-                        <h2><i id="t3-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Partners</h2>
+                        <h2><i id="t3-toggle"class="glyphicon glyphicon-chevron-up flip" toggle target="t3"></i>Partners</h2>
                     </div>
-                    <div id="t3-toggle-table" class="row collapse">
+                    <div id="t3" class="row collapse">
                         <div class="col-sm-3">
                             <table class="table table-bordered">
                                 <thead>
@@ -63,7 +67,7 @@
                                     <tr ng-repeat="lender in lenders">
                                         <td colspan="2">
                                             {{lender.lender}}
-                                            <i ng-click="deletePartner(lender)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(lender)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -88,7 +92,7 @@
                                     <tr ng-repeat="entity in entity_vesting">
                                         <td colspan="2">
                                             {{entity.entity}}
-                                            <i ng-click="deletePartner(entity)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(entity)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -113,7 +117,7 @@
                                     <tr ng-repeat="supervisor in supervisors">
                                         <td colspan="2">
                                             {{supervisor.supervisor}}
-                                            <i ng-click="deletePartner(supervisor)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(supervisor)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -138,7 +142,7 @@
                                     <tr ng-repeat="manager in asset_managers">
                                         <td colspan="2">
                                             {{manager.manager}}
-                                            <i ng-click="deletePartner(manager)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(manager)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -154,9 +158,9 @@
                 </div>
                 <div class="row tasks-list">
                     <div class="page-header">
-                        <h2><i id="t4-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down" ></i>Tasks &amp; Sections</h2>
+                        <h2><i id="t4-toggle" class="glyphicon glyphicon-chevron-up flip" toggle target="t4"></i>Tasks &amp; Sections</h2>
                     </div>
-                    <div id="t4-toggle-table" class="row collapse">
+                    <div id="t4" class="row collapse">
                         <div class="col-sm-6">
                             <table class="table table-bordered">
                                 <thead>
@@ -175,7 +179,7 @@
                                 <tbody>
                                     <tr class="task-row" ng-repeat="task in tasks | unique:'task_name'">
                                         <td class="danger task-delete">
-                                            <i ng-click="deletePartner(task)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(task)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                         <td class="task-name">
                                             {{task.task_name}}
@@ -211,7 +215,7 @@
                                     <tr ng-repeat="section in sections | unique:'name'">
                                         <td colspan="2">
                                             {{section.name}}
-                                            <i ng-click="deletePartner(section)" class="partner-delete glyphicon glyphicon-remove" ></i>
+                                            <i ng-click="delete(section)" class="partner-delete glyphicon glyphicon-remove" ></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -242,6 +246,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 <app-footer></app-footer>

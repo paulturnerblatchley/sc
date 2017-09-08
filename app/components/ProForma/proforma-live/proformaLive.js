@@ -14,7 +14,7 @@ app.component(
         controller: function($scope, auth, $http, singleproperty, proforma) {
             $("#live").addClass("active"); // set live tab as active
 
-            // 
+            //
             $('.table>tbody>tr>td>.invisible-form').parent().css({
                 'background-color': '#fff',
                 'padding': '0',
@@ -23,7 +23,7 @@ app.component(
             $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
 
             this.$onInit = function() {
-                
+
                 $scope.s = singleproperty.property;
                 // get proforma data from container component
                 $scope.proforma = this.proforma;
@@ -31,7 +31,7 @@ app.component(
                 $scope.addPurchaseCost = function(item) {
                     var cost = {};
                     for ( i in item ) {
-                        cost.pid = $scope.s.pid; 
+                        cost.pid = $scope.s.pid;
                         cost.category = i;
                         cost.description = item[i].description;
                         cost.cost = item[i].cost;
@@ -54,7 +54,7 @@ app.component(
                 $scope.addSellingCost = function(item) {
                     var cost = {};
                     for ( i in item ) {
-                        cost.pid = $scope.s.pid; 
+                        cost.pid = $scope.s.pid;
                         cost.category = i;
                         cost.description = item[i].description;
                         cost.cost = item[i].cost;

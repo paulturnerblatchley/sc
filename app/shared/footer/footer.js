@@ -6,12 +6,12 @@ app.component(
         controller: function($scope, $state) {
         	$scope.currState = $state;
 
-        	$scope.$watch('currState.current.name', function(newValue, oldValue) {
+        	$scope.$watch('currState.current.name', function(newValue) {
         		if (newValue == "home") {
 	        		$("app-footer").hide();
 	        	}
         	});
-        	
+
         }
 	}
-); 
+);

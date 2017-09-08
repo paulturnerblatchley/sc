@@ -11,7 +11,7 @@
           display: none!important;
       }
     </style>
-    
+
     <!-- inject-vendor:css -->
     <link href="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-grid/4.0.4/ui-grid.min.css" type="text/css"/>
@@ -21,14 +21,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/2.1.0/toaster.min.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
 
-    <!-- inject-fonts -->
+    <!-- inject:fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i|Open+Sans:300,400,700" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+
+    <!-- inject:favicon -->
+    <link href="favicon.png" rel="icon" type="image/png">
     <!-- endinject -->
 
     <!-- inject:css -->
     <link href="/assets/css/custom.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]><link href= "css/bootstrap-theme.css"rel= "stylesheet" >
@@ -38,7 +42,7 @@
     <base href="/">
   </head>
   <body class="{{bodylayout}}" ng-cloak>
-    <loading></loading>  
+    <loading></loading>
     <ui-view autoscroll="true"></ui-view>
     <toaster-container toaster-options="{'time-out': 2000}"></toaster-container>
     <div id="back-to-top">
@@ -92,7 +96,7 @@
     <script src="app/shared/comments/commentsFactory.js"></script>
     <script src="app/components/ProForma/proFormaFactory.js"></script>
     <script src="app/components/Listings/offers/offersFactory.js"></script>
-    <script src="app/components/User/dashboard/partnersFactory.js"></script>
+    <script src="app/components/User/settings/partnersFactory.js"></script>
     <!-- endinject -->
 
     <!-- inject-shared:js -->
@@ -110,7 +114,7 @@
 
     <!-- inject-components:js -->
     <!-- User Pages -->
-    <script src="app/components/User/dashboard/dashboard.js"></script>
+    <script src="app/components/User/settings/settings.js"></script>
     <script src="app/components/User/login/login.js"></script>
     <script src="app/components/User/add-user/addUser.js"></script>
     <!-- Property Pages -->
@@ -118,7 +122,6 @@
     <script src="app/components/Properties/view-property/viewProperty.js"></script>
     <script src="app/components/Properties/dashboard/propertyDashboard.js"></script>
     <script src="app/components/Properties/new-property/newProperty.js"></script>
-    <script src="app/components/Properties/property-email/propertyEmail.js"></script>
     <!-- Asset Stats Page  -->
     <script src="app/components/Stats/assetStats.js"></script>
     <!-- Pro Forma Page -->
@@ -140,12 +143,13 @@
     <script src="app/components/Listings/agent-offer/agentOffer.js"></script>
     <script src="app/components/Listings/offers/offers.js"></script>
     <script src="app/components/Listings/edit-offer/editOffer.js"></script>
+    <script src="app/components/Listings/property-email/propertyEmail.js"></script>
     <!-- Escrow Pages -->
     <script src="app/components/Escrows/escrows/escrows.js"></script>
     <script src="app/components/Escrows/manage-escrow/manageEscrow.js"></script>
     <!-- Agent Pages -->
     <script src="app/components/Agents/agent-enroll/agentEnroll.js"></script>
     <script src="app/components/Agents/agent-list/agentList.js"></script>
-    <!-- endinject -->  
+    <!-- endinject -->
   </body>
 </html>

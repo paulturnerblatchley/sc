@@ -6,7 +6,11 @@ app.factory("sections", ['$http',
         };
 
         o.getSections = function(q) {
-          return $http.get(serviceBase + q).then(function(results) {
+          return $http({
+            url: serviceBase + q,
+            method: "GET",
+            params: {table: "sections"}
+          }).then(function(results) {
             for (i = 0; i < results.data.length; i++) {
                 o.sections.push({
                     id: results.data[i].id,

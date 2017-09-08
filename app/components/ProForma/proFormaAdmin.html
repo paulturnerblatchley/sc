@@ -1,15 +1,21 @@
 <div class="proforma">
   <div class="row">
     <div class="form-group edit-property-btn col-sm-12">
-      <button id="projected" class="btn btn-primary col-xs-4" ng-click="setProjected(proforma)">
-       Set Projected
-      </button>
-      <button id="live" class="btn btn-primary col-xs-4" ng-click="seeLive()">
-       Live
-      </button>
-      <button id="actual" class="btn btn-primary col-xs-4" ng-click="setActual(proforma)">
-       Set Actual
-      </button>
+      <div class="col-xs-4">
+        <button id="projected" class="btn btn-primary" ng-click="setProjected(proforma)">
+         Set Projected
+        </button>
+      </div>
+      <div class="col-xs-4">
+        <button id="live" class="btn btn-primary" ng-click="seeLive()">
+         Live
+        </button>
+      </div>
+      <div class="col-xs-4">
+        <button id="actual" class="btn btn-primary" ng-click="setActual(proforma)">
+         Set Actual
+        </button>
+      </div>
     </div>
   </div>
   <ui-view></ui-view>

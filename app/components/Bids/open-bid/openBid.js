@@ -1,5 +1,5 @@
 app.component(
-	'openBid', 
+	'openBid',
 	{
 		bindings: {},
 	    templateUrl: function($sessionStorage) {

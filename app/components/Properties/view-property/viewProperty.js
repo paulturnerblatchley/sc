@@ -33,7 +33,8 @@ app.component(
                 $("#dashboard").addClass("active");
             }
             $scope.s = singleproperty.property;
-            
+						$scope.fAddress = $scope.s.address.replace(/ /g, "-");
+
             $scope.updateProperty = function(s) {
                 $("#form-loading").css("display", "block");
                 var f = document.getElementById('file').files;
@@ -136,4 +137,4 @@ app.component(
             }
         }
 	}
-); 
+);

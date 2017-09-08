@@ -1,5 +1,5 @@
 app.component(
-	'manageEscrow', 
+	'manageEscrow',
 	{
 		bindings: {},
 	    templateUrl: function($sessionStorage) {
@@ -22,15 +22,15 @@ app.component(
                         $scope.offer = offers.offers[i];
                         $scope.offer.commission = (($scope.offer.offer_price*1) * ($scope.proforma.commission_percent/100)).toFixed(0)
                         $scope.offer.net_offer = (($scope.offer.offer_price*1) - ($scope.offer.commission*1) - ($scope.offer.closing_costs*1) + ($scope.offer.counter*1)).toFixed(0)
-                        break;                    
+                        break;
                   }
             }
-            
+
             // Pretty Dates
             $scope.s.offer_accept = moment($scope.s.offer_accept).format('LL');
-            $scope.s.sale_close_date = ($scope.s.sale_close_date == '') ? '0000-00-00' : $scope.s.sale_close_date; 
+            $scope.s.sale_close_date = ($scope.s.sale_close_date == '') ? '0000-00-00' : $scope.s.sale_close_date;
 
-            // Get Escrow Progress     
+            // Get Escrow Progress
             $scope.progress = {};
             $scope.progress = escrow.progress;
 
@@ -40,7 +40,7 @@ app.component(
             delete $scope.forms.id;
             delete $scope.forms.pid;
 
-            $scope.saveEscrowChanges = function(pid,day,task_name,task_obj,task_value) {   	
+            $scope.saveEscrowChanges = function(pid,day,task_name,task_obj,task_value) {
             	var escrow = {};
             	escrow.pid = pid;
             	escrow.day = day;
@@ -58,7 +58,7 @@ app.component(
             		delete escrow.date;
             		delete escrow.status;
             	}
-				
+
                 auth.post('escrow', {
             		escrow: escrow
             	}).then( function(results) {
@@ -91,7 +91,7 @@ app.component(
                   });
             }
 
-            $scope.toggle = function(event) {
+            /*$scope.toggle = function(event) {
                 var t = $(event.target);
                 var id = t[0].id;
                 if (t.hasClass("glyphicon-minus")) {
@@ -103,7 +103,21 @@ app.component(
                     t.removeClass("glyphicon-plus");
                     t.addClass("glyphicon-minus");
                 }
+            }*/
+
+						$scope.toggle = function(event) {
+                var t = $(event.target);
+                var id = t[0].id;
+                if (t.hasClass("glyphicon-chevron-up")) {
+                    $("#" + id + "-table").addClass("collapse");
+                    t.removeClass("glyphicon-chevron-up");
+                    t.addClass("glyphicon-chevron-down");
+                } else {
+                    $("#" + id + "-table").removeClass("collapse");
+                    t.removeClass("glyphicon-chevron-down");
+                    t.addClass("glyphicon-chevron-up");
+                }
             }
 	    }
 	}
-); 
+);

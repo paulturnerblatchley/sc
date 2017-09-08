@@ -6,7 +6,11 @@ app.factory("tasks", ['$http',
         };
 
         o.getTasks = function(q) {
-          return $http.get(serviceBase + q).then(function(results) {
+          return $http({
+            url: serviceBase + q,
+            method: "GET",
+            params: {table: "tasks"}
+          }).then(function(results) {
             for (i = 0; i < results.data.length; i++) {
                 o.tasks.push(results.data[i]);
             }

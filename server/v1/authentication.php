@@ -1,4 +1,5 @@
 <?php
+
 $app->get('/session', function() use ($app) {
     $db = new DbHandler();
     $session = $db->getSession();
@@ -108,6 +109,16 @@ $app->get('/logout', function() {
     echoResponse(200, $response);
 });
 
+/**
+ * Gets all the data from a specified DB table and returns it
+ **/
+$app->get('/table', function() use ($app) {
+  $db = new DbHandler();
+  $table = $app->request()->params('table');
+  $data = $db->getTable($table);
+  echoResponse(200, $data);
+});
+
 $app->post('/properties', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -198,13 +209,6 @@ $app->post('/changeSettings', function() use ($app) {
 /*
  * PROFORMA
 ***************/
-$app->get('/defaultProForma', function() use ($app) {
-  $db = new DbHandler();
-  $table = "proforma_defaults";
-  $defaults = $db->getTable($table);
-  echoResponse(200, $defaults);
-});
-
 $app->post('/changeProformaDefaults', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -222,13 +226,6 @@ $app->post('/changeProformaDefaults', function() use ($app) {
         $response["message"] = "Couldn't change setting. Please refresh and try again.";
         echoResponse(201, $response);
     }
-});
-
-$app->get('/purchaseCosts', function() use ($app) {
-  $db = new DbHandler();
-  $table = "purchase_closing_costs";
-  $costs = $db->getTable($table);
-  echoResponse(200, $costs);
 });
 
 $app->post('/addPurchaseCost', function() use ($app) {
@@ -251,13 +248,6 @@ $app->post('/addPurchaseCost', function() use ($app) {
         $response["message"] = "Couldn't add item. Please try again later.";
         echoResponse(201, $response);
     }
-});
-
-$app->get('/sellingCosts', function() use ($app) {
-  $db = new DbHandler();
-  $table = "selling_closing_costs";
-  $costs = $db->getTable($table);
-  echoResponse(200, $costs);
 });
 
 $app->post('/addSellingCost', function() use ($app) {
@@ -302,13 +292,6 @@ $app->post('/changePropValue', function() use ($app) {
     }
 });
 
-$app->get('/projectedProForma', function() use ($app) {
-  $db = new DbHandler();
-  $table = "proforma_projected";
-  $proforma = $db->getTable($table);
-  echoResponse(200, $proforma);
-});
-
 $app->post('/setProjected', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -342,13 +325,6 @@ $app->post('/setProjected', function() use ($app) {
         $response["message"] = "Couldn't Save Projection, please try again later.";
         echoResponse(201, $response);
     }
-});
-
-$app->get('/actualProForma', function() use ($app) {
-  $db = new DbHandler();
-  $table = "proforma_actual";
-  $proforma = $db->getTable($table);
-  echoResponse(200, $proforma);
 });
 
 $app->post('/setActual', function() use ($app) {
@@ -386,13 +362,6 @@ $app->post('/setActual', function() use ($app) {
     }
 });
 
-$app->get('/proforma', function() use ($app) {
-  $db = new DbHandler();
-  $table = "proforma";
-  $proforma = $db->getTable($table);
-  echoResponse(200, $proforma);
-});
-
 $app->post('/changeProforma', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -407,7 +376,7 @@ $app->post('/changeProforma', function() use ($app) {
     } else {
         $db->initProformaTableRow($pid);
         $result = $db->updateRow($table, $column, $value, 'pid', $pid);
-    }    
+    }
     if ($result != NULL) {
         $response["status"] = "success";
         $response["message"] = "Property Updated.";
@@ -423,14 +392,6 @@ $app->post('/changeProforma', function() use ($app) {
 /*
  * PROPERTIES
 **************/
-
-$app->get('/properties', function() use ($app) {
-  $db = new DbHandler();
-  $table = "properties";
-  $properties = $db->getTable($table);
-  echoResponse(200, $properties);
-});
-
 $app->get('/propertyImages', function() use ($app) {
   $db = new DbHandler();
   $table = "images";
@@ -676,23 +637,6 @@ $app->post('/deleteProperty', function() use ($app){
   }
 });
 
-$app->post('/deleteComment', function() use ($app){
-  $db = new DbHandler();
-  $r = json_decode($app->request->getBody());
-  $comment_id = $r->comment->comment_id;
-  $table = "comments";
-  $result = $db->deleteItem($table,'comment_id',$comment_id);
-  if ($result != NULL) {
-    $response["status"] = "success";
-    $response["message"] = "Comment has been deleted";
-    echoResponse(200, $response);
-  } else {
-    $response["status"] = "error";
-    $response["message"] = "Comment failed to delete. Please try again.";
-    echoResponse(201, $response);
-  }
-});
-
 $app->post('/deleteOffer', function() use ($app){
   $db = new DbHandler();
   $r = json_decode($app->request->getBody());
@@ -791,31 +735,9 @@ $app->post('/comments', function() use ($app) {
         echoResponse(201, $response);
     }
 });
-
-$app->get('/comments', function() use ($app) {
-  $db = new DbHandler();
-  $table = "comments";
-  $comments = $db->getTable($table);
-  echoResponse(200, $comments);
-});
-
-$app->get('/users', function() use ($app) {
-  $db = new DbHandler();
-  $table = "users";
-  $users = $db->getTable($table);
-  echoResponse(200, $users);
-});
-
 /*
  * Bids
  *******/
-$app->get('/sections', function() use ($app) {
-  $db = new DbHandler();
-  $table = "sections";
-  $sections = $db->getTable($table);
-  echoResponse(200, $sections);
-});
-
 $app->post('/addSection', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -834,13 +756,6 @@ $app->post('/addSection', function() use ($app) {
         $response["message"] = "Failed to create section. Please try again";
         echoResponse(201, $response);
     }
-});
-
-$app->get('/tasks', function() use ($app) {
-  $db = new DbHandler();
-  $table = "tasks";
-  $tasks = $db->getTable($table);
-  echoResponse(200, $tasks);
 });
 
 $app->post('/addTask', function() use ($app) {
@@ -918,14 +833,6 @@ $app->post('/bids', function() use ($app) {
 /*
 * LISTINGS
 ******/
-
-$app->get('/getOffers', function() use ($app) {
-    $db = new DbHandler();
-    $table = "offers";
-    $offers = $db->getTable($table);
-    echoResponse(200, $offers);
-});
-
 $app->post('/newOffer', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -1026,7 +933,7 @@ $app->post('/escrow', function() use ($app) {
             if (property_exists($r->escrow, "date")) {
                 $date = $r->escrow->date;
                 $task_name_date = $task_name . "_date";
-                $result = $db->changeSettings($escrow_id,$where, $task_name_date, $date, $day_table);  
+                $result = $db->changeSettings($escrow_id,$where, $task_name_date, $date, $day_table);
             } else if (property_exists($r->escrow, "inspection")) {
                 $inspection = $r->escrow->inspection;
                 $home_inspect = "home_inspect";
@@ -1034,9 +941,9 @@ $app->post('/escrow', function() use ($app) {
             } else if (property_exists($r->escrow, "status")) {
                 $status = $r->escrow->status;
                 $result = $db->changeSettings($escrow_id,$where, $task_name, $status, $day_table);
-            }            
+            }
         }
-        
+
         if ($result != NULL) {
             $response["status"] = "success";
             echoResponse(200, $response);
@@ -1083,16 +990,7 @@ $app->post('/saveEscrowForm', function() use ($app) {
         $response["message"] = "Rejected. Try again later.";
         echoResponse(201, $response);
     }
-
 });
-
-$app->get('/escrowForms', function() use ($app) {
-  $db = new DbHandler();
-  $table = 'escrow_forms';
-  $forms = $db->getTable($table);
-  echoResponse(200, $forms);
-});
-
 /*
 * AGENTS
 ******/
@@ -1135,13 +1033,6 @@ $app->post('/enroll', function() use ($app) {
         $response["agent_id"] = $agent_id;
         echoResponse(201, $response);
     }
-});
-
-$app->get('/agents', function() use ($app) {
-  $db = new DbHandler();
-  $table = "agents";
-  $agents = $db->getTable($table);
-  echoResponse(200, $agents);
 });
 
 $app->post('/sendEmail', function() use ($app) {
@@ -1217,7 +1108,7 @@ $app->post('/sendEmail', function() use ($app) {
         $message .= '<li><b style="font-weight:bold">Baths:</b> ' . $baths . '</li>';
         $message .= '<li><b style="font-weight:bold">Year Built:</b> ' . $year_built . '</li>';
         $message .= '<li><b style="font-weight:bold">Lot Size: </b>' . $lotsize . '</li>';
-        $message .= '<li><b style="font-weight:bold">School District:</b> ' . $school_district . '</li>';  
+        $message .= '<li><b style="font-weight:bold">School District:</b> ' . $school_district . '</li>';
         $message .= '<li><b style="font-weight:bold">Broker:</b> ' . $broker . '</li>';
         $message .= '</ul>';
         $message .= '</p>';
@@ -1268,7 +1159,7 @@ $app->post('/sendEmail', function() use ($app) {
         } else {
             $success = false;
         }
-           
+
     }
     if ($success) {
         $response["status"] = "success";
@@ -1310,34 +1201,6 @@ $app->post('/zillow', function() use ($app) {
 /*
 * PARTNERS
 ******/
-$app->get('/getLenders', function() use ($app) {
-    $db = new DbHandler();
-    $table = "lenders";
-    $lenders = $db->getTable($table);
-    echoResponse(200, $lenders);
-});
-
-$app->get('/getEntityVesting', function() use ($app) {
-    $db = new DbHandler();
-    $table = "entity_vesting";
-    $entity_vesting = $db->getTable($table);
-    echoResponse(200, $entity_vesting);
-});
-
-$app->get('/getSupervisors', function() use ($app) {
-    $db = new DbHandler();
-    $table = "supervisors";
-    $supervisors = $db->getTable($table);
-    echoResponse(200, $supervisors);
-});
-
-$app->get('/getAssetManagers', function() use ($app) {
-    $db = new DbHandler();
-    $table = "asset_managers";
-    $asset_managers = $db->getTable($table);
-    echoResponse(200, $asset_managers);
-});
-
 $app->post('/addPartner', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
@@ -1357,13 +1220,13 @@ $app->post('/addPartner', function() use ($app) {
     }
 });
 
-$app->post('/deletePartner', function() use ($app) {
+$app->post('/deleteItem', function() use ($app) {
     $response = array();
     $r = json_decode($app->request->getBody());
     $db = new DbHandler();
-    $table = $r->partner->table;
-    $column = $r->partner->column;
-    $value = $r->partner->value;
+    $table = $r->item->table;
+    $column = $r->item->column;
+    $value = $r->item->value;
     $result = $db->deleteItem($table, $column, $value);
     if ($result) {
         $response["status"] = "success";
@@ -1396,24 +1259,4 @@ $app->post('/updateValue', function() use ($app) {
         echoResponse(201, $response);
     }
 });
-
-$app->post('/deleteRow', function() use ($app) {
-    $response = array();
-    $r = json_decode($app->request->getBody());
-    $db = new DbHandler();
-    $table = $r->row->table;
-    $column = $r->row->column;
-    $value = $r->row->value;
-    $result = $db->deleteItem($table, $column, $value);
-    if ($result) {
-        $response["status"] = "success";
-        $response["message"] = "Successfully Deleted";
-        echoResponse(200, $response);
-    } else {
-        $response["status"] = "error";
-        $response["message"] = "Failed to delete. Please try again";
-        echoResponse(201, $response);
-    }
-});
-
 ?>

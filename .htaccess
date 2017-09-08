@@ -1,9 +1,7 @@
-RewriteEngine On 
+RewriteEngine On
 Options FollowSymLinks
 
 RewriteBase /
-
-AddType text/css .css
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

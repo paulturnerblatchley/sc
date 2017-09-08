@@ -6,19 +6,21 @@
     <li class="active">Manage Property</li>
   </ul>
 </div>
-<div class="page-content">    
+<div class="page-content">
   <div class="row">
     <h1 class="col-sm-10">{{s.address}}, {{s.city}}, CA {{s.zip}}</h1>
   </div>
-    <ul class="nav nav-tabs">
-      <li id="dashboard" role="presentation" class="active" ng-click="changeTab($event)"><a ui-sref="properties.property.dashboard" ui-sref-opts="{reload:true}">Dashboard</a></li>
-      <li id="proforma" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.proforma.live" ui-sref-opts="{reload:true}">Pro Forma</a></li>
-      <li id="bids" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.bids" ui-sref-opts="{reload:true}">Bids</a></li>
-      <li id="rehab" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.rehab" ui-sref-opts="{reload:true}">Rehab</a></li>
-      <li id="listing" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.listing" ui-sref-opts="{reload:true}">Listing</a></li>
-      <li id="escrow" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.escrow({pid: s.pid})" ui-sref-opts="{reload:true}">Escrow</a></li>
-      <li id="comments" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.comments" ui-sref-opts="{reload:true}">Comments</a></li>
-    </ul>
-  <ui-view></ui-view>
+  <ul class="nav nav-tabs">
+    <li id="dashboard" role="presentation" class="active" ng-click="changeTab($event)"><a ui-sref="properties.property.dashboard({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Dashboard</a></li>
+    <li id="proforma" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.proforma.live({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Pro Forma</a></li>
+    <li id="bids" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.bids({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Bids</a></li>
+    <li id="rehab" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.rehab({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Rehab</a></li>
+    <li id="listing" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.listing({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Listing</a></li>
+    <li id="escrow" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.escrow({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Escrow</a></li>
+    <li id="comments" role="presentation" ng-click="changeTab($event)"><a ui-sref="properties.property.comments({pid: s.pid, address: fAddress})" ui-sref-opts="{reload:true}">Comments</a></li>
+  </ul>
+  <div class="viewport clearfix">
+    <ui-view></ui-view>
+  </div>
 </div>
 <app-footer></app-footer>

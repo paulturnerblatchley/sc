@@ -11,10 +11,21 @@
             submittedBids: []
         };
 
-        o.getOpenBids = function(q) {
+        /*
+         * Searches through all open bids to find bids
+         * related to select property
+         ***/
+        o.getOpenBids = function(q, pid) {
           return $http.get(serviceBase + q).then(function(results) {
-            o.openBids = [];
+            var pidBids = [];
             for (i = 0; i < results.data.length; i++) {
+              if (results.data[i].bid_pid == pid) {
+                pidBids.push(results.data[i]);
+              }
+            }
+
+            o.openBids = [];
+            for (i = 0; i < pidBids.length; i++) {
                 if (!o.openBids[i]) {
                     o.openBids[i] = {
                         bid_id: '',
@@ -23,11 +34,11 @@
                     };
                     for (j = 0; j < o.openBids.length; j++) {
                         if (!o.openBids[j].bid_id) {
-                            o.openBids[i].bid_id = results.data[i].bid_id;
-                            o.openBids[i].bid_num = results.data[i].bid_num;
-                            o.openBids[i].bid_pid = results.data[i].bid_pid;
-                            o.openBids[i].bid_total_cost = results.data[i].bid_total_cost;
-                            o.openBids[i].name = results.data[i].name;
+                            o.openBids[i].bid_id = pidBids[i].bid_id;
+                            o.openBids[i].bid_num = pidBids[i].bid_num;
+                            o.openBids[i].bid_pid = pidBids[i].bid_pid;
+                            o.openBids[i].bid_total_cost = pidBids[i].bid_total_cost;
+                            o.openBids[i].name = pidBids[i].name;
                         }
                     }
                 }
@@ -53,7 +64,7 @@
                         task_cost: results.data[i].task_cost,
                         task_total: results.data[i].task_total
                     });
-                }  
+                }
             }
           });
         };

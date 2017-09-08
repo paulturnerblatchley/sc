@@ -1,18 +1,18 @@
-<ng-map 
-    id="property-map" 
-    class="prop-map" 
-    zoom-to-include-markers="auto" 
-    zoom="12" 
+<ng-map
+    id="property-map"
+    class="prop-map"
+    zoom-to-include-markers="auto"
+    zoom="12"
     maximum-zoom="14"
-    center="34.1422725,-117.30587750000001" 
-    default-style="false" 
+    center="34.1422725,-117.30587750000001"
+    default-style="false"
     styles='[
         {   "featureType": "water",
             "elementType": "geometry.fill",
             "stylers": [
                 {"color": "#d3d3d3"}
             ]
-        }, 
+        },
         {   "featureType": "transit",
             "stylers": [
                 {"color": "#808080"},
@@ -123,11 +123,11 @@
         }
     ]'
 >
-    <marker 
-        id="pin{{property.pid}}" 
-        ng-repeat="property in properties" 
-        position="{{property.latlng}}" 
-        on-click="showDetails(property.pid,property.latlng)" 
+    <marker
+        id="pin{{property.pid}}"
+        ng-repeat="property in properties"
+        position="{{property.latlng}}"
+        on-click="showDetails(property.pid,property.latlng)"
         icon="{
             url:'../assets/img/map-pin_{{property.phase}}.png',
             scaledSize:[20,32],

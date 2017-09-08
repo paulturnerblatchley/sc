@@ -98,19 +98,23 @@
                         <thead>
                           <tr>
                             <th colspan="2">
-                              <i id="t{{$index}}-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-down">Details</i> 
+                              <i id="t{{$index}}-toggle" class="glyphicon glyphicon-chevron-up flip" toggle target="t{{$index}}"></i> Details
                             </th>
                           </tr>
                         </thead>
-                        <tbody  id="t{{$index}}-toggle-table" class="collapse">
-                        <tr>
-                          <td class="col-sm-4">Quantity</td>
-                          <td class="col-sm-8"> <input class="invisible-form" type="text" ng-model="task.qty" ng-change="recalculateCosts()"  ng-model-options='{ debounce: 600 }'></td>
-                        </tr>
-                        <tr>
-                          <td class="col-sm-4">Description</td>
-                          <td class="col-sm-8"><textarea class="invisible-form" ng-model="task.description"></textarea></td>
-                        </tr>
+                        <tbody  id="t{{$index}}" class="collapse">
+                          <tr>
+                            <td class="col-sm-4">Quantity</td>
+                            <td class="col-sm-8">
+                              <input class="invisible-form" type="text" ng-model="task.qty" ng-change="recalculateCosts()" ng-model-options='{ debounce: 600 }'>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="col-sm-4">Description</td>
+                            <td class="col-sm-8">
+                              <textarea class="invisible-form" ng-model="task.description"></textarea>
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                       </li>

@@ -49,7 +49,7 @@ app.component(
                 } else {
                     return costs;
                 }
-                
+
                 return costs;
             }
 
@@ -99,7 +99,7 @@ app.component(
             $scope.proforma.sales_costs = (($scope.proforma.selling_closing_costs.total*1) + ($scope.proforma.buyer_contribution*1) + ($scope.proforma.tca*1) + ($scope.proforma.commission*1)).toFixed(0);
             $scope.proforma.est_cost = (($scope.proforma.pre_sale_costs*1) + ($scope.proforma.sales_costs*1)).toFixed(0);
             $scope.proforma.pocket = (($scope.proforma.pre_sale_costs*1) - ($scope.proforma.loan_amount*1)).toFixed(0)
-            $scope.proforma.tetakawi_pocket = (($scope.proforma.pocket*1) - ($scope.proforma.jeremy_pocket*1) - ($scope.proforma.codrin_pocket*1)).toFixed(0) 
+            $scope.proforma.tetakawi_pocket = (($scope.proforma.pocket*1) - ($scope.proforma.jeremy_pocket*1) - ($scope.proforma.codrin_pocket*1)).toFixed(0)
             $scope.proforma.profit = (($scope.proforma.arv*1) - ($scope.proforma.est_cost*1)).toFixed(0);
             $scope.proforma.tetakawi_profit = (($scope.proforma.profit*1) * ($scope.proforma.tetakawi_share_percent/100)).toFixed(0);
             $scope.proforma.jeremy_percent = ((($scope.proforma.profit_share*1) - ($scope.proforma.tetakawi_share_percent*1))/2).toFixed(2);
@@ -143,7 +143,7 @@ app.component(
                             $(".proforma .btn").removeClass("active");
                         },200);
                     });
-                }      
+                }
             }
 
             $scope.seeLive = function() {
@@ -175,4 +175,4 @@ app.component(
             }
         }
 	}
-); 
+);

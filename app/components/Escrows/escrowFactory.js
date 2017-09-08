@@ -1,158 +1,8 @@
 app.factory("escrow", ['$http',
   function($http) {
       var o = {
-        forms: {
-          "escrow": 0,
-          "home liberty": 0,
-          "ad": 0,
-          "bia": 0,
-          "sbsa": 0,
-          "ac": 0,
-          "fvac": 0,
-          "tds": 0,
-          "sbq": 0,
-          "hid": 0,
-          "cmd": 0,
-          "fld": 0,
-          "eq": 0,
-          "whsd": 0,
-          "wcmd": 0,
-          "wfa": 0,
-          "dbd": 0,
-          "selling avid": 0,
-          "listing avid": 0
-        },
-        progress: {
-          "day01" : {
-            label: "Day 1",
-            tasks: {
-              "open" : {
-                label: "Open Escrow",
-                status: false
-              },
-              "contract" : {
-                label: "Go over Contract",
-                status: false
-              },
-              "nhd" : {
-                label: "NHD Report",
-                status: false
-              },
-              "intro_email" : {
-                label: "Send Intro Email",
-                status: false
-              },
-              "work_on_disclosures" : {
-                label: "Work on Disclosures",
-                status: false
-              },
-            }
-          },
-          "day03" : {
-            label: "Day 3",
-            tasks: {
-              "emd_followup" : {
-                label: "Follow up on EMD",
-                status: false
-              },
-              "send_qs" : {
-                label: "Send QS to Escrow",
-                status: false,
-                date: true
-              },
-              "ask_home_inspect" : {
-                label: "Ask if Buyer is doing Home Inspection",
-                status: false,
-                inspection: true,
-                date: true
-              },
-              "send_disclosures" : {
-                label: "Send Disclosures to Buyers Agent",
-                status: false,
-                date: true
-              }
-            }
-          },
-          "day07" : {
-            label: "Day 7",
-            tasks: {
-              "send_instruct_back" : {
-                label: "Send Escrow Instructions Back to Escrow",
-                status: false,
-                date: true
-              }
-            }
-          },
-          "day12" : {
-            label: "Day 12-15",
-            tasks: {
-              "disclosures_followup" : {
-                label: "Follow up on Disclosures with buyers agent or TC",
-                status: false,
-                date: true
-              },
-              "check_loan_approval" : {
-                label: "Check with Buyers agent on Loan Pre Approval",
-                status: false,
-                date: true
-              },
-              "termite_report" : {
-                label: "Request for Termite Report from Listing agent",
-                status: false,
-                date: true
-              },
-              "termite_clear" : {
-                label: "Request Termite Clearance",
-                status: false,
-                date: true
-              },
-              "go_over_file" : {
-                label: "Go Over file",
-                status: false
-              },
-            }
-          },
-          "day15" : {
-            label: "Day 15-17",
-            tasks: {
-              "send_contingency" : {
-                label: "Send Contingency Removal (Inspections & Appraisal) ",
-                status: false,
-                date: true
-              },
-              "send_acknowledge" : {
-                label: "Acknowledgement Received",
-                status: false,
-                date: true
-              }
-            }
-          },
-          "day21" : {
-            label: "Day 21",
-            tasks: {
-              "loan_contingency" : {
-                label: "Loan Contingency Removal",
-                status: false,
-                date: true
-              },
-              "loan_acknowledge" : {
-                label: "Acknowledgement Received",
-                status: false,
-                date: true
-              }
-            }
-          },
-          "day23" : {
-            label: "Day 23",
-            tasks: {
-              "request_warranty" : {
-                label: "Request copy of Home Warranty",
-                status: false,
-                date: true
-              }
-            }
-          }
-        }
+        forms: {},
+        progress: {}
       };
 
       o.getEscrowProgress = function(q, pid) {
@@ -316,16 +166,20 @@ app.factory("escrow", ['$http',
                   if (o.progress[day].tasks[j]) {
                     o.progress[day].tasks[j].status = (results.data[i][j] == "1") ? true : false;
                   }
-                } 
+                }
               }
-            } 
+            }
           }
         });
       };
 
       o.getEscrowForms = function(q, pid) {
-        return $http.get(serviceBase + q).then(function(results) {
-          // reset 
+        return $http({
+          url: serviceBase + q,
+          method: "GET",
+          params: {table: "escrow_forms"}
+        }).then(function(results) {
+          // reset
           o.forms = { "escrow": 0,"home liberty": 0, "ad": 0,"bia": 0,"sbsa": 0, "ac": 0, "fvac": 0,
             "tds": 0,"sbq": 0, "hid": 0, "cmd": 0,"fld": 0, "eq": 0,"whsd": 0, "wcmd": 0,"wfa": 0,
             "dbd": 0,"selling avid": 0, "listing avid": 0
@@ -335,12 +189,12 @@ app.factory("escrow", ['$http',
               for(j in results.data[i]) {
                 var x = j.replace("_", " ");
                 o.forms[x] = (results.data[i][j] == "1") ? true : false;
-              }  
+              }
             }
           }
         });
       };
-      
+
       return o;
   }
 ]);

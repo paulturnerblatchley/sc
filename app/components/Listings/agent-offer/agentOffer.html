@@ -55,7 +55,7 @@
       </div>
     </div>
   </div>
-  <form name="newOfferForm" class="form-horizontal offer-form" role="form" ng-submit="newOffer(offer,enroll)" latlng="obj">
+  <form name="newOfferForm" class="form-horizontal offer-form" role="form" ng-submit="newOffer(offer,agent)" latlng="obj">
     <div class="row top-buffer20">
       <div class="col-sm-8">
         <h3>Offer Information</h3>
@@ -197,40 +197,40 @@
         <h3>Agent Information</h3>
         <div class="form-group">
             <label for="name">First Name</label>
-            <input type="text" class="form-control" placeholder="First Name" ng-model="enroll.first_name" required/>
+            <input type="text" class="form-control" placeholder="First Name" ng-model="agent.first_name" required/>
         </div>
         <div class="form-group">
             <label for="name">Last Name</label>
-            <input type="text" class="form-control" placeholder="Last Name" ng-model="enroll.last_name" required/>
+            <input type="text" class="form-control" placeholder="Last Name" ng-model="agent.last_name" required/>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" placeholder="Email" name="email" ng-model="enroll.email" required/>
-            <span ng-show="enrollmentForm.email.$error.email" class="help-inline">Email is not valid</span>
+            <input type="email" class="form-control" placeholder="Email" name="email" ng-model="agent.email" required/>
+            <span ng-show="newOfferForm.email.$error.email" class="help-inline">Email is not valid</span>
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="enroll.phone" required/>
+            <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="agent.phone" required/>
         </div>
         <div class="form-group">
             <label for="BRE License No.">BRE License No.</label>
-            <input type="text" class="form-control" placeholder="BRE License No." name="bre" ng-model="enroll.bre" required/>
+            <input type="text" class="form-control" placeholder="BRE License No." name="bre" ng-model="agent.bre" required/>
         </div>
         <div class="form-group">
             <label for="mls_id">MLS ID (not required)</label>
-            <input type="text" class="form-control" placeholder="MLS ID" name="mls_id" ng-model="enroll.mls_id"/>
+            <input type="text" class="form-control" placeholder="MLS ID" name="mls_id" ng-model="agent.mls_id"/>
         </div>
         <div class="form-check">
             <label class="col-sm-5 form-check-label text-right" for="early_showing">Early Showing</label>
             <div class="col-sm-7">
-                <input type="checkbox" class="col-sm-1 form-check-input"  name="early_showing" ng-model="enroll.early_showing" checked="checked">
+                <input type="checkbox" class="col-sm-1 form-check-input"  name="early_showing" ng-model="agent.early_showing" checked="checked">
                 <p class="col-sm-11">Would you like to preview properties prior to them being listed?</p>
             </div>
         </div>
         <div class="form-check">
             <label class="col-sm-5 form-check-label text-right" for="phone">Open House</label>
             <div class="col-sm-7">
-                <input type="checkbox" class="col-sm-1 form-check-input" name="open_house" ng-model="enroll.open_house" checked="checked">
+                <input type="checkbox" class="col-sm-1 form-check-input" name="open_house" ng-model="agent.open_house" checked="checked">
                 <p class="col-sm-11">Would you like to host open houses for our turnkey vacant properties?</p>
             </div>
         </div>
@@ -238,19 +238,19 @@
             <label class="col-sm-5 form-check-label text-right" for="phone">Area of Interest (County)</label>
             <div class="col-sm-7 interest-area">
                 <div class="row">
-                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Bernardino" ng-model="enroll.sb" checked="checked">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Bernardino" ng-model="agent.sb" checked="checked">
                     <p class="col-sm-11">San Bernardino</p>
                 </div>
                 <div class="row">
-                    <input type="checkbox" class="col-sm-1 form-check-input" name="Riverside" ng-model="enroll.riv" checked="checked">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="Riverside" ng-model="agent.riv" checked="checked">
                     <p class="col-sm-11">Riverside</p>
                 </div>
                 <div class="row">
-                    <input type="checkbox" class="col-sm-1 form-check-input" name="Los Angeles" ng-model="enroll.la" checked="checked">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="Los Angeles" ng-model="agent.la" checked="checked">
                     <p class="col-sm-11">Los Angeles</p>
                 </div>
                 <div class="row">
-                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Diego" ng-model="enroll.sd" checked="checked">
+                    <input type="checkbox" class="col-sm-1 form-check-input" name="San Diego" ng-model="agent.sd" checked="checked">
                     <p class="col-sm-11">San Diego</p>
                 </div>
             </div>

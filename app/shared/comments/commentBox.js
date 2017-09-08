@@ -9,7 +9,7 @@ app.component(
 		    $scope.newcomment = {comment: '', property_id: '', user_id: ''};
 
 		    $scope.newComment = function(comment) {
-		        comment.comment = comment.comment.replace(/'/g, "''");
+		        comment.comment = comment.comment.replace(/'/g, "\\'");
 		        comment.property_id = parseInt(singleproperty.property.pid);
 		        comment.user_id = $sessionStorage.user.uid;
 		        auth.post('comments', {
@@ -27,7 +27,7 @@ app.component(
 
 		                comment.username = $sessionStorage.user.name;
 
-		                var currentdate = new Date(); 
+		                var currentdate = new Date();
 		                if (currentdate.getHours() > 12) {
 		                    var hours = currentdate.getHours() - 12;
 		                    var ampm = "PM";
@@ -36,12 +36,13 @@ app.component(
 		                    var ampm = "AM";
 		                }
 		                var datetime = (currentdate.getMonth()+1) + "/"
-		                + currentdate.getDate()  + "/" 
-		                + currentdate.getFullYear() + " at "  
-		                + hours + ":"  
+		                + currentdate.getDate()  + "/"
+		                + currentdate.getFullYear() + " at "
+		                + hours + ":"
 		                + currentdate.getMinutes() + ampm;
 
 		                comment.created = datetime;
+										comment.comment = comment.comment.replace(/\\'/g, "'");
 		                $scope.comments.push(comment);
 		            }
 		        });
@@ -61,22 +62,25 @@ app.component(
 		    };
 
 		    $scope.deleteComment = function(comment) {
-		    	console.log(comment);
-              var ok = confirm("Are you sure you want to delete this comment?");
-              if (ok) {
-                auth.post('deleteComment', {
-                  comment: comment
-                }).then(function(res){
-                    auth.toast(res);
-                    if (res.status == "success") {
-                      var index = $scope.comments.indexOf(comment);
-                      if (index > -1) {
-                        $scope.comments.splice(index, 1);
-                      }
-                    }
-                });
-              }
-            };
+          var ok = confirm("Are you sure you want to delete this comment?");
+					comment.table = "comments";
+					comment.column = "comment_id";
+					comment.value = comment.comment_id;
+					delete comment.comment_id;
+          if (ok) {
+            auth.post('deleteItem', {
+              item: comment
+            }).then(function(res){
+                auth.toast(res);
+                if (res.status == "success") {
+                  var index = $scope.comments.indexOf(comment);
+                  if (index > -1) {
+                    $scope.comments.splice(index, 1);
+                  }
+                }
+            });
+          }
+        };
 		}
 	}
 );

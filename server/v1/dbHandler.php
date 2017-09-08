@@ -49,7 +49,7 @@ class DbHandler {
     /**
      * Insert String
      */
-    public function insertString($str, $column_name, $table_name) {        
+    public function insertString($str, $column_name, $table_name) {
         $query = "INSERT INTO ".$table_name." (".$column_name.") VALUES('".$str."')";
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
         if ($r) {
@@ -170,13 +170,12 @@ class DbHandler {
     /**
     *   Add Images to Image Table
     **/
-
     public function insertPropertyImages($images, $pid, $table_name) {
         if (gettype($images) == 'array') {
             // Do Nothing
         } else {
             $c = explode(",", $images);
-            for ($i=0; $i < count($c); $i++) { 
+            for ($i=0; $i < count($c); $i++) {
                 $query = "select 1 from images where image_name='".$c[$i]."'";
                 $r = $this->conn->query($query.' LIMIT 1') or die($this->conn->error.__LINE__);
                 $isImageExists = $r->fetch_assoc();
@@ -232,8 +231,8 @@ class DbHandler {
     }
 
     public function getOpenBids() {
-        $r = $this->conn->query("SELECT * FROM open_bids 
-            JOIN sections ON sections.id = open_bids.bid_cat_id 
+        $r = $this->conn->query("SELECT * FROM open_bids
+            JOIN sections ON sections.id = open_bids.bid_cat_id
             JOIN bid_tasks ON bid_tasks.bid_id = open_bids.bid_id");
         $results = array();
         while ($row = $r->fetch_assoc()) {
@@ -243,13 +242,13 @@ class DbHandler {
     }
 
     public function getEscrowProgress() {
-        $r = $this->conn->query("SELECT * FROM escrow 
-            JOIN escrow_day01 ON escrow_day01.escrow_id = escrow.escrow_id 
-            JOIN escrow_day03 ON escrow_day03.escrow_id = escrow.escrow_id 
-            JOIN escrow_day07 ON escrow_day07.escrow_id = escrow.escrow_id 
-            JOIN escrow_day12 ON escrow_day12.escrow_id = escrow.escrow_id 
-            JOIN escrow_day15 ON escrow_day15.escrow_id = escrow.escrow_id 
-            JOIN escrow_day21 ON escrow_day21.escrow_id = escrow.escrow_id 
+        $r = $this->conn->query("SELECT * FROM escrow
+            JOIN escrow_day01 ON escrow_day01.escrow_id = escrow.escrow_id
+            JOIN escrow_day03 ON escrow_day03.escrow_id = escrow.escrow_id
+            JOIN escrow_day07 ON escrow_day07.escrow_id = escrow.escrow_id
+            JOIN escrow_day12 ON escrow_day12.escrow_id = escrow.escrow_id
+            JOIN escrow_day15 ON escrow_day15.escrow_id = escrow.escrow_id
+            JOIN escrow_day21 ON escrow_day21.escrow_id = escrow.escrow_id
             JOIN escrow_day23 ON escrow_day23.escrow_id = escrow.escrow_id");
         $results = array();
         while ($row = $r->fetch_assoc()) {
@@ -259,26 +258,26 @@ class DbHandler {
     }
 
     public function getJoinedRehabTable() {
-        $r = $this->conn->query("SELECT * FROM rehabs 
-            JOIN bath ON bath.rehab_id = rehabs.rehab_id 
-            JOIN demo ON demo.rehab_id = rehabs.rehab_id 
-            JOIN drywall ON drywall.rehab_id = rehabs.rehab_id 
-            JOIN electrical ON electrical.rehab_id = rehabs.rehab_id 
-            JOIN ext_paint ON ext_paint.rehab_id = rehabs.rehab_id 
-            JOIN fixtures ON fixtures.rehab_id = rehabs.rehab_id 
+        $r = $this->conn->query("SELECT * FROM rehabs
+            JOIN bath ON bath.rehab_id = rehabs.rehab_id
+            JOIN demo ON demo.rehab_id = rehabs.rehab_id
+            JOIN drywall ON drywall.rehab_id = rehabs.rehab_id
+            JOIN electrical ON electrical.rehab_id = rehabs.rehab_id
+            JOIN ext_paint ON ext_paint.rehab_id = rehabs.rehab_id
+            JOIN fixtures ON fixtures.rehab_id = rehabs.rehab_id
             JOIN flooring ON flooring.rehab_id = rehabs.rehab_id
-            JOIN framing ON framing.rehab_id = rehabs.rehab_id 
-            JOIN garage_door ON garage_door.rehab_id = rehabs.rehab_id 
-            JOIN hardscape ON hardscape.rehab_id = rehabs.rehab_id 
-            JOIN hvac ON hvac.rehab_id = rehabs.rehab_id 
-            JOIN int_paint ON int_paint.rehab_id = rehabs.rehab_id 
-            JOIN kitchen ON kitchen.rehab_id = rehabs.rehab_id 
-            JOIN landscaping ON landscaping.rehab_id = rehabs.rehab_id 
-            JOIN plumbing ON plumbing.rehab_id = rehabs.rehab_id 
-            JOIN pool_spa ON pool_spa.rehab_id = rehabs.rehab_id 
-            JOIN roof ON roof.rehab_id = rehabs.rehab_id 
-            JOIN sales_clean ON sales_clean.rehab_id = rehabs.rehab_id 
-            JOIN stucco ON stucco.rehab_id = rehabs.rehab_id 
+            JOIN framing ON framing.rehab_id = rehabs.rehab_id
+            JOIN garage_door ON garage_door.rehab_id = rehabs.rehab_id
+            JOIN hardscape ON hardscape.rehab_id = rehabs.rehab_id
+            JOIN hvac ON hvac.rehab_id = rehabs.rehab_id
+            JOIN int_paint ON int_paint.rehab_id = rehabs.rehab_id
+            JOIN kitchen ON kitchen.rehab_id = rehabs.rehab_id
+            JOIN landscaping ON landscaping.rehab_id = rehabs.rehab_id
+            JOIN plumbing ON plumbing.rehab_id = rehabs.rehab_id
+            JOIN pool_spa ON pool_spa.rehab_id = rehabs.rehab_id
+            JOIN roof ON roof.rehab_id = rehabs.rehab_id
+            JOIN sales_clean ON sales_clean.rehab_id = rehabs.rehab_id
+            JOIN stucco ON stucco.rehab_id = rehabs.rehab_id
             JOIN windows ON windows.rehab_id = rehabs.rehab_id");
         $results = array();
         while ($row = $r->fetch_assoc()) {

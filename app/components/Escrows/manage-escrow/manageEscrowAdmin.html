@@ -22,9 +22,9 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="section-header">
-          <h4><i ng-click="toggle($event)" id="escrow" class="glyphicon glyphicon-minus table-toggle"></i>Escrow Details</h4>
+          <h4><i id="escrow" class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t1"></i>Escrow Details</h4>
         </div>
-        <div id="escrow-table" class="row">
+        <div id="t1" class="row">
           <div class="col-sm-6">
             <table class="table table-striped table-bordered">
               <tbody>
@@ -141,20 +141,32 @@
     </div>
     <hr class="col-xs-12">
   </div>
-  <div class="progress-box row clearfix" ng-repeat="(key,value) in progress">
-    <h3>{{value.label}}</h3>
-    <div class="checkbox col-sm-2" ng-repeat="(k,v) in value.tasks">
-        <label class="checkbox">
-        <input type="checkbox" name="v.label" ng-change="saveEscrowChanges(s.pid,key,k,v,v.status)" ng-model="v.status"> {{v.label}}
-      </label>
-      <div class="task-date" ng-show="v.date">
-        <input type="date" name="task.date" ng-model="v.date" ng-change="saveEscrowChanges(s.pid,key,k,v,v.date)">
+  <div class="clearfix">
+    <div class="col-sm-6">
+      <div class="page-header">
+         <h2>
+           <i id="t2-toggle" ng-click="toggle($event)" class="glyphicon glyphicon-chevron-up" ></i>
+           Buyer Checklist
+         </h2>
       </div>
-      <div class="home-inspect" ng-show="v.inspection">
-        <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="yes" ng-model="v.inspection"> Yes 
-        <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="no" ng-model="v.inspection"> No 
+      <div id="t2-toggle-table" class="collapse">
+        <div class="progress-box row clearfix" ng-repeat="(key,value) in progress">
+          <h3>{{value.label}}</h3>
+          <div class="checkbox col-sm-3" ng-repeat="(k,v) in value.tasks">
+              <label class="checkbox">
+              <input type="checkbox" name="v.label" ng-change="saveEscrowChanges(s.pid,key,k,v,v.status)" ng-model="v.status"> {{v.label}}
+            </label>
+            <div class="task-date" ng-show="v.date">
+              <input type="date" name="task.date" ng-model="v.date" ng-change="saveEscrowChanges(s.pid,key,k,v,v.date)">
+            </div>
+            <div class="home-inspect" ng-show="v.inspection">
+              <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="yes" ng-model="v.inspection"> Yes
+              <input ng-click="saveEscrowChanges(s.pid,key,k,v,v.inspection)" type="radio" name="inspection" value="no" ng-model="v.inspection"> No
+            </div>
+          </div>
+          <hr class="col-xs-12">
+        </div>
       </div>
     </div>
-    <hr class="col-xs-12">
   </div>
 </div>

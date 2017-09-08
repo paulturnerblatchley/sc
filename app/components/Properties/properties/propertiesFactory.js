@@ -13,7 +13,11 @@ app.factory("properties", ['$http',
         };
 
         o.getProperties = function(q) {
-          return $http.get(serviceBase + q).then(function(results) {
+          return $http({
+            url: serviceBase + q,
+            method: 'GET',
+            params: {table: 'properties'}
+          }).then(function(results) {
             o.properties = results.data;
             var images = {};
             $http.get(serviceBase + 'propertyImages').then(function(res) {
@@ -54,7 +58,7 @@ app.factory("properties", ['$http',
                 var d = x.split("-");
                 return d[1] + "/" + d[2] + "/" + d[0];
               }
-            } 
+            }
 
             function convertPurchaseDate(x) {
               if (x == "0000-00-00") {
@@ -78,7 +82,7 @@ app.factory("properties", ['$http',
                     o.properties[i].fha_color = 'green';
                   } else if (o.properties[i].phase == 'Acquisition' || o.properties[i].phase == 'Holdover' || o.properties[i].phase == 'Rehab') {
                     o.properties[i].fha_color = 'red';
-                  } 
+                  }
                 }*/
 
                 // CALCULATE DSP
@@ -96,13 +100,13 @@ app.factory("properties", ['$http',
               x = "$" + x;
               return x;
             }
-            
+
             for(var i=0; i<results.data.length;i++) {
               o.properties[i].pid = parseInt(results.data[i].pid);
               o.properties[i].pool_spa = (o.properties[i].pool_spa == 0) ? "No" : "Yes";
               o.properties[i].is_listed = (o.properties[i].is_listed == 0) ? "No" : "Yes";
               o.properties[i].purchase_close_date = convertPurchaseDate(o.properties[i].purchase_close_date);
-              
+
               o.properties[i].listing_date = convertDate(o.properties[i].listing_date);
               o.properties[i].sale_close_date = convertDate(o.properties[i].sale_close_date);
               o.properties[i].est_possession = convertDate(o.properties[i].est_possession);

@@ -5,11 +5,15 @@ app.factory("singleproperty", ['$http',
       };
 
       o.get = function(q, pid) {
-        return $http.get(serviceBase + q).then(function(results) {
+        return $http({
+          url: serviceBase + q,
+          method: 'GET',
+          params: {table: 'properties'}
+        }).then(function(results) {
           for(i=0;i<results.data.length;i++){
               if (results.data[i].pid == pid) {
                 o.property = results.data[i];
-                
+
                 o.property.pool_spa = (o.property.pool_spa == 0) ? "No" : "Yes";
                 o.property.is_listed = (o.property.is_listed == 0) ? "No" : "Yes";
 
@@ -28,13 +32,13 @@ app.factory("singleproperty", ['$http',
                 o.property.rehab_length = dateDistance(o.property.rehab_start,o.property.est_completion);
                 o.property.rehab_days_lapsed = dateDistance(o.property.rehab_start);
                 o.property.length_of_own = dateDistance(o.property.purchase_close_date);
-                
+
                 if(moment(o.property.sale_close_date)._d == "Invalid Date") {
                   o.property.escrow_days = dateDistance(o.property.offer_accept);
                 } else {
                   o.property.escrow_days = dateDistance(o.property.offer_accept, o.property.sale_close_date);
                 }
-                
+
 
                 function convertDate(x) {
                   if (x == "0000-00-00") {

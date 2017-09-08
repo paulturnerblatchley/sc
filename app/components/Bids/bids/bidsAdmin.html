@@ -1,5 +1,5 @@
 <div class="form-group pull-right">
-  <button ng-click="newBid(s.pid)" class="btn btn-primary pull-right">
+  <button ui-sref="properties.property.new-bid({pid:s.pid})" class="btn btn-primary pull-right">
     Create New Bid
   </button>
 </div>
@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="bid in open | unique:'bid_num'" ng-click="viewBidDetails(s.pid,bid.bid_num)">
+            <tr ng-repeat="bid in open | unique:'bid_num'" ui-sref="properties.property.open-bid({pid: s.pid, bid_num: bid.bid_num})">
               <td>{{bid.bid_num}}</td>
               <td>{{bid.name}}</td>
               <td>{{bid.bid_total_cost | currency:'$':2}}</td>

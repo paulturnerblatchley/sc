@@ -4,7 +4,7 @@ app.component(
     	bindings: {},
         template: '<ng-include src="template"></ng-include>',
         controller: function($scope, Data, auth, $location, $state, singleproperty, agents) {
-            $scope.template = 'app/components/Properties/property-email/property-email.html';;
+            $scope.template = 'app/components/Listings/property-email/property-email.html';;
             $scope.s = singleproperty.property;
             $scope.s.appliances = [];
             $scope.s.interior = [];
@@ -16,9 +16,9 @@ app.component(
  				contact_number: "",
  				contact_email: ""
  			}
- 			
+
  			$scope.preview;
- 			
+
  			if ($scope.s.county == "SB") {
  				$scope.agents = agents.agentsSB;
  			} else if ($scope.s.county == "RIV") {
@@ -52,12 +52,12 @@ app.component(
 		       $('html, body').animate({
 		            scrollTop : 0
 		        },100);
-		       $scope.template = 'app/components/Properties/property-email/email-confirm.html';
+		       $scope.template = 'app/components/Listings/property-email/email-confirm.html';
 
 		    };
 
 		    $scope.goBack = function() {
-		    	$scope.template = 'app/components/Properties/property-email/property-email.html';
+		    	$scope.template = 'app/components/Listings/property-email/property-email.html';
 		    }
 
 		    $scope.send = function(email) {
@@ -70,8 +70,8 @@ app.component(
                     if (results.status == "success") {
                         $state.go('properties.property', {}, {reload: true});
                     }
-                }); 
-		    }            
+                });
+		    }
         }
 	}
-); 
+);

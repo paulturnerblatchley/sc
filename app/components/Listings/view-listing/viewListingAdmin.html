@@ -1,17 +1,21 @@
 <div class="row">
-  <div class="form-group edit-property-btn col-sm-3">
-    <button id="updatePropertySubmit" class="btn btn-success col-xs-12" ng-click="uploadFile();updateProperty(s)">
+  <div class="form-group listing-btn col-sm-3">
+    <button id="updatePropertySubmit" class="btn btn-success" ng-click="uploadFile();updateProperty(s)">
       Update
     </button>
   </div>
-	<div class="form-group edit-property-btn col-sm-9">
-		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.new-offer" ui-sref-opts="{reload:true}">
+	<div class="form-group listing-btn col-sm-3">
+		<button class="btn btn-primary" ui-sref="properties.property.new-offer" ui-sref-opts="{reload:true}">
 		 Input New Offer
 		</button>
-		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
+  </div>
+  <div class="form-group listing-btn col-sm-3">
+		<button class="btn btn-primary" ui-sref="properties.property.offers" ui-sref-opts="{reload:true}">
 		 View Offers
 		</button>
-		<button class="btn btn-primary col-xs-4" ui-sref="properties.property.email" ui-sref-opts="{reload:true}">
+  </div>
+  <div class="form-group listing-btn col-sm-3">
+		<button class="btn btn-primary" ui-sref="properties.property.email" ui-sref-opts="{reload:true}">
 		 Create V-Flyer
 		</button>
 	</div>
@@ -19,12 +23,12 @@
 <div class="row">
   	<div class="col-sm-6">
 		<div class="section-header">
-		    <h4><i ng-click="toggle($event)" id="t3-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listing Information</h4>
+		    <h4><i id="t1-toggle" class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t1"></i>Listing Information</h4>
 		</div>
-	    <table id="t3-toggle-table" class="list-details table table-bordered">
+	    <table id="t1" class="list-details table table-bordered">
 	      <tbody>
 	        <tr>
-	          <td class="col-xs-4">Listed?</td> 
+	          <td class="col-xs-4">Listed?</td>
 	          <td class="col-xs-8">
 	          	<select class="invisible-form" ng-model="s.is_listed"/>
 					<option value="Yes">Yes</option>
@@ -33,39 +37,39 @@
 	          </td>
 	        </tr>
 	        <tr>
-	          <td class="col-xs-4">Listing Date</td> 
+	          <td class="col-xs-4">Listing Date</td>
 	          <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.listing_date"/></td>
 	        </tr>
 	        <tr>
-	          <td class="col-xs-4">Listing Price</td> 
+	          <td class="col-xs-4">Listing Price</td>
 	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.list_price" format="currency"/></td>
 	        </tr>
 	        <tr>
-              <td class="col-xs-4">Purchase Date</td> 
+              <td class="col-xs-4">Purchase Date</td>
               <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.purchase_close_date"></td>
             </tr>
             <tr>
-              <td class="col-xs-4">Days Since Purchase</td> 
+              <td class="col-xs-4">Days Since Purchase</td>
               <td class="col-xs-8">{{s.dsp}}</td>
             </tr>
             <tr>
-              <td class="col-xs-4">FHA Date</td> 
+              <td class="col-xs-4">FHA Date</td>
               <td class="col-xs-8">{{s.fha}}</td>
             </tr>
             <tr>
-              <td class="col-xs-4">Day On Market</td> 
+              <td class="col-xs-4">Day On Market</td>
               <td class="col-xs-8">{{s.dom}}</td>
             </tr>
 	        <tr>
-	          <td class="col-xs-4">Escrow Price</td> 
+	          <td class="col-xs-4">Escrow Price</td>
 	          <td class="col-xs-8"><input class="invisible-form" type="text" ng-model="s.escrow_price" format="currency"/></td>
 	        </tr>
 	        <tr>
-	          <td class="col-xs-4">Sale Close Date</td> 
+	          <td class="col-xs-4">Sale Close Date</td>
 	          <td class="col-xs-8"><input class="invisible-form" type="date" ng-model="s.sale_close_date"/></td>
 	        </tr>
 	        <tr>
-              <td class="col-xs-4" class="col-sm-3">Description</td> 
+              <td class="col-xs-4" class="col-sm-3">Description</td>
               <td class="col-xs-8"><textarea rows="8" class="invisible-form" ng-model="s.listdesc"></textarea></td>
             </tr>
 	      </tbody>
@@ -73,9 +77,9 @@
 	</div>
 	<div class="col-sm-6">
     <div class="section-header">
-        <h4><i ng-click="toggle($event)" id="t4-toggle" class="glyphicon glyphicon-minus table-toggle"></i>Listing Images</h4>
+        <h4><i id="t2-toggle" class="glyphicon glyphicon-chevron-up table-toggle" toggle target="t2"></i>Listing Images</h4>
     </div>
-      <div id="t4-toggle-table" class="image-box clearfix">
+      <div id="t2" class="image-box clearfix">
         <div ng-show="!s.listing_images" class="no-img">
           <i class="glyphicon glyphicon-camera"></i>
           <p>There are no images for this listing.</p>

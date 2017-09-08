@@ -24,10 +24,10 @@ app.component(
             $('.table>tbody>tr>td>select').parent().css('background-color', '#fff');
 
             $('.table>tbody>tr>td>.invisible-form, .table>tbody>tr>td>select').attr("on-change","trackChanges");
-           
+
             // get single property
             $scope.s = singleproperty.property;
-            
+
             if ($scope.s.loan_amount == 0) {
                 $scope.s.loan_amount = $scope.s.arv * 0.7;
             }
@@ -69,12 +69,12 @@ app.component(
             }
 
             setStatusOptions($scope.s);
-            
+
 
             $scope.changeStatusOptions = function(s) {
                 setStatusOptions(s);
             }
-            
+
             $scope.updateProperty = function(s) {
                 $("#form-loading").css("display", "block");
                 var f = document.getElementById('file').files;
@@ -93,17 +93,25 @@ app.component(
                 s.pool_spa = (s.pool_spa === "Yes") ? 1 : 0;
                 s.is_listed = (s.is_listed === "Yes") ? 1 : 0;
 
-                function removeCash(x) {
-                  x = x.replace(/[$, ]/g, "");
-                  return x;
-                }
 
-                s.purchase_cost = removeCash(s.purchase_cost);
-                s.arv = removeCash(s.arv);
-                s.list_price = removeCash(s.list_price);
-                s.sale_price = removeCash(s.sale_price);
-                s.escrow_price = removeCash(s.escrow_price);
-                s.rehab_estimate = removeCash(s.rehab_estimate);
+
+								function formatDate(x) {
+									if (x === null) {
+										x = "0000-00-00 00:00:00";
+									} else {
+										x = moment(x).format('YYYY-MM-DD HH:mm:ss');
+									}
+									return x;
+								}
+
+								s.est_completion = formatDate(s.est_completion);
+								s.purchase_close_date = formatDate(s.purchase_close_date);
+								s.listing_date = formatDate(s.listing_date);
+								s.sale_close_date = formatDate(s.sale_close_date);
+								s.est_possession = formatDate(s.est_possession);
+								s.notice_date = formatDate(s.notice_date);
+								s.rehab_start = formatDate(s.rehab_start);
+								s.offer_accept = formatDate(s.offer_accept);
 
                 var geocoder = new google.maps.Geocoder(),
                     a = s.address + ", " + s.city + ", CA " + s.zip,
@@ -181,19 +189,6 @@ app.component(
                 }
             };
 
-            $scope.toggle = function(event) {
-                var t = $(event.target);
-                var id = t[0].id;
-                if (t.hasClass("glyphicon-minus")) {
-                    $("#" + id + "-table").addClass("collapse");
-                    t.removeClass("glyphicon-minus");
-                    t.addClass("glyphicon-plus");
-                } else {
-                    $("#" + id + "-table").removeClass("collapse");
-                    t.removeClass("glyphicon-plus");
-                    t.addClass("glyphicon-minus");
-                }
-            }
         }
 	}
-); 
+);

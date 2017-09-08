@@ -8,7 +8,7 @@ app.component(
         controller: function($scope, $state, $rootScope, NgMap, properties, $sessionStorage, $timeout) {
     		this.$onInit = function() {
 	    		$scope.properties = this.properties;
-	    		
+
 			    var marker;
 
 			    $rootScope.$on('mapInitialized', function(evt,map) {
@@ -31,14 +31,14 @@ app.component(
 
 			    $scope.showDetails = function(event,pid,latlng) {
 			        $(".ui-grid-row").removeClass("ui-grid-row-selected");
-			        
+
 
 			        var row = $("#row" + pid).closest(".ui-grid-row"),
 			            container = $(".ui-grid-viewport"),
 			            infoBoxWidth = $("#info-box").css("width");
-			        
+
 			        row.addClass("ui-grid-row-selected");
-			        
+
 			        if (this.getAnimation() != null) {
 			            // Do Nothing
 			        } else {
@@ -52,18 +52,18 @@ app.component(
 			            lng = parseFloat(latlng[1]) + .035;
 			            $rootScope.mymap.setCenter({lat: lat, lng: lng});
 			            $rootScope.mymap.setZoom(13);
-			            
+
 			            $rootScope.$broadcast('addInfo', pid);
 
 			        $timeout(function() {
 			            container.animate({
 			                scrollTop: row.offset().top - 360
 			            }, 500);
-			            
+
 			            $('#info-box').show();
 			            setTimeout(function() {
 				            $("#info-box").css("right", "0px");
-				            $("#info-box-switch").removeClass("flip");
+				            $("#info-box-switch").removeClass("spin");
 				            $("#info-box-switch").css("right","30%");
 				            $(".property-viewer ng-map").css("max-width", "70%");
 			            },200);
@@ -85,13 +85,13 @@ app.component(
 			                grid.css({
 			                    "margin-top": "40px"
 			                });
-			                s.addClass("flip");
+			                s.addClass("spin");
 			                hideMap.css("top", "30px");
 			                map.css("max-height", "0px");
 			                setGridHeight();
 			            } else {
 			                mapVP.css("max-height","280px");
-			                s.removeClass("flip");
+			                s.removeClass("spin");
 			                hideMap.css("top", "274px");
 			                map.css("max-height", "280px");
 			                grid.css({
@@ -105,13 +105,13 @@ app.component(
 			                grid.css({
 			                    "margin-top": "40px"
 			                });
-			                s.addClass("flip");
+			                s.addClass("spin");
 			                hideMap.css("top", "30px");
 			                map.css("max-height", "0px");
 			                setGridHeight();
 			            } else {
 			                mapVP.css("max-height","280px");
-			                s.removeClass("flip");
+			                s.removeClass("spin");
 			                hideMap.css("top", "194px");
 			                map.css("max-height", "200px");
 			                grid.css({
@@ -127,16 +127,16 @@ app.component(
 			            setTimeout(function() {
 			                $("#info-box").css("right", "0");
 			                $("#info-box-switch").css("right", infoBoxWidth);
-			                $("#info-box-switch").removeClass("flip");
+			                $("#info-box-switch").removeClass("spin");
 			                $(".property-viewer ng-map").css("max-width", "70%");
 			            }, 200);
 			        } else {
 			            setTimeout(function() {
 			                $("#info-box").hide();
-			            }, 500);    
+			            }, 500);
 			            $("#info-box").css("right", "-" + infoBoxWidth);
 			            $("#info-box-switch").css("right", "0");
-			            $("#info-box-switch").addClass("flip");
+			            $("#info-box-switch").addClass("spin");
 			            $(".property-viewer ng-map").css("max-width", "100%");
 			        }
 			    }
@@ -144,7 +144,7 @@ app.component(
 			    $scope.reset = function() {
 			        if ($(".ui-grid-row").hasClass("ui-grid-row-selected") || $rootScope.mymap.setZoom() != 8) {
 			            var infoBoxWidth = $("#info-box").css("width");
-			            
+
 
 			            for (i in $rootScope.mymap.markers) {
 			                $rootScope.mymap.markers[i].setAnimation(null);
@@ -157,19 +157,19 @@ app.component(
 			            $(".ui-grid-row").removeClass("ui-grid-row-selected");
 			            $("#info-box").css("right", "-" + infoBoxWidth);
 			            $("#info-box-switch").css("right", "0");
-			            $("#info-box-switch").addClass("flip");
+			            $("#info-box-switch").addClass("spin");
 			            $(".property-viewer ng-map").css("max-width", "100%");
 			            setTimeout(function() {
 			                $rootScope.addInfo = {};
 			                $("#info-box").hide();
 			            }, 200);
-			            
+
 			            $(".ui-grid-viewport").animate({
 			                scrollTop: "0"
 			            }, 500);
-			        } 
+			        }
 			    }
-		    }	 
+		    }
 		}
 	}
-); 
+);

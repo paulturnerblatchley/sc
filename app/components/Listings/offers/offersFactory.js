@@ -6,7 +6,11 @@ app.factory("offers", ['$http',
         };
 
         o.getOffers = function(q,pid) {
-          return $http.get(serviceBase + q).then(function(results) {
+          return $http({
+            url: serviceBase + q,
+            method: "GET",
+            params: {table: "offers"}
+          }).then(function(results) {
             o.offers = [];
             for (i = 0; i < results.data.length; i++) {
               if (results.data[i].pid == pid) {

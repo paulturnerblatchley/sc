@@ -1,5 +1,5 @@
 app.component(
-	'infoBox', 
+	'infoBox',
 	{
 		bindings: {},
 	    template: '<ng-include src="template"></ng-include>',
@@ -7,7 +7,6 @@ app.component(
 
 	    	$scope.template = 'app/shared/info-box/infoBoxDefault.html'
 	    	$scope.properties = properties.properties;
-	    	$scope.bids = bids.openBids;
 	    	$scope.rehabs = rehab.rehabs;
 
 	    	for (i = 0; i < $scope.properties.length; i++) {
@@ -23,7 +22,7 @@ app.component(
 	    			}
 	    		}
 	    	}
-	    	
+
 	    	// Get Selected Property
 	    	$rootScope.$on('addInfo', function (event, data) {
 			    $scope.addInfo = data;
@@ -46,7 +45,7 @@ app.component(
 	            	// Escrow
 		            } else if (phase == 'Sale Escrow') {
 		            	$scope.template = 'app/shared/info-box/infoBoxEscrow.html'
-					// Sold
+								// Sold
 		            } else if (phase == 'Sold') {
 		            	$scope.template = 'app/shared/info-box/infoBoxSold.html'
 	            	// Default
@@ -58,82 +57,75 @@ app.component(
 			      	}
 			      }
 			    }
-			}); 
+			});
 
 			$scope.isAdmin = function() {
 				return ($sessionStorage.user.user_role == 1) ? true : false;
-			} 
+			}
 
-	        $scope.viewBidDetails = function(bid) {
-        		$state.go('properties.property.bids.open-bid', {bid_id: bid}, {reload: true});
-        	}
+      $scope.toggleInfoBox = function() {
 
-	        $scope.toggleInfoBox = function() {
-		        
-		        var ib      	 = $('#info-box'),
-		        	infoBoxWidth = ib.css("width"),
-	        		ibs     	 = $('#info-box-switch'),
-	        		propMap 	 = $('.property-viewer ng-map');
-		        
-		        if (ib.css("display") == "block") {
-		            setTimeout(function() {
-		                ib.hide();
-		            }, 500);    
-		            ib.css("right", "-" + infoBoxWidth);
-		            ibs.css("right", "0");
-		            ibs.addClass("flip");
-		            propMap.css("max-width", "100%");
-		        } else {
-		            ib.show();
-		            setTimeout(function() {
-		            	ib.css("right", "0");
-		                ibs.css("right", infoBoxWidth);
-		                ibs.removeClass("flip");
-		                propMap.css("max-width", "70%");
-		            },100);
-		        }
-		    }
+        var ib      	 = $('#info-box'),
+        	infoBoxWidth = ib.css("width"),
+      		ibs     	 = $('#info-box-switch'),
+      		propMap 	 = $('.property-viewer ng-map');
 
-		    $scope.linkToBid = function(bid) {
-		    	$rootScope.addInfo = {};
-	        	$state.go('properties.property.bids', {pid: bid.bid_pid}, {reload: true});
-		    }
-
-		    $scope.linkToSingle = function(property) {
-		    	if ($sessionStorage.user.user_role == 1) {
-	    			if (property.phase == "Acquisition") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.dashboard', {pid: property.pid});
-			    	} else if (property.phase == "Holdover") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.dashboard', {pid: property.pid});
-			    	} else if (property.phase == "Rehab") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.rehab', {pid: property.pid});
-			    	} else if (property.phase == "Listed") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.listing', {pid: property.pid});
-			    	} else if (property.phase == "Hold") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.dashboard', {pid: property.pid});
-			    	} else if (property.phase == "Sale Escrow") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.escrow', {pid: property.pid});
-			    	} else if (property.phase == "Sold") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.dashboard', {pid: property.pid});
-			    	} else {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.property.dashboard', {pid: property.pid});
-			    	}
-		    	} else if ($sessionStorage.user.user_role == 0) {
-		    		if (property.phase == "Listed") {
-			    		$rootScope.addInfo = {};
-			        	$state.go('properties.agent-offer', {pid: property.pid});
-			    	}
-		    	}
-		    	
-		    };
+        if (ib.css("display") == "block") {
+            setTimeout(function() {
+                ib.hide();
+            }, 500);
+            ib.css("right", "-" + infoBoxWidth);
+            ibs.css("right", "0");
+            ibs.addClass("spin");
+            propMap.css("max-width", "100%");
+        } else {
+            ib.show();
+            setTimeout(function() {
+            	ib.css("right", "0");
+                ibs.css("right", infoBoxWidth);
+                ibs.removeClass("spin");
+                propMap.css("max-width", "70%");
+            },100);
+        }
 	    }
+
+	    $scope.linkToSingle = function(property) {
+				property.address = property.address.replace(/ /g, "-");
+				var paramsObj = {pid: property.pid, address: property.address};
+	    	if ($sessionStorage.user.user_role == 1) {
+    			if (property.phase == "Acquisition") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.dashboard', paramsObj);
+		    	} else if (property.phase == "Holdover") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.dashboard', paramsObj);
+		    	} else if (property.phase == "Rehab") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.rehab', paramsObj);
+		    	} else if (property.phase == "Listed") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.listing', paramsObj);
+		    	} else if (property.phase == "Hold") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.dashboard', paramsObj);
+		    	} else if (property.phase == "Sale Escrow") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.escrow', paramsObj);
+		    	} else if (property.phase == "Sold") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.dashboard', paramsObj);
+		    	} else {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.property.dashboard', paramsObj);
+		    	}
+	    	} else if ($sessionStorage.user.user_role == 0) {
+	    		if (property.phase == "Listed") {
+		    		$rootScope.addInfo = {};
+		        	$state.go('properties.agent-offer', {pid: property.pid});
+		    	}
+	    	}
+	    };
+
+    }
 	}
-); 
+);
